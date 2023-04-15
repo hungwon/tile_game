@@ -7,5 +7,5 @@
 ## Classes and Data Structures
 
 ## Algorithms
-
+Graph & A*
 ## Persistence
