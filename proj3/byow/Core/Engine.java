@@ -46,7 +46,7 @@ public class Engine {
         // See proj3.byow.InputDemo for a demo of how you can make a nice clean interface
         // that works for many different input types.
 
-        System.out.println("B");
+        System.out.println("C");
 
         TETile[][] finalWorldFrame = null;
         return finalWorldFrame;
