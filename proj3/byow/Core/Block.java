@@ -6,22 +6,28 @@ import java.util.Random;
 public class Block {
 
     private String type;
-    private int weight;
-    private Random rand;
-
-
-
-
+    private Integer weight;
+    private int x;
+    private int y;
+    private int key; // Index of Block[][] world
     /** The Block constructor has a "type" parameter which is a string
      * that states current block's type. It also instantiates the Random
      * class that will be used to define current block's weight.
      * The weight will be any random variable from between [1, 100].*/
-    public Block(String type) {
-
-        rand = new Random();
-
+    public Block(int index, int x, int y, String type) {
+        key = index;
+        this.x = x;
+        this.y = y;
         this.type = type;
-        this.weight = 1 + rand.nextInt(100); // 1 + random number between 0 and 99 (inclusive)
+        this.weight = null;
+    }
+
+    public Block(int index, int x, int y, String type, int weight) {
+        key = index;
+        this.x = x;
+        this.y = y;
+        this.type = type;
+        this.weight = weight;
     }
 
 
