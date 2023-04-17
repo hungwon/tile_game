@@ -104,7 +104,7 @@ public class World {
     }
 
     // ------------------------------ Step E -----------------------------------
-    public TETile[][] visulize() {
+    public TETile[][] visualize() {
         TETile[][] visualWorld = new TETile[Width][Height];
         return visualWorld;
     }
