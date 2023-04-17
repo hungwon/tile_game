@@ -19,6 +19,7 @@ public class UndirectedGraph {
     public void addEdge(int s, int t, double w) {
         adj.get(s).add(new WeightedEdge(s, t, w));
         adj.get(t).add(new WeightedEdge(t, s, w));
+        e++;
     }
 
     /**
@@ -45,20 +46,30 @@ public class UndirectedGraph {
      * @param a
      * @param b
      */
-    public void disConnect(Block a, Block b) {
+    public void disconnect(Block a, Block b) {
         List<Integer> lst = hasEdge(a.Key(), b.Key());
         if (lst != null ) {
             Integer index_a = lst.indexOf(0);
             Integer index_b = lst.indexOf(1);
             adj.get(a.Key()).remove(index_a);
             adj.get(b.Key()).remove(index_b);
+            e--;
         }
     }
 
+    /**
+     *
+     * @return the number of vertices
+     */
+    public int V() {
+        return v;
+    }
 
-
-
-
-
-
+    /**
+     *
+     * @return the number of edges
+     */
+    public int E() {
+        return e;
+    }
 }
