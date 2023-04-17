@@ -53,11 +53,6 @@ public class Block {
         return weight;
     }
 
-
-
-
-
-
     /** blockType() returns current block's type.
      * This method is useful when we want to check the type of the current block.
      * */

@@ -22,19 +22,29 @@ public class UndirectedGraph {
     }
 
     /**
-     * it checks whether {@code adj} has (Edge: {@code a} -> {@code b}) and (Edge: {@code b} -> {@code a})
-     * If those edges exist, it returns the list of index.
-     * Otherwise, return null.
-     * The Index of edge start from {@code a} is 0 th elem of the list
-     * The index of edge start grom {@code b} if 1 st elem of the list
-     * @param a
-     * @param b
+     * <h4>
+     *     If {@code adj} contains (Edge: {@code a} -> {@code b}) and (Edge: {@code b} -> {@code a}),
+     *     it returns the list of index. Otherwise, return null.
+     * </h4>
+     * <p>
+     *     List's 0th elem = The Index of WeightedEdge starting from {@code a}
+     * </p>
+     * <p>
+     *     List's 1st elem = The Index of WeightedEdge starting from {@code b}
+     * </p>
      * @return Either the list of index or null
      */
     public List<Integer> hasEdge(int a, int b) {
 
         return null;
     }
+
+    /**
+     * If there are (Edge: {@code a} -> {@code b}) or (Edge: {@code b} -> {@code a}) in {@code adj},
+     * remove those Edges in {@code adj}.
+     * @param a
+     * @param b
+     */
     public void disConnect(Block a, Block b) {
         List<Integer> lst = hasEdge(a.Key(), b.Key());
         if (lst != null ) {
