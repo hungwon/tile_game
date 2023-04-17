@@ -1,8 +1,8 @@
-package byow.Core;
+package byow.Core.worldMap;
 
+import byow.Core.Graph.UndirectedGraph;
+import byow.Core.worldMap.Block;
 import byow.TileEngine.TETile;
-import edu.princeton.cs.algs4.Graph;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -14,9 +14,9 @@ public class World {
     private int worldWidth;
     private int worldHeight;
 
-    private int MAX_LIMIT = 10;
+    private int MAX_LIMIT = 10; // the maximum number of grid's width and height
     private Integer startIndex;
-    private Graph worldGraph;
+    private UndirectedGraph worldGraph;
 
     private List<Integer> doorIndexLst;
     public World(int height, int width, int seed) {
@@ -51,7 +51,7 @@ public class World {
     }
 
     // ------------------------------ Step B -----------------------------------
-    public Graph generateWorldGraph() {
+    public UndirectedGraph generateWorldGraph() {
         return null;
     }
 
@@ -78,32 +78,27 @@ public class World {
             // maximum gridWidth is MAX_LIMIT so maximum x-coordinate will be worldWidth - MAX_LIMIT
             // maximum gridHeight is MAX_LIMIT so maximum y-coordinate will be worldHeight - MAX_LIMIT
 
-            int startingPoint = random.nextInt(0, (worldWidth - MAX_LIMIT) * (worldHeight - MAX_LIMIT)); // room Index (location) [0, 1670] because the greatest grid is 10 * 10
-            // this is [0, 1670]
+            int maximum = (worldWidth - MAX_LIMIT) + (worldHeight - MAX_LIMIT) * worldWidth; // this is 1670
 
-            while(startingPoint % worldWidth > worldWidth - 10) { // we subtract 10 because our maximum length of gridWidth is 10
-                startingPoint = random.nextInt(0, 1671);
+            int startingP = random.nextInt(0, maximum + 1);
+
+            while (startingP % worldWidth > worldWidth - MAX_LIMIT) { // we subtract 10 because our maximum length of gridWidth is 10
+                startingP = random.nextInt(0, maximum + 1);
             }
 
-            doorIndexLst.add(makeNbyMRoom(roomIndex, widthRoom, heightRoom)); // add into our doorIndexLst
+            doorIndexLst.add(makeNbyMRoom(startingP, gridWidth, gridHeight)); // add into our doorIndexLst
         }
     }
 
-    /** make weight by height room will be created by following steps
-     * 1.
-     *
-     *
-     *
-     *
-     * */
+
+    
 
     public Integer makeNbyMRoom(int location, int n, int m) {
 
 
 
 
-
-       // Block doorBlock = null;
+        // Block doorBlock = null;
         //change type = room
         //change type = wall
         //disconnect wall with others
@@ -139,8 +134,8 @@ public class World {
 
     // TO-DO
     // ------------------------------ Step E -----------------------------------
-    public TETile[][] visulize() {
-        TETile[][] visualWorld = new TETile[Width][Height];
+    public TETile[][] visualize() {
+        TETile[][] visualWorld = new TETile[worldWidth][worldHeight];
 
         return visualWorld;
     }
