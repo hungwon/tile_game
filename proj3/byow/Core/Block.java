@@ -30,8 +30,13 @@ public class Block {
         this.weight = weight;
     }
 
+    public int getX() {
+        return x;
+    }
 
-
+    public int getY() {
+        return y;
+    }
 
 
 
