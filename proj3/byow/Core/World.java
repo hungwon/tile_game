@@ -37,6 +37,7 @@ public class World {
         return world[widthIndex][heightIndex];
     }
 
+    // ------------------------------ Step A -----------------------------------
     public Block[][] generateEmptyWorld(int h, int w) {
         Block[][] retWorld = new Block[w][h];
         for (int i = 0; i < w; i++) {
@@ -47,6 +48,7 @@ public class World {
         return retWorld;
     }
 
+    // ------------------------------ Step B -----------------------------------
     public Graph generateWorldGraph() {
         return null;
     }
@@ -55,10 +57,10 @@ public class World {
         return null;
     }
 
+    // ------------------------------ Step C -----------------------------------
     public int randomNumRoom() {
         return 0;
     }
-
     public void generateRoom() {
         doorIndexLst = new ArrayList<>();
         int numRoom = randomNumRoom();
@@ -82,6 +84,7 @@ public class World {
         return  doorIndex;
     }
 
+    // ------------------------------ Step D -----------------------------------
 
     /**
      * dijkstra(startIndex, doorIndex) returns list of Block
@@ -102,6 +105,7 @@ public class World {
         }
     }
 
+    // ------------------------------ Step E -----------------------------------
     public TETile[][] visulize() {
         TETile[][] visualWorld = new TETile[Width][Height];
         return visualWorld;
