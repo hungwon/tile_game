@@ -14,7 +14,7 @@ public class World {
     private int Height;
     private int Width;
     private Integer startIndex;
-    private Graph worldGraph;
+    private UndirectedGraph worldGraph;
 
     private List<Integer> doorIndexLst;
     public World(int height, int width, int seed) {
@@ -49,7 +49,7 @@ public class World {
     }
 
     // ------------------------------ Step B -----------------------------------
-    public Graph generateWorldGraph() {
+    public UndirectedGraph generateWorldGraph() {
         return null;
     }
 
