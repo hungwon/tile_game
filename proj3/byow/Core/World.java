@@ -41,7 +41,7 @@ public class World {
         Block[][] retWorld = new Block[w][h];
         for (int i = 0; i < w; i++) {
             for (int j = 0; j < h; j++) {
-                retWorld[i][j] = new Block(i*Width + j*Height ,i, j, null);
+                retWorld[i][j] = new Block(i*Width + j ,i, j, null);
             }
         }
         return retWorld;
@@ -55,13 +55,20 @@ public class World {
         return null;
     }
 
+
+    // TO-DO
     public int randomNumRoom() {
+
+        
+
         return 0;
     }
 
+    // TO-DO
     public void generateRoom() {
         doorIndexLst = new ArrayList<>();
         int numRoom = randomNumRoom();
+
 
         int widthRoom = random.nextInt(); // must be changed
         int heightRoom = random.nextInt(); // must be changed
@@ -71,15 +78,19 @@ public class World {
         }
     }
 
+    // TO-DO
     public Integer makeNbyMRoom(int location, int n, int m) {
-        Integer doorIndex = null;
+        Block doorBlock = null;
 
         //change type = room
         //change type = wall
         //disconnect wall with others
-        //chagne type = door
+        //
+        doorBlock = b;
+        b.type = "door";
+        ret b.key
         //return the Block.key whose type = door
-        return  doorIndex;
+        return doorIndex;
     }
 
 
@@ -102,8 +113,11 @@ public class World {
         }
     }
 
-    public TETile[][] visulize() {
+
+    // TO-DO
+    public TETile[][] visualize() {
         TETile[][] visualWorld = new TETile[Width][Height];
+
         return visualWorld;
     }
 }
