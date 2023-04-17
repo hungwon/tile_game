@@ -1,4 +1,4 @@
-package byow.Core;
+package byow.Core.Graph;
 
 public class WeightedEdge {
     private Double weight;

@@ -1,4 +1,6 @@
-package byow.Core;
+package byow.Core.Graph;
+
+import byow.Core.worldMap.Block;
 
 import java.util.*;
 

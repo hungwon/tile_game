@@ -1,5 +1,7 @@
-package byow.Core;
+package byow.Core.worldMap;
 
+import byow.Core.Graph.UndirectedGraph;
+import byow.Core.worldMap.Block;
 import byow.TileEngine.TETile;
 import java.util.ArrayList;
 import java.util.List;

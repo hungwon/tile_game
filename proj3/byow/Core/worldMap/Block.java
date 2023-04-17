@@ -1,4 +1,4 @@
-package byow.Core;
+package byow.Core.worldMap;
 
 public class Block {
     private String type;
