@@ -1,19 +1,19 @@
 package byow.Core;
 
-
-import java.util.Random;
-
 public class Block {
-
     private String type;
     private Integer weight;
     private int x;
     private int y;
     private int key; // Index of Block[][] world
-    /** The Block constructor has a "type" parameter which is a string
-     * that states current block's type. It also instantiates the Random
-     * class that will be used to define current block's weight.
-     * The weight will be any random variable from between [1, 100].*/
+
+    /**
+     *
+     * @param index Index of {@code Block[][] world}.
+     * @param x column x of {@code Blcok[][] world}. => x location
+     * @param y row y of {@code Block[][] world}. => y location
+     * @param type type of block. It will be either null, door, room, wall, hallway, avatar
+     */
     public Block(int index, int x, int y, String type) {
         key = index;
         this.x = x;
@@ -22,6 +22,13 @@ public class Block {
         this.weight = null;
     }
 
+    /**
+     *
+     * @param index Index of {@code Block[][] world}.
+     * @param x column x of {@code Blcok[][] world}. => x location
+     * @param y row y of {@code Block[][] world}. => y location
+     * @param type type of block. It will be either null, door, room, wall, hallway, avatar
+     */
     public Block(int index, int x, int y, String type, int weight) {
         key = index;
         this.x = x;
@@ -30,6 +37,21 @@ public class Block {
         this.weight = weight;
     }
 
+    public int Key() {
+        return key;
+    }
+
+    public int X() {
+        return x;
+    }
+
+    public int Y() {
+        return y;
+    }
+
+    public double Weight() {
+        return weight;
+    }
 
 
 
