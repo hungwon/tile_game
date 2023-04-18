@@ -153,7 +153,7 @@ public class World {
         int currIndex = location;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                currIndex = ((indexToXY(currIndex)).get(1) + j)* worldWidth + i;
+                currIndex = ((indexToXY(currIndex)).get(1) + j)* worldWidth + indexToXY(currIndex).get(0)+i;
                 if (isEdgePoint(currIndex, bottomLeftIndex, upperRightIndex, n, m)) {
                     blockAt(currIndex).changeType("wall");
                 } else if ( isMarginOfRoom(currIndex, bottomLeftIndex, upperRightIndex)) {
