@@ -94,6 +94,9 @@ public class World {
 
 
 
+            
+
+
             while (startingP % worldWidth > worldWidth - MAX_LIMIT && isInRoom(currIndex, prevBottomLeft, prevUpperRight) ) { // we subtract 10 because our maximum length of gridWidth is 10
                 startingP = random.nextInt(0, maximum + 1);
             }

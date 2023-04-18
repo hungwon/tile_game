@@ -1,6 +1,7 @@
 package byow.Core.Graph;
 
 import byow.Core.worldMap.Block;
+import org.apache.commons.collections.list.TreeList;
 
 import java.util.*;
 
@@ -38,8 +39,29 @@ public class UndirectedGraph {
      * @return Either the list of index or null
      */
     public List<Integer> hasEdge(int a, int b) {
+        List<Integer> lst = new ArrayList<>();
+        for (Integer i: adj.keySet()) {
+            List<WeightedEdge> adjOfI = adj.get(i);
 
-        return null;
+            if (i.equals(a)) {
+                for (int index = 0; index < adjOfI.size(); index++) {
+                    if (adjOfI.get(index).equals(b)) {
+                        lst.add(index);
+                    }
+                }
+            } else if (i.equals(b)) {
+               for (int index = 0; index< adjOfI.size(); index++) {
+                   if (adjOfI.get(index).equals(a)) {
+                       lst.add(index);
+                   }
+               }
+            }
+        }
+
+        if (lst.size() == 0) {
+            lst = null;
+        }
+        return lst;
     }
 
     /**
