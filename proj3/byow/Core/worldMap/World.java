@@ -21,8 +21,8 @@ public class World {
     private int MAX_LIMIT = 10; // the maximum number of grid's width and height
     private Integer startIndex;
     private UndirectedGraph worldGraph;
-
     private List<Integer> doorIndexLst;
+
     public World(int height, int width, int seed) {
         worldWidth = width;
         worldHeight = height;
@@ -64,11 +64,18 @@ public class World {
 
     // ------------------------------ Step B -----------------------------------
     public UndirectedGraph generateWorldGraph() {
+
         return null;
     }
 
     public Integer setStartPoint() {
-        return null;
+        int maximum = (worldWidth - MAX_LIMIT) + (worldHeight - MAX_LIMIT) * worldWidth; // this is 1670
+        int startingP = random.nextInt(0, maximum + 1);
+        while (startingP % worldWidth > worldWidth - MAX_LIMIT) {
+            // we subtract 10 because our maximum length of gridWidth is 10
+            startingP = random.nextInt(0, maximum + 1);
+        }
+        return startingP;
     }
 
     // ------------------------------ Step C -----------------------------------
@@ -89,8 +96,16 @@ public class World {
 
             int maximum = (worldWidth - MAX_LIMIT) + (worldHeight - MAX_LIMIT) * worldWidth; // this is 1670
 
-//            prevBottomLeftLst = null;
-//            prevUpperRightLst = null;
+
+            // 업데이트
+
+
+
+
+
+
+            List<Integer> prevBottomLeftLst = null;
+            List<Integer> prevUpperRightLst = null;
 
             int startingP = random.nextInt(0, maximum + 1);
 
@@ -155,24 +170,43 @@ public class World {
         int doorNum = random.nextInt(1, 3);
 
         int bottomLeftIndex = location;
+        doorLst.add(bottomLeftIndex);
+
         int upperRightIndex = worldWidth * (indexToXY(location).get(1) + m - 1) + indexToXY(location).get(0) + n - 1;
+        doorLst.add(upperRightIndex);
         checkIndex(upperRightIndex);
+
         int currIndex = location;
 
         for (int j = 0; j < m; j++) {
             for (int i = 0; i < n; i++) {
+
                 currIndex = (indexToXY(location).get(1) + j )* worldWidth + indexToXY(location).get(0)+i;
                 checkIndex(currIndex);
+
                 if (isEdgePoint(currIndex, bottomLeftIndex, upperRightIndex, n, m)) {
                     blockAt(currIndex).changeType("wall");
                 } else if ( isMarginOfRoom(currIndex, bottomLeftIndex, upperRightIndex)) {
-                    if (random.nextBoolean() == true && doorNum != 0) {
+
+
+
+
+
+                    // 문 안겹치게
+
+
+
+
+
+                    if (random.nextBoolean() == true && doorNum != 0 && !isMarginOfRoom(currIndex, 0,
+                            worldWidth*worldHeight - 1)) {
                         blockAt(currIndex).changeType("door");
                         doorNum -= 1;
                         doorLst.add(currIndex);
                     } else {
                         blockAt(currIndex).changeType("wall");
                     }
+
                 } else {
                     blockAt(currIndex).changeType("room");
                 }
