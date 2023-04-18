@@ -72,23 +72,8 @@ public class World {
         for (int j = 0; j < worldHeight; j++) {
             for (int i = 0; i < worldWidth; i++) {
                 currIndex = j*worldWidth + i;
-                if (isBottomLeft(currIndex, 0 , maxIndex)) {
-                    retGraph.addEdge(currIndex, currIndex+1, random.nextDouble());
-                    retGraph.addEdge(currIndex, currIndex+ worldHeight, random.nextDouble());
-                } else if (isBottomRight(currIndex, 0, maxIndex)) {
-                    retGraph.addEdge(currIndex, currIndex - 1, random.nextDouble());
-                    retGraph.addEdge(currIndex, currIndex + worldHeight, random.nextDouble());
-                } else if (isTopLeft(currIndex, 0, maxIndex)){
-                    retGraph.addEdge(currIndex, currIndex + 1, random.nextDouble());
-                    retGraph.addEdge(currIndex, currIndex);
-                } else if (isTopRight(currIndex, 0, maxIndex)) {
-
-                } else {
-
-                }
             }
         }
-
         return null;
     }
 
@@ -136,7 +121,7 @@ public class World {
             }
         }
     }
-
+*/
     public boolean isEdgePoint(int index, int bottomLeftIndex, int upperRightIndex) {
 
         if (isTopLeft(index, bottomLeftIndex, upperRightIndex)) {
@@ -213,7 +198,6 @@ public class World {
             throw new IllegalArgumentException(index + ": index exceed 2399");
         }
     }
-*/
 
     /**
      *
@@ -290,8 +274,6 @@ public class World {
             */
         }
     }
-    //
-
 
 
     // TO-DO
