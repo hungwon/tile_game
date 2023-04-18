@@ -8,6 +8,7 @@ import byow.TileEngine.Tileset;
 import org.apache.commons.collections.list.TreeList;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -36,8 +37,10 @@ public class World {
 
     public List<Integer> indexToXY(int index) {
 
-        int widthIndex = index % worldHeight;
-        int heightIndex = Math.floorDiv(index, worldHeight);
+        int widthIndex = index % worldWidth;
+        int heightIndex = Math.floorDiv(index, worldWidth);
+
+        System.out.println(index + " "+widthIndex + " " + heightIndex);
 
         List<Integer> returnLst = new TreeList();
         returnLst.add(widthIndex);
@@ -56,7 +59,7 @@ public class World {
         Block[][] retWorld = new Block[w][h];
         for (int i = 0; i < w; i++) {
             for (int j = 0; j < h; j++) {
-                retWorld[i][j] = new Block(i*worldWidth + j ,i, j, null);
+                retWorld[i][j] = new Block(j*worldWidth + i ,i, j, null);
             }
         }
         return retWorld;
@@ -74,6 +77,8 @@ public class World {
     // ------------------------------ Step C -----------------------------------
 
     public void generateRoom() {
+
+
         doorIndexLst = new ArrayList<>();
 
         int numRoom = random.nextInt(5, 16); // the number of room -> [5, 15]
@@ -89,15 +94,13 @@ public class World {
 
             int maximum = (worldWidth - MAX_LIMIT) + (worldHeight - MAX_LIMIT) * worldWidth; // this is 1670
 
-//            prevBottomLeftLst = null;
-//            prevUpperRightLst = null;
-
             int startingP = random.nextInt(0, maximum + 1);
 
             while (startingP % worldWidth > worldWidth - MAX_LIMIT) { // we subtract 10 because our maximum length of gridWidth is 10
 
                 startingP = random.nextInt(0, maximum + 1);
             }
+
             for (Integer roomIndex: makeNbyMRoom(startingP, gridWidth, gridHeight)) {
                 doorIndexLst.add(roomIndex);
             }
@@ -138,23 +141,29 @@ public class World {
 
     /**
      *
-     * @param location Starting Point of the Room
+     * @param startingP Starting Point of the Room
      * @param n Width
      * @param m Height
      * @return Index of the door Location
      */
-    public List<Integer> makeNbyMRoom(int location, int n, int m) {
+    public List<Integer> makeNbyMRoom(int startingP, int gridWidth, int gridHeight) {
 
-        List<Integer> doorLst = new TreeList();
+        List<Integer> doorLst = new LinkedList<>();
         int doorNum = random.nextInt(1, 3);
 
-        int bottomLeftIndex = location;
-        int upperRightIndex = worldWidth * (indexToXY(location).get(1) + m) + indexToXY(location).get(0) + n;
-        int currIndex = location;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                currIndex = ((indexToXY(currIndex)).get(1) + j)* worldWidth + i;
-                if (isEdgePoint(currIndex, bottomLeftIndex, upperRightIndex, n, m)) {
+        int bottomLeftIndex = startingP;
+
+        int upperRightIndex = startingP + (worldWidth * gridHeight - 1) + gridWidth - 1;
+
+        // int upperRightIndex = worldWidth * (indexToXY(startingP).get(1) + m-1) + indexToXY(startingP).get(0) + n-1;
+
+        int currIndex = startingP;
+
+        for (int i = 0; i < gridHeight; i++) {
+            for (int j = 0; j < gridWidth; j++) {
+
+
+                if (isEdgePoint(currIndex, bottomLeftIndex, upperRightIndex, gridWidth, gridHeight)) {
                     blockAt(currIndex).changeType("wall");
                 } else if ( isMarginOfRoom(currIndex, bottomLeftIndex, upperRightIndex)) {
                     if (random.nextBoolean() == true && doorNum != 0) {
@@ -167,7 +176,15 @@ public class World {
                     } else {
                     blockAt(currIndex).changeType("room");
                 }
+
+
+
+                currIndex = currIndex * i + 1;
             }
+
+            currIndex -= 1;
+            currIndex += worldWidth;
+
         }
         return doorLst;
     }
