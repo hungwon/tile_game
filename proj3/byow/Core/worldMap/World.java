@@ -64,7 +64,30 @@ public class World {
 
     // ------------------------------ Step B -----------------------------------
     public UndirectedGraph generateWorldGraph() {
+        UndirectedGraph retGraph = new UndirectedGraph(worldHeight*worldWidth);
 
+        int maxIndex = worldHeight * worldWidth - 1;
+        int currIndex = 0;
+
+        for (int j = 0; j < worldHeight; j++) {
+            for (int i = 0; i < worldWidth; i++) {
+                currIndex = j*worldWidth + i;
+                if (isBottomLeft(currIndex, 0 , maxIndex)) {
+                    retGraph.addEdge(currIndex, currIndex+1, random.nextDouble());
+                    retGraph.addEdge(currIndex, currIndex+ worldHeight, random.nextDouble());
+                } else if (isBottomRight(currIndex, 0, maxIndex)) {
+                    retGraph.addEdge(currIndex, currIndex - 1, random.nextDouble());
+                    retGraph.addEdge(currIndex, currIndex + worldHeight, random.nextDouble());
+                } else if (isTopLeft(currIndex, 0, maxIndex)){
+                    retGraph.addEdge(currIndex, currIndex + 1, random.nextDouble());
+                    retGraph.addEdge(currIndex, currIndex);
+                } else if (isTopRight(currIndex, 0, maxIndex)) {
+
+                } else {
+
+                }
+            }
+        }
 
         return null;
     }
@@ -81,6 +104,7 @@ public class World {
 
     // ------------------------------ Step C -----------------------------------
 
+    /*
     public void generateRoom() {
         doorIndexLst = new ArrayList<>();
 
@@ -114,21 +138,56 @@ public class World {
     }
 
     public boolean isEdgePoint(int index, int bottomLeftIndex, int upperRightIndex) {
+
+        if (isTopLeft(index, bottomLeftIndex, upperRightIndex)) {
+            return true;
+        }
+        if (isBottomLeft(index, bottomLeftIndex, upperRightIndex)) {
+            return true;
+        }
+        if (isBottomRight(index, bottomLeftIndex, upperRightIndex)) {
+            return true;
+        }
+        if (isTopRight(index, bottomLeftIndex, upperRightIndex)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isBottomLeft(int index, int bottomLeftIndex, int topRightIndex) {
+            List<Integer> indexXY = indexToXY(index);
+            List<Integer> bottomLeftXY = indexToXY(bottomLeftIndex);
+
+            if (indexXY.get(0) == bottomLeftXY.get(0) && indexXY.get(1) == bottomLeftXY.get(1)) {
+                return true;
+            }
+            return false;
+    }
+    public boolean isBottomRight(int index, int bottomLeftIndex, int topRightIndex) {
+            List<Integer> indexXY = indexToXY(index);
+            List<Integer> bottomLeftXY = indexToXY(bottomLeftIndex);
+            List<Integer> topRightXY = indexToXY(topRightIndex);
+
+            if (indexXY.get(0) == topRightXY.get(0) && indexXY.get(1) == bottomLeftXY.get(1)) {
+                return true;
+            }
+            return false;
+    }
+    public boolean isTopLeft(int index, int bottomLeftIndex, int topRightIndex) {
         List<Integer> indexXY = indexToXY(index);
         List<Integer> bottomLeftXY = indexToXY(bottomLeftIndex);
-        List<Integer> upperRightXY = indexToXY(upperRightIndex);
+        List<Integer> topRightXY = indexToXY(topRightIndex);
 
-        //left bottom
-        if (indexXY.get(0) == bottomLeftXY.get(0) && indexXY.get(1) == bottomLeftXY.get(1)) {
+        if (indexXY.get(0) == bottomLeftXY.get(0) && indexXY.get(1) == topRightXY.get(1)) {
             return true;
-        } // right bottom
-        if (indexXY.get(0) == (upperRightXY.get(0)) && indexXY.get(1) == bottomLeftXY.get(1)) {
-            return true;
-        } // left top
-        if (indexXY.get(0) == bottomLeftXY.get(0) && indexXY.get(1) == upperRightXY.get(1)) {
-            return true;
-        } // right top
-        if (indexXY.get(0) == upperRightXY.get(0) && indexXY.get(1)== upperRightXY.get(1)) {
+        }
+        return false;
+    }
+    public boolean isTopRight(int index, int bottomLeftIndex, int topRightIndex) {
+        List<Integer> indexXY = indexToXY(index);
+        List<Integer> topRightXY = indexToXY(topRightIndex);
+
+        if (indexXY.get(0) == topRightXY.get(0) && indexXY.get(1) == topRightXY.get(1)) {
             return true;
         }
         return false;
@@ -154,7 +213,7 @@ public class World {
             throw new IllegalArgumentException(index + ": index exceed 2399");
         }
     }
-
+*/
 
     /**
      *
