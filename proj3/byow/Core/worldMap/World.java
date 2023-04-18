@@ -30,7 +30,7 @@ public class World {
         random = new Random(seed);
         worldGraph = generateWorldGraph();
         startIndex = setStartPoint();
-        generateRoom();
+        //generateRoom();
         generateHallways();
     }
 
@@ -44,6 +44,33 @@ public class World {
         returnLst.add(heightIndex);
 
         return returnLst;
+    }
+
+    /**
+     * <p>
+     *     true = index is not between bottomLeft and topRight
+     * </p>
+     *
+     * <p>
+     *     false = index is between bottomLeft and TopRight
+     * </p>
+     * @param index
+     * @param bottomLeftIndex
+     * @param topRightIndex
+     * @return true or false
+     */
+    public boolean isBetween(int index, int bottomLeftIndex, int topRightIndex) {
+        List<Integer> indexXY = indexToXY(index);
+        List<Integer> bottomLeftXY = indexToXY(bottomLeftIndex);
+        List<Integer> topRightXY = indexToXY(topRightIndex);
+
+        if (indexXY.get(0) <= bottomLeftXY.get(0) || indexXY.get(0) >= topRightXY.get(0)) {
+            return false;
+        }
+        if (indexXY.get(1) <= bottomLeftXY.get(1) || indexXY.get(1) >= topRightXY.get(1)) {
+            return false;
+        }
+        return true;
     }
 
     public Block blockAt (int index) {
@@ -69,12 +96,14 @@ public class World {
         int maxIndex = worldHeight * worldWidth - 1;
         int currIndex = 0;
 
-        for (int j = 0; j < worldHeight; j++) {
-            for (int i = 0; i < worldWidth; i++) {
+        for (int j = 0; j < worldHeight - 1; j++) {
+            for (int i = 0; i < worldWidth - 1; i++) {
                 currIndex = j*worldWidth + i;
+                retGraph.addEdge(currIndex, currIndex + 1, random.nextDouble());
+                retGraph.addEdge(currIndex, currIndex + worldHeight, random.nextDouble());
             }
         }
-        return null;
+        return retGraph;
     }
 
     public Integer setStartPoint() {
