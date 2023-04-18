@@ -23,7 +23,7 @@ public class World {
     private List<Integer> doorIndexLst;
     public World(int height, int width, int seed) {
         worldWidth = width;
-        worldHeight = height
+        worldHeight = height;
         world = generateEmptyWorld(height, width);
         random = new Random(seed);
         worldGraph = generateWorldGraph();
@@ -74,7 +74,7 @@ public class World {
     // ------------------------------ Step C -----------------------------------
 
 
-    public void generateRoomVer2() {
+    public void generateRoom() {
         doorIndexLst = new ArrayList<>();
 
         int numRoom = random.nextInt(5, 16); // the number of room -> [5, 15]
@@ -148,7 +148,7 @@ public class World {
         int doorNum = random.nextInt(1, 3);
 
         int bottomLeftIndex = location;
-        int upperRightIndex = (indexToXY(location).get(1) + m) * worldWidth + n;
+        int upperRightIndex = worldWidth * (indexToXY(location).get(1) + m) + indexToXY(location).get(0) + n;
         int currIndex = location;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
