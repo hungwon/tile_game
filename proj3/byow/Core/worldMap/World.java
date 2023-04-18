@@ -87,17 +87,16 @@ public class World {
 
             int maximum = (worldWidth - MAX_LIMIT) + (worldHeight - MAX_LIMIT) * worldWidth; // this is 1670
 
-            prevBottomLeftLst = null;
-            prevUpperRightLst = null;
+//            prevBottomLeftLst = null;
+//            prevUpperRightLst = null;
 
             int startingP = random.nextInt(0, maximum + 1);
 
 
 
-            
+            // && isInRoom(currIndex, prevBottomLeft, prevUpperRight)
 
-
-            while (startingP % worldWidth > worldWidth - MAX_LIMIT && isInRoom(currIndex, prevBottomLeft, prevUpperRight) ) { // we subtract 10 because our maximum length of gridWidth is 10
+            while (startingP % worldWidth > worldWidth - MAX_LIMIT ) { // we subtract 10 because our maximum length of gridWidth is 10
                 startingP = random.nextInt(0, maximum + 1);
             }
 
@@ -299,15 +298,13 @@ public class World {
         }
 
 
-
-
-
         return visualWorld;
     }
 
+
     public static void main(String[] args) {
 
-        World world = new World(30, 80, 1000);
+        World world = new World(30, 80, 55);
 
         TERenderer ter = new TERenderer();
         ter.initialize(world.worldWidth, world.worldHeight);
