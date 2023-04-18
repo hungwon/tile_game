@@ -46,6 +46,15 @@ public class World {
         return returnLst;
     }
 
+    public boolean isBetween(int index, List<Integer> bottomLeft, List<Integer> topRight) {
+        for (int i = 0; i < bottomLeft.size(); i++) {
+           if (isTopRight(index, bottomLeft.get(i), topRight.get(i))) {
+               return true;
+           }
+        }
+        return false;
+    }
+
     /**
      * <p>
      *     true = index is not between bottomLeft and topRight
@@ -64,13 +73,13 @@ public class World {
         List<Integer> bottomLeftXY = indexToXY(bottomLeftIndex);
         List<Integer> topRightXY = indexToXY(topRightIndex);
 
-        if (indexXY.get(0) <= bottomLeftXY.get(0) || indexXY.get(0) >= topRightXY.get(0)) {
-            return false;
+        if (indexXY.get(0) >= bottomLeftXY.get(0) && indexXY.get(0) <= topRightXY.get(0)) {
+            return true;
         }
-        if (indexXY.get(1) <= bottomLeftXY.get(1) || indexXY.get(1) >= topRightXY.get(1)) {
-            return false;
+        if (indexXY.get(1) >= bottomLeftXY.get(1) && indexXY.get(1) <= topRightXY.get(1)) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     public Block blockAt (int index) {
