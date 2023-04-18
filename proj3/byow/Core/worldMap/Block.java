@@ -35,16 +35,19 @@ public class Block {
     public void changeType(String type) {
         this.type = type;
     }
+
     /**
+     * <h2>
+     *     Re-initialize current block's {@code type}.
+     * </h2>
      * <h2>
      *     {@code type} of this Block
      * </h2>
      * @return {@code type} of {@code this} block
      */
-    private String blockType() {
+    public String blockType() {
         return type;
-    }
-
+    } // changed to public
 
     /**
      * <p>
