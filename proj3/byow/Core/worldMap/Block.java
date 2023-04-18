@@ -32,15 +32,24 @@ public class Block {
         return y;
     }
 
+
+    /**
+     * <h2>
+     *     Re-initialize current block's {@code type}.
+     * </h2>
+     */
+
+    public void changeType(String newType) { type = newType; }
+
     /**
      * <h2>
      *     {@code type} of this Block
      * </h2>
      * @return {@code type} of {@code this} block
      */
-    private String blockType() {
+    public String blockType() {
         return type;
-    }
+    } // changed to public
 
 
     /**
