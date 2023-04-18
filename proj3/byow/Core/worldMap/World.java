@@ -8,6 +8,7 @@ import byow.TileEngine.Tileset;
 import org.apache.commons.collections.list.TreeList;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -29,27 +30,20 @@ public class World {
         world = generateEmptyWorld(height, width);
         random = new Random(seed);
         worldGraph = generateWorldGraph();
-        startIndex = setStartPoint();
+        // startIndex = setStartPoint();
         generateRoom();
         generateHallways();
     }
 
-    public List<Integer> indexToXY(int index) {
 
-        int widthIndex = index % worldWidth;
-        int heightIndex = Math.floorDiv(index, worldWidth);
-        System.out.println(index + ", " + widthIndex + ", " + heightIndex);
-        List<Integer> returnLst = new TreeList();
-        returnLst.add(widthIndex);
-        returnLst.add(heightIndex);
 
-        return returnLst;
+
+    public Block blockAt(int index) {
+
+        return world[index % worldWidth][index / worldWidth];
     }
 
-    public Block blockAt (int index) {
-        List<Integer> xyInfo = indexToXY(index);
-        return world[xyInfo.get(0)][xyInfo.get(1)];
-    }
+
 
     // ------------------------------ Step A -----------------------------------
     public Block[][] generateEmptyWorld(int h, int w) {
@@ -68,15 +62,15 @@ public class World {
         return null;
     }
 
-    public Integer setStartPoint() {
-        int maximum = (worldWidth - MAX_LIMIT) + (worldHeight - MAX_LIMIT) * worldWidth; // this is 1670
-        int startingP = random.nextInt(0, maximum + 1);
-        while (startingP % worldWidth > worldWidth - MAX_LIMIT) {
-            // we subtract 10 because our maximum length of gridWidth is 10
-            startingP = random.nextInt(0, maximum + 1);
-        }
-        return startingP;
-    }
+//    public Integer setStartPoint() {
+//        int maximum = (worldWidth - MAX_LIMIT) + (worldHeight - MAX_LIMIT) * worldWidth; // this is 1670
+//        int startingP = random.nextInt(0, maximum + 1);
+//        while (startingP % worldWidth > worldWidth - MAX_LIMIT) {
+//            // we subtract 10 because our maximum length of gridWidth is 10
+//            startingP = random.nextInt(0, maximum + 1);
+//        }
+//        return startingP;
+//    }
 
     // ------------------------------ Step C -----------------------------------
 
@@ -85,10 +79,13 @@ public class World {
 
         int numRoom = random.nextInt(5, 16); // the number of room -> [5, 15]
 
-        for (int i = 0; i < numRoom; i++) {  // add 'numRoom' blocks into the doorIndexLst
+        System.out.println(numRoom);
 
+
+        for (int i = 0; i < numRoom; i++) {  // add 'numRomm' blocks into the doorIndexLst
             int gridWidth = random.nextInt(3, MAX_LIMIT + 1); // width range -> [3, 10]
             int gridHeight = random.nextInt(3, MAX_LIMIT + 1); // height range -> [3, 10]
+
 
 
             // maximum gridWidth is MAX_LIMIT so maximum x-coordinate will be worldWidth - MAX_LIMIT
@@ -97,122 +94,148 @@ public class World {
             int maximum = (worldWidth - MAX_LIMIT) + (worldHeight - MAX_LIMIT) * worldWidth; // this is 1670
 
 
-            // 업데이트
-
-
-
-
-
-
-            List<Integer> prevBottomLeftLst = null;
-            List<Integer> prevUpperRightLst = null;
 
             int startingP = random.nextInt(0, maximum + 1);
 
             while (startingP % worldWidth > worldWidth - MAX_LIMIT) { // we subtract 10 because our maximum length of gridWidth is 10
 
                 startingP = random.nextInt(0, maximum + 1);
+
             }
-            for (Integer roomIndex: makeNbyMRoom(startingP, gridWidth, gridHeight)) {
-                doorIndexLst.add(roomIndex);
+
+            doorIndexLst.add(makeNbyMRoom(startingP, gridWidth, gridHeight)); // add into our doorIndexLst
+
+        }
+
+    }
+
+
+    /** The edge cannot be a door. */
+
+    private boolean invalidDoorLocation(int location) {
+
+        return (location >= 0 && location <= worldWidth - 1) ||
+                (location % 80 == 0) ||
+                (location % 80 == worldWidth - 1) ||
+                (location >= worldHeight * worldWidth - worldWidth && location <= worldHeight * worldWidth - 1);
+    }
+
+
+
+
+    private boolean determineDoorPotential(int i, int j, int gridWidth, int gridHeight, int current_location) {
+
+        if (invalidDoorLocation(current_location)) {
+            return false;
+        } else if ((i == 0 || i == gridHeight - 1) && (j > 0 && j < gridWidth - 1)) {
+            return true;
+        } else if ((i > 0 && i < gridHeight - 1) && (j == 0 || j == gridWidth - 1)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+
+    public Integer makeNbyMRoom(int location, int gridWidth, int gridHeight) {
+
+
+        /*
+         Part 1. Room
+         1. Change every block's type into "room".
+         2. If current block's location is not on a corner of the grid, add their location index
+            into the "potentialDoors" list.
+         3. Every inner-loop ends, we should increment the starting location index by 80 (which is worldWidth)
+            because we need to pass 80 blocks to move up.
+         */
+
+        int storeLoc1 = location;
+
+        List<Integer> potentialDoors = new LinkedList<>();
+
+        for (int i = 0; i < gridHeight; i++) {
+
+            for (int j = 0; j < gridWidth; j++) {
+
+                int current_location = storeLoc1 + j;
+
+
+                if (determineDoorPotential(i, j, gridWidth, gridHeight, current_location)) {
+                    potentialDoors.add(current_location);
+                }
+
+
+
+                blockAt(current_location).changeType("room");
             }
-        }
-    }
-
-    public boolean isEdgePoint(int index, int bottomLeftIndex, int upperRightIndex, int n, int m) {
-        List<Integer> indexXY = indexToXY(index);
-        List<Integer> bottomLeftXY = indexToXY(bottomLeftIndex);
-        List<Integer> upperRightXY = indexToXY(upperRightIndex);
-
-        if (indexXY.get(0) == bottomLeftXY.get(0) && indexXY.get(1) == bottomLeftXY.get(1)) {
-            return true;
-        } else if (indexXY.get(0) == (bottomLeftXY.get(0) + n) && indexXY.get(1) == bottomLeftXY.get(1)) {
-            return true;
-        } else if (indexXY.get(0) == upperRightXY.get(0) && indexXY.get(1) + m == upperRightXY.get(1)) {
-            return true;
-        } else if (indexXY.get(0) + n == upperRightXY.get(0) && indexXY.get(1) + m == upperRightXY.get(1)) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean isMarginOfRoom(int index, int bottomLeftIndex, int upperRightIndex) {
-        List<Integer> indexXY = indexToXY(index);
-        List<Integer> bottomLeftXY = indexToXY(bottomLeftIndex);
-        List<Integer> upperRightXY = indexToXY(upperRightIndex);
-
-        if (indexXY.get(0) == bottomLeftXY.get(0) || indexXY.get(0) == upperRightXY.get(0)) {
-            return true;
+            storeLoc1 += worldWidth;  // increment by the world's width length
         }
 
-        if (indexXY.get(1) == bottomLeftXY.get(1) || indexXY.get(1) == upperRightXY.get(1)) {
-            return true;
+
+
+
+        /*
+        Part 2. Doors
+        1. Get a random number of a door (it will be 1 door for now ).
+        2. Use a for loop to add confirmed doors' location
+        3. Change the type of the block by using location indices from confirmedDoors list.
+         */
+
+
+        int numDoor = random.nextInt(1, 3); // the amount of door number will be a 1 in case
+        List<Integer> confirmedDoors = new LinkedList<>();
+
+        for (int i = 0; i < numDoor; i++) {
+
+            int confirmed = random.nextInt(0, potentialDoors.size()); // will give a random index
+            confirmedDoors.add(potentialDoors.remove(confirmed));
         }
-        return false;
-    }
 
-    public void checkIndex (int index) {
-        if (index >= worldWidth*worldHeight ) {
-            throw new IllegalArgumentException(index + ": index exceed 2399");
+        for (int i = 0; i < confirmedDoors.size(); i++) {
+            blockAt(confirmedDoors.get(i)).changeType("door");
         }
-    }
-
-    /**
-     *
-     * @param location Starting Point of the Room
-     * @param n Width
-     * @param m Height
-     * @return Index of the door Location
-     */
-    public List<Integer> makeNbyMRoom(int location, int n, int m) {
-
-        List<Integer> doorLst = new TreeList();
-        int doorNum = random.nextInt(1, 3);
-
-        int bottomLeftIndex = location;
-        doorLst.add(bottomLeftIndex);
-
-        int upperRightIndex = worldWidth * (indexToXY(location).get(1) + m - 1) + indexToXY(location).get(0) + n - 1;
-        doorLst.add(upperRightIndex);
-        checkIndex(upperRightIndex);
-
-        int currIndex = location;
-
-        for (int j = 0; j < m; j++) {
-            for (int i = 0; i < n; i++) {
-
-                currIndex = (indexToXY(location).get(1) + j )* worldWidth + indexToXY(location).get(0)+i;
-                checkIndex(currIndex);
-
-                if (isEdgePoint(currIndex, bottomLeftIndex, upperRightIndex, n, m)) {
-                    blockAt(currIndex).changeType("wall");
-                } else if ( isMarginOfRoom(currIndex, bottomLeftIndex, upperRightIndex)) {
 
 
+        /*
+        Part 3. Walls
+        change blocks that are in potentialDoors but not in confirmedDoors
+        change where (i == j) or (i == grid width - 1 and j == 0) or (i == 0 and j == grid height - 1)
+
+         */
 
 
+        int storeLoc2 = location;
 
-                    // 문 안겹치게
+        for (int i = 0; i < gridHeight; i++) {
 
+            if (i == 0 || i == gridHeight - 1) {
 
+                for (int j = 0; j < gridWidth; j++) {
+                    int current = storeLoc2 + j;
+                    if (blockAt(current).blockType().equals("room")) {
+                        blockAt(current).changeType("wall");
+                    }
+                }
+            } else {
 
+                int idx = 0;
 
+                for (int j = 0; j < 2; j++) {
 
-                    if (random.nextBoolean() == true && doorNum != 0 && !isMarginOfRoom(currIndex, 0,
-                            worldWidth*worldHeight - 1)) {
-                        blockAt(currIndex).changeType("door");
-                        doorNum -= 1;
-                        doorLst.add(currIndex);
-                    } else {
-                        blockAt(currIndex).changeType("wall");
+                    int current = storeLoc2 + idx;
+                    if (blockAt(current).blockType().equals("room")) {
+                        blockAt(current).changeType("wall");
                     }
 
-                } else {
-                    blockAt(currIndex).changeType("room");
+                    idx += gridWidth - 1;
                 }
             }
+
+            storeLoc2 += worldWidth;
         }
-        return doorLst;
+
+        return null;
     }
 
     // ------------------------------ Step D -----------------------------------
@@ -243,15 +266,22 @@ public class World {
     // ------------------------------ Step E -----------------------------------
     public TETile[][] visualize() {
         TETile[][] visualWorld = new TETile[worldWidth][worldHeight];
+
+
         for (int i = 0; i < worldHeight; i++) {
             for (int j = 0; j < worldWidth; j++) {
                 visualWorld[j][i] = Tileset.NOTHING;
             }
         }
+
         for (int i = 0; i < worldHeight; i++) {
+
             for (int j = 0; j < worldWidth; j++) {
-                //System.out.print(world[j][i] + " ");
+
+                System.out.print(world[j][i] + " ");
+
                 if (world[j][i].blockType() == "door") {
+
                     visualWorld[j][i] = Tileset.MOUNTAIN;
                 } else if (world[j][i].blockType() == "room") {
 
@@ -260,13 +290,18 @@ public class World {
 
                     visualWorld[j][i] = Tileset.WALL;
                 }
+
             }
+            System.out.println();
+
         }
+
+
         return visualWorld;
     }
     public static void main(String[] args) {
 
-        World world = new World(30, 80, 55);
+        World world = new World(30, 80, 1234);
 
         TERenderer ter = new TERenderer();
         ter.initialize(world.worldWidth, world.worldHeight);
