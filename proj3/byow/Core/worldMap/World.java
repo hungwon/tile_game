@@ -65,6 +65,7 @@ public class World {
     // ------------------------------ Step B -----------------------------------
     public UndirectedGraph generateWorldGraph() {
 
+
         return null;
     }
 
@@ -91,18 +92,11 @@ public class World {
             int gridHeight = random.nextInt(3, MAX_LIMIT + 1); // height range -> [3, 10]
 
 
+
             // maximum gridWidth is MAX_LIMIT so maximum x-coordinate will be worldWidth - MAX_LIMIT
             // maximum gridHeight is MAX_LIMIT so maximum y-coordinate will be worldHeight - MAX_LIMIT
 
             int maximum = (worldWidth - MAX_LIMIT) + (worldHeight - MAX_LIMIT) * worldWidth; // this is 1670
-
-
-            // 업데이트
-
-
-
-
-
 
             List<Integer> prevBottomLeftLst = null;
             List<Integer> prevUpperRightLst = null;
@@ -119,18 +113,22 @@ public class World {
         }
     }
 
-    public boolean isEdgePoint(int index, int bottomLeftIndex, int upperRightIndex, int n, int m) {
+    public boolean isEdgePoint(int index, int bottomLeftIndex, int upperRightIndex) {
         List<Integer> indexXY = indexToXY(index);
         List<Integer> bottomLeftXY = indexToXY(bottomLeftIndex);
         List<Integer> upperRightXY = indexToXY(upperRightIndex);
 
+        //left bottom
         if (indexXY.get(0) == bottomLeftXY.get(0) && indexXY.get(1) == bottomLeftXY.get(1)) {
             return true;
-        } else if (indexXY.get(0) == (bottomLeftXY.get(0) + n) && indexXY.get(1) == bottomLeftXY.get(1)) {
+        } // right bottom
+        if (indexXY.get(0) == (upperRightXY.get(0)) && indexXY.get(1) == bottomLeftXY.get(1)) {
             return true;
-        } else if (indexXY.get(0) == upperRightXY.get(0) && indexXY.get(1) + m == upperRightXY.get(1)) {
+        } // left top
+        if (indexXY.get(0) == bottomLeftXY.get(0) && indexXY.get(1) == upperRightXY.get(1)) {
             return true;
-        } else if (indexXY.get(0) + n == upperRightXY.get(0) && indexXY.get(1) + m == upperRightXY.get(1)) {
+        } // right top
+        if (indexXY.get(0) == upperRightXY.get(0) && indexXY.get(1)== upperRightXY.get(1)) {
             return true;
         }
         return false;
@@ -157,63 +155,61 @@ public class World {
         }
     }
 
+
     /**
      *
      * @param location Starting Point of the Room
      * @param n Width
      * @param m Height
-     * @return Index of the door Location
+     * @return list. list[0] = bottomLeft's index, list[1] = upperRight's index, list[2], list[3] .. = door's index
      */
+    /*
     public List<Integer> makeNbyMRoom(int location, int n, int m) {
 
         List<Integer> doorLst = new TreeList();
-        int doorNum = random.nextInt(1, 3);
+        int doorNum = Math.floorMod(random.nextInt(), 2) + 1;
 
         int bottomLeftIndex = location;
         doorLst.add(bottomLeftIndex);
 
         int upperRightIndex = worldWidth * (indexToXY(location).get(1) + m - 1) + indexToXY(location).get(0) + n - 1;
         doorLst.add(upperRightIndex);
-        checkIndex(upperRightIndex);
+
+        List<Integer> possibleDoorIndex = new TreeList();
 
         int currIndex = location;
 
         for (int j = 0; j < m; j++) {
             for (int i = 0; i < n; i++) {
-
                 currIndex = (indexToXY(location).get(1) + j )* worldWidth + indexToXY(location).get(0)+i;
-                checkIndex(currIndex);
 
-                if (isEdgePoint(currIndex, bottomLeftIndex, upperRightIndex, n, m)) {
+                if (isEdgePoint(currIndex, bottomLeftIndex, upperRightIndex)) {
                     blockAt(currIndex).changeType("wall");
-                } else if ( isMarginOfRoom(currIndex, bottomLeftIndex, upperRightIndex)) {
-
-
-
-
-
-                    // 문 안겹치게
-
-
-
-
-
-                    if (random.nextBoolean() == true && doorNum != 0 && !isMarginOfRoom(currIndex, 0,
-                            worldWidth*worldHeight - 1)) {
-                        blockAt(currIndex).changeType("door");
-                        doorNum -= 1;
-                        doorLst.add(currIndex);
-                    } else {
-                        blockAt(currIndex).changeType("wall");
+                } else if (isMarginOfRoom(currIndex, bottomLeftIndex, upperRightIndex)) {
+                    blockAt(currIndex).changeType("wall");
+                    if (!isMarginOfRoom(currIndex, 0, worldWidth*worldHeight - 1)
+                            && !isEdgePoint(currIndex, bottomLeftIndex, upperRightIndex)) {
+                        possibleDoorIndex.add(currIndex);
                     }
-
                 } else {
                     blockAt(currIndex).changeType("room");
                 }
             }
         }
+        while (doorNum != 0) {
+            int i = 0;
+            if (doorNum == 2) {
+                i = possibleDoorIndex.get(random.nextInt(0, possibleDoorIndex.size()/2));
+            } else if (doorNum == 1) {
+                i = possibleDoorIndex.get(random.nextInt(possibleDoorIndex.size()/2 + 1, possibleDoorIndex.size()));
+            }
+            blockAt(i).changeType("door");
+            doorNum -= 1;
+            doorLst.add(i);
+        }
         return doorLst;
     }
+*/
 
     // ------------------------------ Step D -----------------------------------
 
@@ -266,7 +262,7 @@ public class World {
     }
     public static void main(String[] args) {
 
-        World world = new World(30, 80, 55);
+        World world = new World(30, 80, 1834);
 
         TERenderer ter = new TERenderer();
         ter.initialize(world.worldWidth, world.worldHeight);
