@@ -87,8 +87,8 @@ public class World {
 
             int maximum = (worldWidth - MAX_LIMIT) + (worldHeight - MAX_LIMIT) * worldWidth; // this is 1670
 
-            prevBottomLeft = null;
-            prevUpperRight = null;
+            prevBottomLeftLst = null;
+            prevUpperRightLst = null;
 
             int startingP = random.nextInt(0, maximum + 1);
 
@@ -99,6 +99,8 @@ public class World {
             }
 
             doorIndexLst.add(makeNbyMRoom(startingP, gridWidth, gridHeight)); // add into our doorIndexLst
+
+
         }
 
 
@@ -121,7 +123,7 @@ public class World {
 
 
 
-    
+
 
     public Integer makeNbyMRoom(int location, int gridWidth, int gridHeight) {
 
