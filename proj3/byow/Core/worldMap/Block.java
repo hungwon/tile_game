@@ -32,6 +32,9 @@ public class Block {
         return y;
     }
 
+    public void changeType(String type) {
+        this.type = type;
+    }
     /**
      * <h2>
      *     {@code type} of this Block

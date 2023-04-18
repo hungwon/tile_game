@@ -79,7 +79,7 @@ public class World {
 
         int numRoom = random.nextInt(5, 16); // the number of room -> [5, 15]
 
-        for (int i = 0; i < numRoom; i++) {  // add 'numRomm' blocks into the doorIndexLst
+        for (int i = 0; i < numRoom; i++) {  // add 'numRoom' blocks into the doorIndexLst
 
             int gridWidth = random.nextInt(3, MAX_LIMIT + 1); // width range -> [3, 10]
             int gridHeight = random.nextInt(3, MAX_LIMIT + 1); // height range -> [3, 10]
@@ -133,8 +133,6 @@ public class World {
         return false;
     }
 
-
-
     /**
      *
      * @param location Starting Point of the Room
@@ -168,24 +166,7 @@ public class World {
                 }
             }
         }
-
         return doorLst;
-
-
-
-
-        // Block doorBlock = null;
-        //change type = room
-        //change type = wall
-        //disconnect wall with others
-        //
-        /*
-        doorBlock = b;
-        b.type = "door";
-        ret b.key
-        //return the Block.key whose type = door
-        return doorIndex;
-         */
     }
 
     // ------------------------------ Step D -----------------------------------
@@ -219,7 +200,6 @@ public class World {
     }
 
     public static void main(String[] args) {
-
 
     }
 
