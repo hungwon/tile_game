@@ -36,9 +36,9 @@ public class World {
 
     public List<Integer> indexToXY(int index) {
 
-        int widthIndex = index % worldHeight;
-        int heightIndex = Math.floorDiv(index, worldHeight);
-
+        int widthIndex = index % worldWidth;
+        int heightIndex = Math.floorDiv(index, worldWidth);
+        System.out.println(index + ", " + widthIndex + ", " + heightIndex);
         List<Integer> returnLst = new TreeList();
         returnLst.add(widthIndex);
         returnLst.add(heightIndex);
@@ -54,9 +54,9 @@ public class World {
     // ------------------------------ Step A -----------------------------------
     public Block[][] generateEmptyWorld(int h, int w) {
         Block[][] retWorld = new Block[w][h];
-        for (int i = 0; i < w; i++) {
-            for (int j = 0; j < h; j++) {
-                retWorld[i][j] = new Block(i*worldWidth + j ,i, j, null);
+        for (int j = 0; j < h; j++) {
+            for (int i = 0; i < w; i++) {
+                retWorld[i][j] = new Block(j*worldWidth + i ,i, j, null); // index check
             }
         }
         return retWorld;
@@ -136,6 +136,12 @@ public class World {
         return false;
     }
 
+    public void checkIndex (int index) {
+        if (index >= worldWidth*worldHeight ) {
+            throw new IllegalArgumentException(index + ": index exceed 2399");
+        }
+    }
+
     /**
      *
      * @param location Starting Point of the Room
@@ -149,11 +155,14 @@ public class World {
         int doorNum = random.nextInt(1, 3);
 
         int bottomLeftIndex = location;
-        int upperRightIndex = worldWidth * (indexToXY(location).get(1) + m) + indexToXY(location).get(0) + n;
+        int upperRightIndex = worldWidth * (indexToXY(location).get(1) + m - 1) + indexToXY(location).get(0) + n - 1;
+        checkIndex(upperRightIndex);
         int currIndex = location;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                currIndex = ((indexToXY(currIndex)).get(1) + j)* worldWidth + indexToXY(currIndex).get(0)+i;
+
+        for (int j = 0; j < m; j++) {
+            for (int i = 0; i < n; i++) {
+                currIndex = (indexToXY(location).get(1) + j )* worldWidth + indexToXY(location).get(0)+i;
+                checkIndex(currIndex);
                 if (isEdgePoint(currIndex, bottomLeftIndex, upperRightIndex, n, m)) {
                     blockAt(currIndex).changeType("wall");
                 } else if ( isMarginOfRoom(currIndex, bottomLeftIndex, upperRightIndex)) {
@@ -164,7 +173,7 @@ public class World {
                     } else {
                         blockAt(currIndex).changeType("wall");
                     }
-                    } else {
+                } else {
                     blockAt(currIndex).changeType("room");
                 }
             }
@@ -198,21 +207,15 @@ public class World {
     // ------------------------------ Step E -----------------------------------
     public TETile[][] visualize() {
         TETile[][] visualWorld = new TETile[worldWidth][worldHeight];
-
         for (int i = 0; i < worldHeight; i++) {
             for (int j = 0; j < worldWidth; j++) {
                 visualWorld[j][i] = Tileset.NOTHING;
             }
         }
-
         for (int i = 0; i < worldHeight; i++) {
-
             for (int j = 0; j < worldWidth; j++) {
-
-                System.out.print(world[j][i] + " ");
-
+                //System.out.print(world[j][i] + " ");
                 if (world[j][i].blockType() == "door") {
-
                     visualWorld[j][i] = Tileset.MOUNTAIN;
                 } else if (world[j][i].blockType() == "room") {
 
@@ -221,20 +224,10 @@ public class World {
 
                     visualWorld[j][i] = Tileset.WALL;
                 }
-
-
             }
-
-            System.out.println();
-
-
         }
-
-
         return visualWorld;
     }
-
-
     public static void main(String[] args) {
 
         World world = new World(30, 80, 55);
@@ -243,7 +236,7 @@ public class World {
         ter.initialize(world.worldWidth, world.worldHeight);
 
         TETile[][] testWorld = world.visualize();
-
+        ter.renderFrame(testWorld);
     }
 
 }
