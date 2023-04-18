@@ -69,10 +69,7 @@ public class World {
         return null;
     }
 
-
-    // TO-DO
     // ------------------------------ Step C -----------------------------------
-
 
     public void generateRoom() {
         doorIndexLst = new ArrayList<>();
@@ -95,7 +92,7 @@ public class World {
             while (startingP % worldWidth > worldWidth - MAX_LIMIT) { // we subtract 10 because our maximum length of gridWidth is 10
                 startingP = random.nextInt(0, maximum + 1);
             }
-            for (Integer roomIndex: makeNbyMRoomVer2(startingP, gridWidth, gridHeight)) {
+            for (Integer roomIndex: makeNbyMRoom(startingP, gridWidth, gridHeight)) {
                 doorIndexLst.add(roomIndex);
             }
         }
@@ -140,7 +137,7 @@ public class World {
      * @param m Height
      * @return Index of the door Location
      */
-    public List<Integer> makeNbyMRoomVer2(int location, int n, int m) {
+    public List<Integer> makeNbyMRoom(int location, int n, int m) {
 
         List<Integer> doorLst = new TreeList();
         int doorNum = random.nextInt(1, 3);
