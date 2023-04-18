@@ -22,8 +22,8 @@ public class World {
     private int MAX_LIMIT = 10; // the maximum number of grid's width and height
     private Integer startIndex;
     private UndirectedGraph worldGraph;
-    private List<Integer> doorIndexLst;
 
+    private List<Integer> doorIndexLst;
     public World(int height, int width, int seed) {
         worldWidth = width;
         worldHeight = height;
@@ -39,13 +39,9 @@ public class World {
 
         int widthIndex = index % worldWidth;
         int heightIndex = Math.floorDiv(index, worldWidth);
-<<<<<<< HEAD
 
         System.out.println(index + " "+widthIndex + " " + heightIndex);
 
-=======
-        System.out.println(index + ", " + widthIndex + ", " + heightIndex);
->>>>>>> 6e84da1ba58b13c2213120d755e3d011d518be98
         List<Integer> returnLst = new TreeList();
         returnLst.add(widthIndex);
         returnLst.add(heightIndex);
@@ -61,15 +57,9 @@ public class World {
     // ------------------------------ Step A -----------------------------------
     public Block[][] generateEmptyWorld(int h, int w) {
         Block[][] retWorld = new Block[w][h];
-<<<<<<< HEAD
         for (int i = 0; i < w; i++) {
             for (int j = 0; j < h; j++) {
                 retWorld[i][j] = new Block(j*worldWidth + i ,i, j, null);
-=======
-        for (int j = 0; j < h; j++) {
-            for (int i = 0; i < w; i++) {
-                retWorld[i][j] = new Block(j*worldWidth + i ,i, j, null); // index check
->>>>>>> 6e84da1ba58b13c2213120d755e3d011d518be98
             }
         }
         return retWorld;
@@ -77,18 +67,11 @@ public class World {
 
     // ------------------------------ Step B -----------------------------------
     public UndirectedGraph generateWorldGraph() {
-
         return null;
     }
 
     public Integer setStartPoint() {
-        int maximum = (worldWidth - MAX_LIMIT) + (worldHeight - MAX_LIMIT) * worldWidth; // this is 1670
-        int startingP = random.nextInt(0, maximum + 1);
-        while (startingP % worldWidth > worldWidth - MAX_LIMIT) {
-            // we subtract 10 because our maximum length of gridWidth is 10
-            startingP = random.nextInt(0, maximum + 1);
-        }
-        return startingP;
+        return null;
     }
 
     // ------------------------------ Step C -----------------------------------
@@ -111,20 +94,6 @@ public class World {
 
             int maximum = (worldWidth - MAX_LIMIT) + (worldHeight - MAX_LIMIT) * worldWidth; // this is 1670
 
-<<<<<<< HEAD
-=======
-
-            // 업데이트
-
-
-
-
-
-
-            List<Integer> prevBottomLeftLst = null;
-            List<Integer> prevUpperRightLst = null;
-
->>>>>>> 6e84da1ba58b13c2213120d755e3d011d518be98
             int startingP = random.nextInt(0, maximum + 1);
 
             while (startingP % worldWidth > worldWidth - MAX_LIMIT) { // we subtract 10 because our maximum length of gridWidth is 10
@@ -170,12 +139,6 @@ public class World {
         return false;
     }
 
-    public void checkIndex (int index) {
-        if (index >= worldWidth*worldHeight ) {
-            throw new IllegalArgumentException(index + ": index exceed 2399");
-        }
-    }
-
     /**
      *
      * @param startingP Starting Point of the Room
@@ -188,7 +151,6 @@ public class World {
         List<Integer> doorLst = new LinkedList<>();
         int doorNum = random.nextInt(1, 3);
 
-<<<<<<< HEAD
         int bottomLeftIndex = startingP;
 
         int upperRightIndex = startingP + (worldWidth * gridHeight - 1) + gridWidth - 1;
@@ -202,47 +164,16 @@ public class World {
 
 
                 if (isEdgePoint(currIndex, bottomLeftIndex, upperRightIndex, gridWidth, gridHeight)) {
-=======
-        int bottomLeftIndex = location;
-        doorLst.add(bottomLeftIndex);
-
-        int upperRightIndex = worldWidth * (indexToXY(location).get(1) + m - 1) + indexToXY(location).get(0) + n - 1;
-        doorLst.add(upperRightIndex);
-        checkIndex(upperRightIndex);
-
-        int currIndex = location;
-
-        for (int j = 0; j < m; j++) {
-            for (int i = 0; i < n; i++) {
-
-                currIndex = (indexToXY(location).get(1) + j )* worldWidth + indexToXY(location).get(0)+i;
-                checkIndex(currIndex);
-
-                if (isEdgePoint(currIndex, bottomLeftIndex, upperRightIndex, n, m)) {
->>>>>>> 6e84da1ba58b13c2213120d755e3d011d518be98
                     blockAt(currIndex).changeType("wall");
                 } else if ( isMarginOfRoom(currIndex, bottomLeftIndex, upperRightIndex)) {
-
-
-
-
-
-                    // 문 안겹치게
-
-
-
-
-
-                    if (random.nextBoolean() == true && doorNum != 0 && !isMarginOfRoom(currIndex, 0,
-                            worldWidth*worldHeight - 1)) {
+                    if (random.nextBoolean() == true && doorNum != 0) {
                         blockAt(currIndex).changeType("door");
                         doorNum -= 1;
                         doorLst.add(currIndex);
                     } else {
                         blockAt(currIndex).changeType("wall");
                     }
-
-                } else {
+                    } else {
                     blockAt(currIndex).changeType("room");
                 }
 
@@ -284,15 +215,21 @@ public class World {
     // ------------------------------ Step E -----------------------------------
     public TETile[][] visualize() {
         TETile[][] visualWorld = new TETile[worldWidth][worldHeight];
+
         for (int i = 0; i < worldHeight; i++) {
             for (int j = 0; j < worldWidth; j++) {
                 visualWorld[j][i] = Tileset.NOTHING;
             }
         }
+
         for (int i = 0; i < worldHeight; i++) {
+
             for (int j = 0; j < worldWidth; j++) {
-                //System.out.print(world[j][i] + " ");
+
+                System.out.print(world[j][i] + " ");
+
                 if (world[j][i].blockType() == "door") {
+
                     visualWorld[j][i] = Tileset.MOUNTAIN;
                 } else if (world[j][i].blockType() == "room") {
 
@@ -301,10 +238,20 @@ public class World {
 
                     visualWorld[j][i] = Tileset.WALL;
                 }
+
+
             }
+
+            System.out.println();
+
+
         }
+
+
         return visualWorld;
     }
+
+
     public static void main(String[] args) {
 
         World world = new World(30, 80, 55);
@@ -313,7 +260,7 @@ public class World {
         ter.initialize(world.worldWidth, world.worldHeight);
 
         TETile[][] testWorld = world.visualize();
-        ter.renderFrame(testWorld);
+
     }
 
 }
