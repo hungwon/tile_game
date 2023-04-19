@@ -29,7 +29,7 @@ public class Dijkstra {
         }
         while (!fringe.isEmpty()) {
             int p = fringe.delMin();
-
+            relax(p);
         }
 
 
