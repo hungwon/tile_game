@@ -5,6 +5,7 @@ import byow.Core.worldMap.Block;
 import byow.TileEngine.TETile;
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.Tileset;
+import edu.princeton.cs.algs4.StdOut;
 import org.apache.commons.collections.list.TreeList;
 
 import java.util.ArrayList;
@@ -366,15 +367,21 @@ public class World {
 
                 int alreadyConfirmed = confirmedDoors.get(0);
 
-                System.out.println(alreadyConfirmed + ", " + selected + ", " + worldGraph.isConnected(alreadyConfirmed, selected));
+                System.out.println("CONFIRMED AND ALREADY"+ " " + selected + " " + alreadyConfirmed);
+
+                //System.out.println(alreadyConfirmed + ", " + selected + ", " + worldGraph.isConnected(alreadyConfirmed, selected));
+
                 if (!worldGraph.isConnected(alreadyConfirmed, selected)) {
                     confirmedDoors.add(selected);
                 }
             }
         }
 
+        System.out.println("*************");
+
         for (int i = 0; i < confirmedDoors.size(); i++) {
             blockAt(confirmedDoors.get(i)).changeType("door");
+            System.out.println(confirmedDoors.get(i));
         }
 
         /*
