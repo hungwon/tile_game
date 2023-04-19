@@ -34,6 +34,14 @@ public class World {
         generateHallways();
     }
 
+    public int getWorldWidth() {
+        return worldWidth;
+    }
+
+    public int getWorldHeight() {
+        return worldHeight;
+    }
+
     public List<Integer> indexToXY(int index) {
 
         int widthIndex = index % worldWidth;
@@ -54,7 +62,6 @@ public class World {
         }
         return false;
     }
-
     /**
      * <p>
      *     true = index is not between bottomLeft and topRight
@@ -116,13 +123,14 @@ public class World {
     }
 
     public Integer setStartPoint() {
-        int maximum = (worldWidth - MAX_LIMIT) + (worldHeight - MAX_LIMIT) * worldWidth; // this is 1670
-        int startingP = random.nextInt(0, maximum + 1);
-        while (startingP % worldWidth > worldWidth - MAX_LIMIT) {
-            // we subtract 10 because our maximum length of gridWidth is 10
-            startingP = random.nextInt(0, maximum + 1);
+        List<Integer> possibleStartingPoint = new ArrayList<>();
+        for (int i = 0; i < worldWidth * worldHeight -1; i++) {
+            if (blockAt(i).isNull()
+                    && !isMarginOfRoom(i, worldWidth + 1, worldWidth*(worldHeight - 1) - 2)) {
+                possibleStartingPoint.add(i);
+            }
         }
-        return startingP;
+        return possibleStartingPoint.get(random.nextInt(0, possibleStartingPoint.size()));
     }
 
     // ------------------------------ Step C -----------------------------------

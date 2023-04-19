@@ -49,6 +49,42 @@ public class Block {
         return type;
     } // changed to public
 
+    public boolean isNull() {
+        if (type.equals("null")) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isDoor() {
+        if (type.equals("door")) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isRoom() {
+        if (type.equals("room")) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isWall() {
+        if (type.equals("wall")) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isHallway() {
+        if (type.equals("hallway")) {
+            return true;
+        }
+        return false;
+    }
+
+
     /**
      * <p>
      *     Ex) "(Key: 10, Type: Floor)"

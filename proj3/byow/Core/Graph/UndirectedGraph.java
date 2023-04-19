@@ -23,6 +23,11 @@ public class UndirectedGraph {
         adj.get(s).add(new WeightedEdge(s, t, w));
         adj.get(t).add(new WeightedEdge(t, s, w));
         e++;
+
+    }
+
+    public boolean isConnected(int a, int b) {
+        return hasEdge(a, b) != null;
     }
 
     /**
