@@ -9,7 +9,7 @@ import java.util.List;
 public class Dijkstra {
     Double[] distTo;
     Integer[] edgeTo;
-    IndexMinPQ<Integer> fringe;
+    IndexMinPQ<Double> fringe;
     UndirectedGraph graph;
 
     public Dijkstra(UndirectedGraph g ) {
@@ -21,7 +21,9 @@ public class Dijkstra {
 
     public List<Integer> findPath(int s, int t) {
         List<Integer> hallwayIndex = new LinkedList<>();
-        fringe.insert(s, 0);
+        fringe.insert(s, 0.);
+
+
         return hallwayIndex;
     }
 
