@@ -75,6 +75,7 @@ public class World {
         }
         return false;
     }
+
     public boolean isBottomLeft(int index, int bottomLeftIndex, int topRightIndex) {
         List<Integer> indexXY = indexToXY(index);
         List<Integer> bottomLeftXY = indexToXY(bottomLeftIndex);
@@ -84,6 +85,7 @@ public class World {
         }
         return false;
     }
+
     public boolean isBottomRight(int index, int bottomLeftIndex, int topRightIndex) {
         List<Integer> indexXY = indexToXY(index);
         List<Integer> bottomLeftXY = indexToXY(bottomLeftIndex);
@@ -94,6 +96,7 @@ public class World {
         }
         return false;
     }
+
     public boolean isTopLeft(int index, int bottomLeftIndex, int topRightIndex) {
         List<Integer> indexXY = indexToXY(index);
         List<Integer> bottomLeftXY = indexToXY(bottomLeftIndex);
@@ -104,6 +107,7 @@ public class World {
         }
         return false;
     }
+
     public boolean isTopRight(int index, int bottomLeftIndex, int topRightIndex) {
         List<Integer> indexXY = indexToXY(index);
         List<Integer> topRightXY = indexToXY(topRightIndex);
@@ -113,6 +117,7 @@ public class World {
         }
         return false;
     }
+
     public boolean isMarginOfRoom(int index, int bottomLeftIndex, int upperRightIndex) {
         List<Integer> indexXY = indexToXY(index);
         List<Integer> bottomLeftXY = indexToXY(bottomLeftIndex);
@@ -127,11 +132,13 @@ public class World {
         }
         return false;
     }
+
     public void checkIndex (int index) {
         if (index >= worldWidth*worldHeight ) {
             throw new IllegalArgumentException(index + ": index exceed 2399");
         }
     }
+
     public boolean isBetween(int index, List<Integer> bottomLeft, List<Integer> topRight) {
         for (int i = 0; i < bottomLeft.size(); i++) {
             if (isTopRight(index, bottomLeft.get(i), topRight.get(i))) {
@@ -140,6 +147,7 @@ public class World {
         }
         return false;
     }
+
     public boolean isBetween(int index, int bottomLeftIndex, int topRightIndex) {
         List<Integer> indexXY = indexToXY(index);
         List<Integer> bottomLeftXY = indexToXY(bottomLeftIndex);
@@ -194,7 +202,7 @@ public class World {
         return possibleStartingPoint.get(random.nextInt(0, possibleStartingPoint.size()));
     }
 
-
+    // ------------------------------ Step C -----------------------------------
     public void generateRoom() {
         doorIndexLst = new ArrayList<>();
 
@@ -239,8 +247,6 @@ public class World {
 
     }
 
-
-
     private boolean isBetween (int topR, List<List<Integer>> everySP) {
         // current list -> [startingP, topR, gridWidth, gridHeight]
 //        System.out.println(current);
@@ -259,7 +265,6 @@ public class World {
     }
 
     /** The edge cannot be a door. */
-
     private boolean invalidDoorLocation(int location) {
 
 
@@ -284,10 +289,7 @@ public class World {
         }
     }
 
-
-
     public Integer makeNbyMRoom(int location, int gridWidth, int gridHeight) {
-
 
         /*
          Part 1. Room
@@ -388,9 +390,27 @@ public class World {
         return null;
     }
 
-
-
     // ------------------------------ Step D -----------------------------------
+
+    /**
+     * dijkstra(startIndex, doorIndex) returns list of Block
+     */
+    public void generateHallways() {
+        List<Integer> hallwayIndexList = new ArrayList<>();
+        for (Integer doorIndex: doorIndexLst) {
+            /*
+            hallways = dijkstra (startIndex, doorIndex);
+            for (Block b: hallways) {
+                hallwayIndexList.add(b.key);
+                if (b.isNull) {
+                    b.type = "Hallway";
+                }
+            }
+            makeWalls(hallwayIndexList);
+            */
+        }
+    }
+
 
     // ------------------------------ Step E -----------------------------------
     public TETile[][] visualize() {
