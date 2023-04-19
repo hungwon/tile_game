@@ -190,7 +190,7 @@ public class World {
                     retGraph.addEdge(currIndex, currIndex + 1, random.nextDouble(0, 100));
                 }
 
-                retGraph.addEdge(currIndex, currIndex + worldHeight, random.nextDouble(0, 100));
+                retGraph.addEdge(currIndex, currIndex + worldWidth, random.nextDouble(0, 100));
             }
         }
 
@@ -298,6 +298,62 @@ public class World {
         }
     }
 
+    private void determineDisconnect(int current) {
+
+
+        if (current > 0 && current < worldWidth - 1) { // red
+
+            worldGraph.disconnect(blockAt(current), blockAt(current - 1));
+            worldGraph.disconnect(blockAt(current), blockAt(current + 1));
+            worldGraph.disconnect(blockAt(current), blockAt(current + worldWidth));
+        } else if (current > worldWidth * worldHeight - worldWidth && current < worldWidth * worldHeight - 1) { // blue
+
+            worldGraph.disconnect(blockAt(current), blockAt(current - 1));
+            worldGraph.disconnect(blockAt(current), blockAt(current + 1));
+            worldGraph.disconnect(blockAt(current), blockAt(current - worldWidth));
+        } else if (current == 0) { // green
+
+            worldGraph.disconnect(blockAt(current), blockAt(current + 1));
+            worldGraph.disconnect(blockAt(current), blockAt(current + worldWidth));
+        } else if (current == worldWidth - 1) { // purple
+
+            worldGraph.disconnect(blockAt(current), blockAt(current - 1));
+            worldGraph.disconnect(blockAt(current), blockAt(current + worldWidth));
+        } else if (current == worldWidth * worldHeight - worldWidth) { // pink
+
+            worldGraph.disconnect(blockAt(current), blockAt(current + 1));
+            worldGraph.disconnect(blockAt(current), blockAt(current - worldWidth));
+        } else if (current == worldWidth * worldHeight - 1) { // yellow
+
+            worldGraph.disconnect(blockAt(current), blockAt(current - 1));
+            worldGraph.disconnect(blockAt(current), blockAt(current - worldWidth));
+        } else if (current % worldWidth == 0) { // sky blue
+
+            worldGraph.disconnect(blockAt(current), blockAt(current + 1));
+            worldGraph.disconnect(blockAt(current), blockAt(current + worldWidth));
+            worldGraph.disconnect(blockAt(current), blockAt(current - worldWidth));
+        } else if (current % worldWidth == worldWidth - 1) { // sky green
+
+            worldGraph.disconnect(blockAt(current), blockAt(current - 1));
+            worldGraph.disconnect(blockAt(current), blockAt(current + worldWidth));
+            worldGraph.disconnect(blockAt(current), blockAt(current - worldWidth));
+        } else { // black
+
+            worldGraph.disconnect(blockAt(current), blockAt(current + 1));
+            worldGraph.disconnect(blockAt(current), blockAt(current - 1));
+            worldGraph.disconnect(blockAt(current), blockAt(current + worldWidth));
+            worldGraph.disconnect(blockAt(current), blockAt(current - worldWidth));
+        }
+
+    }
+
+
+
+
+
+
+
+
     public Integer makeNbyMRoom(int location, int gridWidth, int gridHeight) {
 
         /*
@@ -366,9 +422,10 @@ public class World {
             } else {
 
                 int alreadyConfirmed = confirmedDoors.get(0);
-
                 System.out.println("CONFIRMED AND ALREADY"+ " " + selected + " " + alreadyConfirmed);
 
+                //System.out.println(alreadyConfirmed + ", " + selected + ", " + worldGraph.isConnected(alreadyConfirmed, selected));
+                //System.out.println("a: " + worldGraph.adj(alreadyConfirmed));
                 //System.out.println(alreadyConfirmed + ", " + selected + ", " + worldGraph.isConnected(alreadyConfirmed, selected));
 
                 if (!worldGraph.isConnected(alreadyConfirmed, selected)) {
@@ -402,6 +459,9 @@ public class World {
                     int current = storeLoc2 + j;
                     if (blockAt(current).blockType().equals(s)) {
                         blockAt(current).changeType("wall");
+
+                        determineDisconnect(current);
+
                     }
                 }
             } else {
@@ -413,6 +473,9 @@ public class World {
                     int current = storeLoc2 + idx;
                     if (blockAt(current).blockType().equals(s)) {
                         blockAt(current).changeType("wall");
+
+                        determineDisconnect(current);
+                        //
                     }
 
                     idx += gridWidth - 1;
@@ -462,7 +525,7 @@ public class World {
 
             for (int j = 0; j < worldWidth; j++) {
 
-                //System.out.print(world[j][i] + " ");
+                System.out.print(world[j][i] + " ");
 
                 if (world[j][i].isDoor()) {
 
@@ -479,16 +542,35 @@ public class World {
                 }
 
             }
-            //System.out.println();
+            System.out.println();
+
+        }
+
+        return visualWorld;
+    }
+
+
+
+    private void testWallIsDisconnected() {
+
+
+        for (int i =0; i < 2399; i++){
+
+
 
         }
 
 
-        return visualWorld;
     }
+
+
+
+
+
     public static void main(String[] args) {
 
-        World world = new World(30, 80, 3412);
+
+        World world = new World(30, 80, 3412000);
 
         TERenderer ter = new TERenderer();
         ter.initialize(world.worldWidth, world.worldHeight);

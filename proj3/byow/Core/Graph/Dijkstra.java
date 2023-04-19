@@ -22,6 +22,7 @@ public class Dijkstra {
     public List<Integer> findPath(int s, int t) {
         List<Integer> hallwayIndex = new LinkedList<>();
         fringe.insert(s, 0.);
+        distTo[s] = 0.;
         for (int i = 0; i < 2399; i++) {
             if (i != s) {
                 fringe.insert(i, 100.);
@@ -41,7 +42,9 @@ public class Dijkstra {
             int p = e.from();
             int q = e.to();
             if (distTo[p] + e.weight() < distTo[q]) {
-
+                distTo[q] = distTo[p] + e.weight();
+                edgeTo[q] = p;
+                fringe.changeKey(q, distTo[q]);
             }
         }
     }
