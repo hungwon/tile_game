@@ -38,6 +38,10 @@ public class World {
 
 
 
+
+
+
+
     public Block blockAt(int index) {
 
         return world[index % worldWidth][index / worldWidth];
@@ -79,29 +83,38 @@ public class World {
 
         int numRoom = random.nextInt(5, 16); // the number of room -> [5, 15]
 
-        System.out.println(numRoom);
+        System.out.println("NUMBER OF ROOMS:" + " " + numRoom);
+
+
+        // These four lists contain same size.
+        List<List<Integer>> everySP = new LinkedList<>();
 
 
         for (int i = 0; i < numRoom; i++) {  // add 'numRomm' blocks into the doorIndexLst
             int gridWidth = random.nextInt(3, MAX_LIMIT + 1); // width range -> [3, 10]
             int gridHeight = random.nextInt(3, MAX_LIMIT + 1); // height range -> [3, 10]
 
-
-
             // maximum gridWidth is MAX_LIMIT so maximum x-coordinate will be worldWidth - MAX_LIMIT
             // maximum gridHeight is MAX_LIMIT so maximum y-coordinate will be worldHeight - MAX_LIMIT
 
-            int maximum = (worldWidth - MAX_LIMIT) + (worldHeight - MAX_LIMIT) * worldWidth; // this is 1670
-
-
+            int maximum = (worldWidth - MAX_LIMIT) + (worldHeight - MAX_LIMIT) * worldWidth; // this is 1670 from 80 * 30 world.
 
             int startingP = random.nextInt(0, maximum + 1);
+            int topR = startingP + worldWidth * (gridHeight - 1) + (gridWidth - 1);
 
-            while (startingP % worldWidth > worldWidth - MAX_LIMIT) { // we subtract 10 because our maximum length of gridWidth is 10
 
+            while (startingP % worldWidth > worldWidth - MAX_LIMIT || isBetween(topR, everySP)
+                    || isBetween(startingP, everySP) || isBetween(startingP + gridWidth-1, everySP)
+                    || isBetween(topR - gridWidth - 1, everySP)) { // we subtract 10 because our maximum length of gridWidth is 1
                 startingP = random.nextInt(0, maximum + 1);
-
+                topR = startingP + worldWidth * (gridHeight - 1) + (gridWidth - 1);
             }
+
+            List<Integer> validSP = new LinkedList<>();
+            validSP.add(startingP);
+            validSP.add(topR);
+
+            everySP.add(validSP);
 
             doorIndexLst.add(makeNbyMRoom(startingP, gridWidth, gridHeight)); // add into our doorIndexLst
 
@@ -110,17 +123,60 @@ public class World {
     }
 
 
+
+
+    public List<Integer> indexToXY(int index) {
+
+        int widthIndex = index % worldWidth;
+        int heightIndex = Math.floorDiv(index, worldWidth);
+        // System.out.println(index + ", " + widthIndex + ", " + heightIndex);
+        List<Integer> returnLst = new ArrayList<>();
+        returnLst.add(widthIndex);
+        returnLst.add(heightIndex);
+
+        return returnLst;
+    }
+
+
+    private boolean isBetween (int topR, List<List<Integer>> everySP) {
+        // current list -> [startingP, topR, gridWidth, gridHeight]
+//        System.out.println(current);
+//        System.out.println();
+        for (List<Integer> lst: everySP) {
+            List<Integer> sp_coord = indexToXY(lst.get(0)); // starting point's coord
+            List<Integer> tr_coord = indexToXY(lst.get(1)); // topright point's coord
+            List<Integer> current_tr_coord = indexToXY(topR); // current's topright point's coord
+
+            if ((current_tr_coord.get(0) >= sp_coord.get(0) - 3 && current_tr_coord.get(0) <= tr_coord.get(0) + 3)
+             && (current_tr_coord.get(1)  >= sp_coord.get(1) - 3 && current_tr_coord.get(1) <= tr_coord.get(1) + 3)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /** The edge cannot be a door. */
 
     private boolean invalidDoorLocation(int location) {
 
-        return (location >= 0 && location <= worldWidth - 1) ||
-                (location % 80 == 0) ||
-                (location % 80 == worldWidth - 1) ||
-                (location >= worldHeight * worldWidth - worldWidth && location <= worldHeight * worldWidth - 1);
+
+
+
+        return (location >= 0 && location <= (worldWidth * 2) - 1) ||
+                (location >= ((worldHeight - 2) * worldWidth) && location <= (worldWidth * worldHeight) - 1) ||
+                (location % worldWidth == 0) ||
+                (location % worldWidth == 1) ||
+                (location % worldWidth == worldWidth - 2) ||
+                (location % worldWidth == worldWidth - 1);
+
+
+
+
+//        return (location >= 0 && location <= worldWidth - 1) ||
+//                (location % worldWidth == 0) ||
+//                (location % worldWidth == worldWidth - 1) ||
+//                (location >= worldHeight * worldWidth - worldWidth && location <= worldHeight * worldWidth - 1);
     }
-
-
 
 
     private boolean determineDoorPotential(int i, int j, int gridWidth, int gridHeight, int current_location) {
@@ -160,19 +216,14 @@ public class World {
 
                 int current_location = storeLoc1 + j;
 
-
                 if (determineDoorPotential(i, j, gridWidth, gridHeight, current_location)) {
                     potentialDoors.add(current_location);
                 }
-
-
 
                 blockAt(current_location).changeType("room");
             }
             storeLoc1 += worldWidth;  // increment by the world's width length
         }
-
-
 
 
         /*
@@ -184,11 +235,18 @@ public class World {
 
 
         int numDoor = random.nextInt(1, 3); // the amount of door number will be a 1 in case
-        List<Integer> confirmedDoors = new LinkedList<>();
 
+
+
+
+
+        List<Integer> confirmedDoors = new LinkedList<>();
         for (int i = 0; i < numDoor; i++) {
 
             int confirmed = random.nextInt(0, potentialDoors.size()); // will give a random index
+
+            
+
             confirmedDoors.add(potentialDoors.remove(confirmed));
         }
 
