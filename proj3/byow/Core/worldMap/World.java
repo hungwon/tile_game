@@ -185,10 +185,17 @@ public class World {
         for (int j = 0; j < worldHeight - 1; j++) {
             for (int i = 0; i < worldWidth - 1; i++) {
                 currIndex = j*worldWidth + i;
-                retGraph.addEdge(currIndex, currIndex + 1, random.nextDouble(0, 100));
+                if ( Math.floorMod(currIndex + 1, worldWidth) != 0) {
+                    retGraph.addEdge(currIndex, currIndex + 1, random.nextDouble(0, 100));
+                }
+
                 retGraph.addEdge(currIndex, currIndex + worldHeight, random.nextDouble(0, 100));
             }
         }
+
+        //for (int i = 0; i<2399; i++){
+        //  System.out.println(retGraph.adj(i));
+        //}
         return retGraph;
     }
 
@@ -352,7 +359,6 @@ public class World {
         while (confirmedDoors.size() < numDoor) {
 
             int selected = potentialDoors.get( random.nextInt(0, potentialDoors.size()));
-            //System.out.println("SELECTED DOOR:" + selected);
 
             if (confirmedDoors.size() == 0) {
                 confirmedDoors.add(selected);
@@ -360,21 +366,16 @@ public class World {
 
                 int alreadyConfirmed = confirmedDoors.get(0);
 
-                System.out.println(alreadyConfirmed + ", " + selected + ", " + !worldGraph.isConnected(alreadyConfirmed, selected));
+                System.out.println(alreadyConfirmed + ", " + selected + ", " + worldGraph.isConnected(alreadyConfirmed, selected));
                 if (!worldGraph.isConnected(alreadyConfirmed, selected)) {
                     confirmedDoors.add(selected);
                 }
             }
         }
 
-        //System.out.println(confirmedDoors);
-
-
-
         for (int i = 0; i < confirmedDoors.size(); i++) {
             blockAt(confirmedDoors.get(i)).changeType("door");
         }
-
 
         /*
         Part 3. Walls
@@ -413,13 +414,6 @@ public class World {
 
             storeLoc2 += worldWidth;
         }
-
-
-
-
-
-
-
 
         return null;
     }

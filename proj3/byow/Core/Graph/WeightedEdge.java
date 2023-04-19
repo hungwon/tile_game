@@ -39,4 +39,9 @@ public class WeightedEdge {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "(" + start + "," + end + ", " + weight +")";
+    }
 }
