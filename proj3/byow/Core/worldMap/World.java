@@ -126,7 +126,6 @@ public class World {
             throw new IllegalArgumentException(index + ": index exceed 2399");
         }
     }
-
     public boolean isBetween(int index, List<Integer> bottomLeft, List<Integer> topRight) {
         for (int i = 0; i < bottomLeft.size(); i++) {
            if (isTopRight(index, bottomLeft.get(i), topRight.get(i))) {
@@ -135,19 +134,6 @@ public class World {
         }
         return false;
     }
-    /**
-     * <p>
-     *     true = index is not between bottomLeft and topRight
-     * </p>
-     *
-     * <p>
-     *     false = index is between bottomLeft and TopRight
-     * </p>
-     * @param index
-     * @param bottomLeftIndex
-     * @param topRightIndex
-     * @return true or false
-     */
     public boolean isBetween(int index, int bottomLeftIndex, int topRightIndex) {
         List<Integer> indexXY = indexToXY(index);
         List<Integer> bottomLeftXY = indexToXY(bottomLeftIndex);
