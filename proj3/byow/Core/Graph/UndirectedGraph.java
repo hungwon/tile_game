@@ -43,7 +43,7 @@ public class UndirectedGraph {
 
         //System.out.println("ISCONNECTED:" + " " + a + " " + b);
         for (WeightedEdge e: adj(a)) {
-            System.out.println( a + ", "+ b + ", " + e.to().equals(b));
+            //System.out.println( a + ", "+ b + ", " + e.to().equals(b));
 
             if (e.to().equals(b)) {
                 return true;
@@ -67,21 +67,18 @@ public class UndirectedGraph {
      */
     public List<Integer> hasEdge(int a, int b) {
         List<Integer> lst = new ArrayList<>();
-        for (Integer i: adj.keySet()) {
-            List<WeightedEdge> adjOfI = adj.get(i);
-
-            if (i.equals(a)) {
-                for (int index = 0; index < adjOfI.size(); index++) {
-                    if (adjOfI.get(index).equals(b)) {
-                        lst.add(index);
-                    }
+        for (WeightedEdge e: adj(a)) {
+            for (int i = 0; i < adj(a).size(); i++) {
+                if (e.to().equals(b)) {
+                    lst.add(i);
                 }
-            } else if (i.equals(b)) {
-               for (int index = 0; index< adjOfI.size(); index++) {
-                   if (adjOfI.get(index).equals(a)) {
-                       lst.add(index);
-                   }
-               }
+            }
+        }
+        for (WeightedEdge e: adj(b)) {
+            for (int i = 0; i < adj(b).size(); i++) {
+                if (e.to().equals(a)) {
+                    lst.add(i);
+                }
             }
         }
 
@@ -99,11 +96,11 @@ public class UndirectedGraph {
      */
     public void disconnect(Block a, Block b) {
         List<Integer> lst = hasEdge(a.Key(), b.Key());
-        if (lst != null ) {
+        if (lst != null) {
             Integer index_a = lst.indexOf(0);
             Integer index_b = lst.indexOf(1);
-            adj.get(a.Key()).remove(index_a);
-            adj.get(b.Key()).remove(index_b);
+            adj(a).remove(index_a);
+            adj(b).remove(index_b);
             e--;
         }
     }
