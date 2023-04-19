@@ -32,23 +32,183 @@ public class World {
         worldGraph = generateWorldGraph();
         startIndex = setStartPoint();
         generateRoom();
-        generateHallways();
+        //generateHallways();
+    }
+
+    public Block blockAt(int index) {
+        return world[index % worldWidth][index / worldWidth];
+    }
+
+    public List<Integer> indexToXY(int index) {
+
+        int widthIndex = index % worldWidth;
+        int heightIndex = Math.floorDiv(index, worldWidth);
+        System.out.println(index + ", " + widthIndex + ", " + heightIndex);
+        List<Integer> returnLst = new TreeList();
+        returnLst.add(widthIndex);
+        returnLst.add(heightIndex);
+
+        return returnLst;
+    }
+
+    public int getWorldWidth() {
+        return worldWidth;
+    }
+
+    public int getWorldHeight() {
+        return worldHeight;
+    }
+
+    public boolean isEdgePoint(int index, int bottomLeftIndex, int upperRightIndex) {
+
+        if (isTopLeft(index, bottomLeftIndex, upperRightIndex)) {
+            return true;
+        }
+        if (isBottomLeft(index, bottomLeftIndex, upperRightIndex)) {
+            return true;
+        }
+        if (isBottomRight(index, bottomLeftIndex, upperRightIndex)) {
+            return true;
+        }
+        if (isTopRight(index, bottomLeftIndex, upperRightIndex)) {
+            return true;
+        }
+        return false;
+    }
+    public boolean isBottomLeft(int index, int bottomLeftIndex, int topRightIndex) {
+        List<Integer> indexXY = indexToXY(index);
+        List<Integer> bottomLeftXY = indexToXY(bottomLeftIndex);
+
+        if (indexXY.get(0) == bottomLeftXY.get(0) && indexXY.get(1) == bottomLeftXY.get(1)) {
+            return true;
+        }
+        return false;
+    }
+    public boolean isBottomRight(int index, int bottomLeftIndex, int topRightIndex) {
+        List<Integer> indexXY = indexToXY(index);
+        List<Integer> bottomLeftXY = indexToXY(bottomLeftIndex);
+        List<Integer> topRightXY = indexToXY(topRightIndex);
+
+        if (indexXY.get(0) == topRightXY.get(0) && indexXY.get(1) == bottomLeftXY.get(1)) {
+            return true;
+        }
+        return false;
+    }
+    public boolean isTopLeft(int index, int bottomLeftIndex, int topRightIndex) {
+        List<Integer> indexXY = indexToXY(index);
+        List<Integer> bottomLeftXY = indexToXY(bottomLeftIndex);
+        List<Integer> topRightXY = indexToXY(topRightIndex);
+
+        if (indexXY.get(0) == bottomLeftXY.get(0) && indexXY.get(1) == topRightXY.get(1)) {
+            return true;
+        }
+        return false;
+    }
+    public boolean isTopRight(int index, int bottomLeftIndex, int topRightIndex) {
+        List<Integer> indexXY = indexToXY(index);
+        List<Integer> topRightXY = indexToXY(topRightIndex);
+
+        if (indexXY.get(0) == topRightXY.get(0) && indexXY.get(1) == topRightXY.get(1)) {
+            return true;
+        }
+        return false;
+    }
+    public boolean isMarginOfRoom(int index, int bottomLeftIndex, int upperRightIndex) {
+        List<Integer> indexXY = indexToXY(index);
+        List<Integer> bottomLeftXY = indexToXY(bottomLeftIndex);
+        List<Integer> upperRightXY = indexToXY(upperRightIndex);
+
+        if (indexXY.get(0) == bottomLeftXY.get(0) || indexXY.get(0) == upperRightXY.get(0)) {
+            return true;
+        }
+
+        if (indexXY.get(1) == bottomLeftXY.get(1) || indexXY.get(1) == upperRightXY.get(1)) {
+            return true;
+        }
+        return false;
+    }
+    public void checkIndex (int index) {
+        if (index >= worldWidth*worldHeight ) {
+            throw new IllegalArgumentException(index + ": index exceed 2399");
+        }
+    }
+
+    public boolean isBetween(int index, List<Integer> bottomLeft, List<Integer> topRight) {
+        for (int i = 0; i < bottomLeft.size(); i++) {
+            if (isTopRight(index, bottomLeft.get(i), topRight.get(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+    /**
+     * <p>
+     *     true = index is not between bottomLeft and topRight
+     * </p>
+     *
+     * <p>
+     *     false = index is between bottomLeft and TopRight
+     * </p>
+     * @param index
+     * @param bottomLeftIndex
+     * @param topRightIndex
+     * @return true or false
+     */
+    public boolean isBetween(int index, int bottomLeftIndex, int topRightIndex) {
+        List<Integer> indexXY = indexToXY(index);
+        List<Integer> bottomLeftXY = indexToXY(bottomLeftIndex);
+        List<Integer> topRightXY = indexToXY(topRightIndex);
+
+        if (indexXY.get(0) >= bottomLeftXY.get(0) && indexXY.get(0) <= topRightXY.get(0)) {
+            return true;
+        }
+        if (indexXY.get(1) >= bottomLeftXY.get(1) && indexXY.get(1) <= topRightXY.get(1)) {
+            return true;
+        }
+        return false;
     }
 
 
     // ------------------------------ Step A -----------------------------------
-
+    public Block[][] generateEmptyWorld(int h, int w) {
+        Block[][] retWorld = new Block[w][h];
+        for (int j = 0; j < h; j++) {
+            for (int i = 0; i < w; i++) {
+                retWorld[i][j] = new Block(j*worldWidth + i ,i, j, null); // index check
+            }
+        }
+        return retWorld;
+    }
 
     // ------------------------------ Step B -----------------------------------
+    public UndirectedGraph generateWorldGraph() {
+        UndirectedGraph retGraph = new UndirectedGraph(worldHeight*worldWidth);
 
+        int maxIndex = worldHeight * worldWidth - 1;
+        int currIndex = 0;
 
-    // ------------------------------ Step C -----------------------------------
-
-
-    public Block blockAt(int index) {
-
-        return world[index % worldWidth][index / worldWidth];
+        for (int j = 0; j < worldHeight - 1; j++) {
+            for (int i = 0; i < worldWidth - 1; i++) {
+                currIndex = j*worldWidth + i;
+                retGraph.addEdge(currIndex, currIndex + 1, random.nextDouble());
+                retGraph.addEdge(currIndex, currIndex + worldHeight, random.nextDouble());
+            }
+        }
+        return retGraph;
     }
+
+    public Integer setStartPoint() {
+        List<Integer> possibleStartingPoint = new ArrayList<>();
+        for (int i = 0; i < worldWidth * worldHeight -1; i++) {
+            if (blockAt(i).isNull()
+                    && !isMarginOfRoom(i, worldWidth + 1, worldWidth*(worldHeight - 1) - 2)) {
+                possibleStartingPoint.add(i);
+            }
+        }
+        return possibleStartingPoint.get(random.nextInt(0, possibleStartingPoint.size()));
+    }
+
+
     public void generateRoom() {
         doorIndexLst = new ArrayList<>();
 
@@ -93,20 +253,6 @@ public class World {
 
     }
 
-
-
-
-    public List<Integer> indexToXY(int index) {
-
-        int widthIndex = index % worldWidth;
-        int heightIndex = Math.floorDiv(index, worldWidth);
-        // System.out.println(index + ", " + widthIndex + ", " + heightIndex);
-        List<Integer> returnLst = new ArrayList<>();
-        returnLst.add(widthIndex);
-        returnLst.add(heightIndex);
-
-        return returnLst;
-    }
 
 
     private boolean isBetween (int topR, List<List<Integer>> everySP) {
