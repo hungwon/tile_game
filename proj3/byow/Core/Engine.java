@@ -1,5 +1,6 @@
 package byow.Core;
 
+import byow.Core.worldMap.World;
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 
@@ -48,7 +49,23 @@ public class Engine {
 
 
 
-        TETile[][] finalWorldFrame = null;
+        String strSeed = "";
+
+        for (int i = 0; i < input.length(); i++) {
+            if (i > 0 && i < input.length() - 1) {
+                strSeed += input.charAt(i);
+            }
+        }
+
+        int intSeed = Integer.parseInt(strSeed);
+
+        System.out.println(intSeed);
+
+        World world = new World(30, 80, intSeed);
+
+        ter.initialize(world.getWorldWidth(), world.getWorldHeight());
+
+        TETile[][] finalWorldFrame = world.visualize();
         return finalWorldFrame;
     }
 }

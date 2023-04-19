@@ -57,6 +57,10 @@ public class Block {
     }
 
     public boolean isDoor() {
+        if (type == null) {
+            return false;
+        }
+
         if (type.equals("door")) {
             return true;
         }
@@ -64,6 +68,9 @@ public class Block {
     }
 
     public boolean isRoom() {
+        if (type == null) {
+            return false;
+        }
         if (type.equals("room")) {
             return true;
         }
@@ -71,6 +78,9 @@ public class Block {
     }
 
     public boolean isWall() {
+        if (type == null) {
+            return false;
+        }
         if (type.equals("wall")) {
             return true;
         }
@@ -78,6 +88,9 @@ public class Block {
     }
 
     public boolean isHallway() {
+        if (type == null) {
+            return false;
+        }
         if (type.equals("hallway")) {
             return true;
         }

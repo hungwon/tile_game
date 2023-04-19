@@ -27,6 +27,7 @@ public class UndirectedGraph {
     }
 
     public boolean isConnected(int a, int b) {
+
         return hasEdge(a, b) != null;
     }
 
