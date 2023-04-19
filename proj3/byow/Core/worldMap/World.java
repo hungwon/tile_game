@@ -35,7 +35,7 @@ public class World {
         worldGraph = generateWorldGraph();
         startIndex = setStartPoint();
         generateRoom();
-        //generateHallways();
+        generateHallways();
     }
 
     public Block blockAt(int index) {
@@ -425,14 +425,13 @@ public class World {
      * dijkstra(startIndex, doorIndex) returns list of Block
      */
     public void generateHallways() {
-        List<Integer> hallwayIndexList = new ArrayList<>();
+        List<Integer> hallwayIndexList;
         Dijkstra dijk = new Dijkstra(worldGraph);
         for (Integer doorIndex: doorIndexLst) {
-            hallways = dijk.findPath(startIndex, doorIndex);
-            for (Block b: hallways) {
-                hallwayIndexList.add(b.key);
-                if (b.isNull) {
-                    b.type = "Hallway";
+            hallwayIndexList = dijk.findPath(startIndex, doorIndex);
+            for (int i: hallwayIndexList) {
+                if (blockAt(i).isNull()) {
+                    blockAt(i).changeType("hallway");
                 }
             }
         }
