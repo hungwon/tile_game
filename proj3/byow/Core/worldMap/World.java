@@ -25,7 +25,7 @@ public class World {
     private UndirectedGraph worldGraph;
     private List<Integer> doorIndexLst;
 
-    public World(int height, int width, int seed) {
+    public World(int height, int width, long seed) {
         maxNumHall = 2;
         worldWidth = width;
         worldHeight = height;
@@ -581,7 +581,7 @@ public class World {
 //    public static void main(String[] args) {
 //
 //
-//        World world = new World(30, 80, 3412000);
+//        World world = new World(30, 80, 341204353500);
 //
 //        TERenderer ter = new TERenderer();
 //        ter.initialize(world.worldWidth, world.worldHeight);
