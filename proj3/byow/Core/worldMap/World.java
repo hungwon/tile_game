@@ -30,54 +30,25 @@ public class World {
         world = generateEmptyWorld(height, width);
         random = new Random(seed);
         worldGraph = generateWorldGraph();
-        // startIndex = setStartPoint();
+        startIndex = setStartPoint();
         generateRoom();
         generateHallways();
     }
 
 
+    // ------------------------------ Step A -----------------------------------
 
 
+    // ------------------------------ Step B -----------------------------------
 
 
+    // ------------------------------ Step C -----------------------------------
 
 
     public Block blockAt(int index) {
 
         return world[index % worldWidth][index / worldWidth];
     }
-
-
-
-    // ------------------------------ Step A -----------------------------------
-    public Block[][] generateEmptyWorld(int h, int w) {
-        Block[][] retWorld = new Block[w][h];
-        for (int j = 0; j < h; j++) {
-            for (int i = 0; i < w; i++) {
-                retWorld[i][j] = new Block(j*worldWidth + i ,i, j, null); // index check
-            }
-        }
-        return retWorld;
-    }
-
-    // ------------------------------ Step B -----------------------------------
-    public UndirectedGraph generateWorldGraph() {
-
-        return null;
-    }
-
-//    public Integer setStartPoint() {
-//        int maximum = (worldWidth - MAX_LIMIT) + (worldHeight - MAX_LIMIT) * worldWidth; // this is 1670
-//        int startingP = random.nextInt(0, maximum + 1);
-//        while (startingP % worldWidth > worldWidth - MAX_LIMIT) {
-//            // we subtract 10 because our maximum length of gridWidth is 10
-//            startingP = random.nextInt(0, maximum + 1);
-//        }
-//        return startingP;
-//    }
-
-    // ------------------------------ Step C -----------------------------------
-
     public void generateRoom() {
         doorIndexLst = new ArrayList<>();
 
@@ -160,24 +131,13 @@ public class World {
     private boolean invalidDoorLocation(int location) {
 
 
-
-
         return (location >= 0 && location <= (worldWidth * 2) - 1) ||
                 (location >= ((worldHeight - 2) * worldWidth) && location <= (worldWidth * worldHeight) - 1) ||
                 (location % worldWidth == 0) ||
                 (location % worldWidth == 1) ||
                 (location % worldWidth == worldWidth - 2) ||
                 (location % worldWidth == worldWidth - 1);
-
-
-
-
-//        return (location >= 0 && location <= worldWidth - 1) ||
-//                (location % worldWidth == 0) ||
-//                (location % worldWidth == worldWidth - 1) ||
-//                (location >= worldHeight * worldWidth - worldWidth && location <= worldHeight * worldWidth - 1);
     }
-
 
     private boolean determineDoorPotential(int i, int j, int gridWidth, int gridHeight, int current_location) {
 
@@ -245,7 +205,7 @@ public class World {
 
             int confirmed = random.nextInt(0, potentialDoors.size()); // will give a random index
 
-            
+
 
             confirmedDoors.add(potentialDoors.remove(confirmed));
         }
@@ -296,31 +256,10 @@ public class World {
         return null;
     }
 
+
+
     // ------------------------------ Step D -----------------------------------
 
-    /**
-     * dijkstra(startIndex, doorIndex) returns list of Block
-     */
-    public void generateHallways() {
-        List<Integer> hallwayIndexList = new ArrayList<>();
-        for (Integer doorIndex: doorIndexLst) {
-            /*
-            hallways = dijkstra (startIndex, doorIndex);
-            for (Block b: hallways) {
-                hallwayIndexList.add(b.key);
-                if (b.isNull) {
-                    b.type = "Hallway";
-                }
-            }
-            makeWalls(hallwayIndexList);
-            */
-        }
-    }
-    //
-
-
-
-    // TO-DO
     // ------------------------------ Step E -----------------------------------
     public TETile[][] visualize() {
         TETile[][] visualWorld = new TETile[worldWidth][worldHeight];
