@@ -1,33 +1,40 @@
 package byow.Core.Graph;
 
+import byow.Core.worldMap.Block;
+
 public class WeightedEdge {
     private Double weight;
+    private Block startBlock;
+    private Block endBlock;
     private Integer start;
     private Integer end;
 
-    public WeightedEdge(int v1, int v2, double weight) {
-        start = v1;
-        end = v2;
+    public WeightedEdge(Block b1, Block b2, double weight) {
+        startBlock = b1;
+        endBlock = b2;
+        start = b1.Key();
+        end = b2.Key();
         this.weight = weight;
     }
     public Double weight() {
         return weight;
     }
-    public Integer from() {
-        return start;
+    public Block from() {
+        return startBlock;
     }
 
-    public Integer to() {
-        return end;
+    public Block to() {
+        return endBlock;
     }
 
+    /*
     public static boolean isSame(WeightedEdge a, WeightedEdge b) {
         /*
         if (!a.weight.equals(b.weight)) {
             return false;
         }
          */
-
+    /*
         if (a.from().equals(b.from())) { // (1->2, 0.1) and (1->2, 0.1) are same
             if (a.to().equals(b.to())) {
                 return true;
@@ -39,6 +46,7 @@ public class WeightedEdge {
         }
         return false;
     }
+    */
 
     @Override
     public String toString() {

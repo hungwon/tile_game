@@ -1,8 +1,7 @@
 package byow.Core.Graph;
 
-import byow.Core.worldMap.World;
+import byow.Core.worldMap.Block;
 import edu.princeton.cs.algs4.IndexMinPQ;
-import byow.Core.worldMap.World.*;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,6 +10,7 @@ public class Dijkstra {
     Integer[] edgeTo;
     IndexMinPQ<Double> fringe;
     UndirectedGraph graph;
+
 
     public Dijkstra(UndirectedGraph g ) {
         graph = g;
@@ -28,27 +28,49 @@ public class Dijkstra {
                 fringe.insert(i, 100.);
             }
         }
-        while (!fringe.isEmpty()) {
+        while (!fringe.isEmpty() && edgeTo[t] == null) {
             int p = fringe.delMin();
             relax(p);
         }
 
-
+        int x = t;
+        while (x != s) {
+            hallwayIndex.add(x);
+            x = edgeTo[x];
+        }
+        hallwayIndex.add(x);
 
         return hallwayIndex;
     }
     public void relax(int index) {
         for (WeightedEdge e: graph.adj(index)) {
-            int p = e.from();
-            int q = e.to();
-            if (distTo[p] + e.weight() < distTo[q]) {
-                distTo[q] = distTo[p] + e.weight();
-                edgeTo[q] = p;
-                fringe.changeKey(q, distTo[q]);
+            Block p = e.from();
+            int pIndex = p.Key();
+            Block q = e.to();
+            int qIndex = q.Key();
+            if (distTo[pIndex] + e.weight() < distTo[qIndex] && isPossible(p,q) ) {
+                distTo[qIndex] = distTo[pIndex] + e.weight();
+                edgeTo[qIndex] = pIndex;
+                fringe.changeKey(qIndex, distTo[qIndex]);
             }
         }
     }
-    public boolean isPossible(int index) {
+
+    /**
+     * is q can be a path?
+     * @param end
+     * @return
+     */
+    public boolean isPossible (Block start, Block end) {
+        for (WeightedEdge e: graph.adj(end)) {
+            Block prev = e.to();
+            Block next = e.from();
+            if (!prev.Key().equals(start.Key())) {
+                if (!next.isNull() || !next.isWall() ) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 

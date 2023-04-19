@@ -20,7 +20,7 @@ public class Block {
         this.type = type;
     }
 
-    public int Key() {
+    public Integer Key() {
         return key;
     }
 
