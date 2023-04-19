@@ -1,5 +1,6 @@
 package byow.Core.worldMap;
 
+import byow.Core.Graph.Dijkstra;
 import byow.Core.Graph.UndirectedGraph;
 import byow.Core.worldMap.Block;
 import byow.TileEngine.TETile;
@@ -186,10 +187,10 @@ public class World {
             for (int i = 0; i < worldWidth - 1; i++) {
                 currIndex = j*worldWidth + i;
                 if ( Math.floorMod(currIndex + 1, worldWidth) != 0) {
-                    retGraph.addEdge(currIndex, currIndex + 1, random.nextDouble(0, 100));
+                    retGraph.addEdge(blockAt(currIndex), blockAt(currIndex + 1), random.nextDouble(0, 1));
                 }
 
-                retGraph.addEdge(currIndex, currIndex + worldWidth, random.nextDouble(0, 100));
+                retGraph.addEdge(blockAt(currIndex), blockAt(currIndex + worldWidth), random.nextDouble(0, 1));
             }
         }
 
@@ -425,17 +426,15 @@ public class World {
      */
     public void generateHallways() {
         List<Integer> hallwayIndexList = new ArrayList<>();
+        Dijkstra dijk = new Dijkstra(worldGraph);
         for (Integer doorIndex: doorIndexLst) {
-            /*
-            hallways = dijkstra (startIndex, doorIndex);
+            hallways = dijk.findPath(startIndex, doorIndex);
             for (Block b: hallways) {
                 hallwayIndexList.add(b.key);
                 if (b.isNull) {
                     b.type = "Hallway";
                 }
             }
-            makeWalls(hallwayIndexList);
-            */
         }
     }
 
