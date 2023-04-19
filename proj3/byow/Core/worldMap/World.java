@@ -251,8 +251,7 @@ public class World {
 
             everySP.add(validSP);
 
-            doorIndexLst.add(makeNbyMRoom(startingP, gridWidth, gridHeight)); // add into our doorIndexLst
-
+            makeNbyMRoom(startingP, gridWidth, gridHeight);
         }
 
     }
@@ -355,7 +354,7 @@ public class World {
 
 
 
-    public Integer makeNbyMRoom(int location, int gridWidth, int gridHeight) {
+    public void makeNbyMRoom(int location, int gridWidth, int gridHeight) {
 
         /*
          Part 1. Room
@@ -486,7 +485,8 @@ public class World {
             storeLoc2 += worldWidth;
         }
 
-        return null;
+        // add into our doorIndexLst
+        doorIndexLst.addAll(confirmedDoors);
     }
 
     // ------------------------------ Step D -----------------------------------
@@ -494,15 +494,15 @@ public class World {
     /**
      * dijkstra(startIndex, doorIndex) returns list of Block
      */
+
 //    public void generateHallways() {
-//        List<Integer> hallwayIndexList = new ArrayList<>();
+//        List<Integer> hallwayIndexList;
 //        Dijkstra dijk = new Dijkstra(worldGraph);
 //        for (Integer doorIndex: doorIndexLst) {
-//            hallways = dijk.findPath(startIndex, doorIndex);
-//            for (Block b: hallways) {
-//                hallwayIndexList.add(b.key);
-//                if (b.isNull) {
-//                    b.type = "Hallway";
+//            hallwayIndexList = dijk.findPath(startIndex, doorIndex);
+//            for (int i: hallwayIndexList) {
+//                if (blockAt(i).isNull()) {
+//                    blockAt(i).changeType("hallway");
 //                }
 //            }
 //        }
@@ -550,14 +550,19 @@ public class World {
 
 
 
-    private void testWallIsDisconnected() {
+    public void testWallIsDisconnected() {
 
+        boolean b = true;
 
-        for (int i =0; i < 2399; i++){
+        for (int i = 0; i < worldWidth * worldHeight; i++){
 
-            if (blockAt(i).isWall() && blockAt(i))
-
-
+            if (blockAt(i).isWall() && !worldGraph.isIsolated(i)) {
+                b = false;
+            }
+            if (!b) {
+                throw new IllegalArgumentException("index: " + i + ", " + worldGraph.isIsolated(i));
+            }
+            b = true;
         }
 
 
@@ -575,8 +580,12 @@ public class World {
         TERenderer ter = new TERenderer();
         ter.initialize(world.worldWidth, world.worldHeight);
 
+
+
         TETile[][] testWorld = world.visualize();
         ter.renderFrame(testWorld);
+
+        //world.testWallIsDisconnected();
     }
 
 }
