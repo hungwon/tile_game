@@ -33,7 +33,7 @@ public class UndirectedGraph {
 
     public boolean isConnected(int a, int b) {
         for (WeightedEdge e: adj(a)) {
-            //System.out.println(adj(a) + "," + a + ", "+ b + ", " + e.to().equals(b));
+            //System.out.println("isConnected: " + adj(a) + "," + a + ", "+ b + ", " + e.to().equals(b));
             if (e.to().equals(b)) {
                 return true;
             }

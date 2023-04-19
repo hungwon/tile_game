@@ -189,7 +189,7 @@ public class World {
                     retGraph.addEdge(currIndex, currIndex + 1, random.nextDouble(0, 100));
                 }
 
-                retGraph.addEdge(currIndex, currIndex + worldHeight, random.nextDouble(0, 100));
+                retGraph.addEdge(currIndex, currIndex + worldWidth, random.nextDouble(0, 100));
             }
         }
 
@@ -365,8 +365,8 @@ public class World {
             } else {
 
                 int alreadyConfirmed = confirmedDoors.get(0);
-
-                System.out.println(alreadyConfirmed + ", " + selected + ", " + worldGraph.isConnected(alreadyConfirmed, selected));
+                //System.out.println("a: " + worldGraph.adj(alreadyConfirmed));
+                //System.out.println(alreadyConfirmed + ", " + selected + ", " + worldGraph.isConnected(alreadyConfirmed, selected));
                 if (!worldGraph.isConnected(alreadyConfirmed, selected)) {
                     confirmedDoors.add(selected);
                 }
