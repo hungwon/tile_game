@@ -2,11 +2,9 @@ package byow.Core.worldMap;
 
 import byow.Core.Graph.Dijkstra;
 import byow.Core.Graph.UndirectedGraph;
-import byow.Core.worldMap.Block;
 import byow.TileEngine.TETile;
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.Tileset;
-import edu.princeton.cs.algs4.StdOut;
 import org.apache.commons.collections.list.TreeList;
 
 import java.util.ArrayList;
@@ -137,8 +135,8 @@ public class World {
     }
 
     public void checkIndex (int index) {
-        if (index >= worldWidth*worldHeight ) {
-            throw new IllegalArgumentException(index + ": index exceed 2399");
+        if (index >= worldWidth * worldHeight ) {
+            throw new IllegalArgumentException (index + ": index exceed 2399");
         }
     }
 
@@ -195,9 +193,6 @@ public class World {
             }
         }
 
-        //for (int i = 0; i<2399; i++){
-        //  System.out.println(retGraph.adj(i));
-        //}
         return retGraph;
     }
 
@@ -218,7 +213,7 @@ public class World {
 
         int numRoom = random.nextInt(5, 16); // the number of room -> [5, 15]
 
-        System.out.println("NUMBER OF ROOMS:" + " " + numRoom);
+       // System.out.println("NUMBER OF ROOMS:" + " " + numRoom);
 
 
         // These four lists contain same size.
@@ -423,6 +418,9 @@ public class World {
 
                 int alreadyConfirmed = confirmedDoors.get(0);
 
+                //System.out.println("CONFIRMED AND ALREADY"+ " " + selected + " " + alreadyConfirmed);
+
+
                 //System.out.println(alreadyConfirmed + ", " + selected + ", " + worldGraph.isConnected(alreadyConfirmed, selected));
                 //System.out.println("a: " + worldGraph.adj(alreadyConfirmed));
                 //System.out.println(alreadyConfirmed + ", " + selected + ", " + worldGraph.isConnected(alreadyConfirmed, selected));
@@ -433,9 +431,11 @@ public class World {
             }
         }
 
+        //System.out.println("*************");
 
         for (int i = 0; i < confirmedDoors.size(); i++) {
             blockAt(confirmedDoors.get(i)).changeType("door");
+            //System.out.println(confirmedDoors.get(i));
         }
 
         /*
@@ -500,18 +500,18 @@ public class World {
      * dijkstra(startIndex, doorIndex) returns list of Block
      */
 
-//    public void generateHallways() {
-//        List<Integer> hallwayIndexList;
-//        Dijkstra dijk = new Dijkstra(worldGraph);
-//        for (Integer doorIndex: doorIndexLst) {
-//            hallwayIndexList = dijk.findPath(startIndex, doorIndex);
-//            for (int i: hallwayIndexList) {
-//                if (blockAt(i).isNull()) {
-//                    blockAt(i).changeType("hallway");
-//                }
-//            }
-//        }
-//    }
+    public void generateHallways() {
+        List<Integer> hallwayIndexList;
+        Dijkstra dijk = new Dijkstra(worldGraph);
+        for (Integer doorIndex: doorIndexLst) {
+            hallwayIndexList = dijk.findPath(startIndex, doorIndex);
+            for (int i: hallwayIndexList) {
+                if (blockAt(i).isNull()) {
+                    blockAt(i).changeType("hallway");
+                }
+            }
+        }
+    }
 
 
     // ------------------------------ Step E -----------------------------------
@@ -529,7 +529,7 @@ public class World {
 
             for (int j = 0; j < worldWidth; j++) {
 
-                System.out.print(world[j][i] + " ");
+                //System.out.print(world[j][i] + " ");
 
                 if (world[j][i].isDoor()) {
 
@@ -537,7 +537,7 @@ public class World {
                 } else if (world[j][i].isRoom()) {
 
                     visualWorld[j][i] = Tileset.FLOOR;
-                } else if (world[j][i].isWall()){
+                } else if (world[j][i].isWall()) {
 
                     visualWorld[j][i] = Tileset.WALL;
                 } else if (world[j][i].isHallway()) {
@@ -546,7 +546,7 @@ public class World {
                 }
 
             }
-            System.out.println();
+            //System.out.println();
 
         }
 
@@ -559,7 +559,7 @@ public class World {
 
         boolean b = true;
 
-        for (int i = 0; i < worldWidth * worldHeight; i++){
+        for (int i = 0; i < worldWidth * worldHeight; i++) {
 
 
             if (blockAt(i).isWall() && !worldGraph.isIsolated(i)) {
@@ -578,21 +578,21 @@ public class World {
 
 
 
-    public static void main(String[] args) {
-
-
-        World world = new World(30, 80, 3412000);
-
-        TERenderer ter = new TERenderer();
-        ter.initialize(world.worldWidth, world.worldHeight);
-
-
-
-        TETile[][] testWorld = world.visualize();
-        ter.renderFrame(testWorld);
-
-
-        world.testWallIsDisconnected();
-    }
+//    public static void main(String[] args) {
+//
+//
+//        World world = new World(30, 80, 3412000);
+//
+//        TERenderer ter = new TERenderer();
+//        ter.initialize(world.worldWidth, world.worldHeight);
+//
+//
+//
+//        TETile[][] testWorld = world.visualize();
+//        ter.renderFrame(testWorld);
+//
+//
+//        //world.testWallIsDisconnected();
+//    }
 
 }
