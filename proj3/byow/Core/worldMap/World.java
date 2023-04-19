@@ -343,8 +343,7 @@ public class World {
         int numDoor = random.nextInt(1, 3); // the amount of door number will be a 1 in case
 
 
-
-
+        
 
         List<Integer> confirmedDoors = new LinkedList<>();
         for (int i = 0; i < numDoor; i++) {
