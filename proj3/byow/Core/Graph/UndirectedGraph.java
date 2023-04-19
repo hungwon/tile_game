@@ -1,6 +1,7 @@
 package byow.Core.Graph;
 
 import byow.Core.worldMap.Block;
+import edu.princeton.cs.algs4.StdOut;
 
 import java.util.*;
 
@@ -43,7 +44,6 @@ public class UndirectedGraph {
 
         //System.out.println("ISCONNECTED:" + " " + a + " " + b);
         for (WeightedEdge e: adj(a)) {
-            System.out.println( a + ", "+ b + ", " + e.to().equals(b));
 
             if (e.to().equals(b)) {
                 return true;
@@ -98,10 +98,13 @@ public class UndirectedGraph {
      * @param b
      */
     public void disconnect(Block a, Block b) {
+        System.out.println("CALLED");
+
         List<Integer> lst = hasEdge(a.Key(), b.Key());
         if (lst != null ) {
             Integer index_a = lst.indexOf(0);
             Integer index_b = lst.indexOf(1);
+            System.out.println(index_a + " " + index_b);
             adj.get(a.Key()).remove(index_a);
             adj.get(b.Key()).remove(index_b);
             e--;

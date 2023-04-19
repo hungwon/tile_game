@@ -266,7 +266,7 @@ public class World {
             List<Integer> current_tr_coord = indexToXY(topR); // current's topright point's coord
 
             if ((current_tr_coord.get(0) >= sp_coord.get(0) - 3 && current_tr_coord.get(0) <= tr_coord.get(0) + 3)
-             && (current_tr_coord.get(1)  >= sp_coord.get(1) - 3 && current_tr_coord.get(1) <= tr_coord.get(1) + 3)) {
+             && (current_tr_coord.get(1) >= sp_coord.get(1) - 3 && current_tr_coord.get(1) <= tr_coord.get(1) + 3)) {
                 return true;
             }
         }
@@ -422,7 +422,6 @@ public class World {
             } else {
 
                 int alreadyConfirmed = confirmedDoors.get(0);
-                System.out.println("CONFIRMED AND ALREADY"+ " " + selected + " " + alreadyConfirmed);
 
                 //System.out.println(alreadyConfirmed + ", " + selected + ", " + worldGraph.isConnected(alreadyConfirmed, selected));
                 //System.out.println("a: " + worldGraph.adj(alreadyConfirmed));
@@ -434,11 +433,9 @@ public class World {
             }
         }
 
-        System.out.println("*************");
 
         for (int i = 0; i < confirmedDoors.size(); i++) {
             blockAt(confirmedDoors.get(i)).changeType("door");
-            System.out.println(confirmedDoors.get(i));
         }
 
         /*
@@ -460,7 +457,11 @@ public class World {
                     if (blockAt(current).blockType().equals(s)) {
                         blockAt(current).changeType("wall");
 
+                        System.out.println(current);
+
                         determineDisconnect(current);
+
+                        System.out.println("CURRENT BLOCK DISCONNECTED?" + " " + worldGraph.isIsolated(current));
 
                     }
                 }
@@ -474,7 +475,11 @@ public class World {
                     if (blockAt(current).blockType().equals(s)) {
                         blockAt(current).changeType("wall");
 
+                        System.out.println(current);
+
                         determineDisconnect(current);
+
+                        System.out.println("CURRENT BLOCK DISCONNECTED?" + " " + worldGraph.isIsolated(current));
                         //
                     }
 
@@ -556,11 +561,12 @@ public class World {
 
         for (int i = 0; i < worldWidth * worldHeight; i++){
 
+
             if (blockAt(i).isWall() && !worldGraph.isIsolated(i)) {
                 b = false;
             }
             if (!b) {
-                throw new IllegalArgumentException("index: " + i + ", " + worldGraph.isIsolated(i));
+                throw new IllegalArgumentException("index: " + i + ", " + worldGraph.isIsolated(i) + ", " + blockAt(i).blockType());
             }
             b = true;
         }
@@ -585,7 +591,8 @@ public class World {
         TETile[][] testWorld = world.visualize();
         ter.renderFrame(testWorld);
 
-        //world.testWallIsDisconnected();
+
+        world.testWallIsDisconnected();
     }
 
 }
