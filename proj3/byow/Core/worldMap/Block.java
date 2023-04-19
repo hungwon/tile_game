@@ -50,7 +50,7 @@ public class Block {
     } // changed to public
 
     public boolean isNull() {
-        if (type.equals("null")) {
+        if (type == null) {
             return true;
         }
         return false;
