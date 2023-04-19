@@ -18,6 +18,7 @@ public class World {
     private Random random;
     private int worldWidth;
     private int worldHeight;
+    private int maxNumHall;
 
     private int MAX_LIMIT = 10; // the maximum number of grid's width and height
     private Integer startIndex;
@@ -25,6 +26,7 @@ public class World {
     private List<Integer> doorIndexLst;
 
     public World(int height, int width, int seed) {
+        maxNumHall = 2;
         worldWidth = width;
         worldHeight = height;
         world = generateEmptyWorld(height, width);
@@ -43,7 +45,6 @@ public class World {
 
         int widthIndex = index % worldWidth;
         int heightIndex = Math.floorDiv(index, worldWidth);
-        System.out.println(index + ", " + widthIndex + ", " + heightIndex);
         List<Integer> returnLst = new TreeList();
         returnLst.add(widthIndex);
         returnLst.add(heightIndex);
@@ -300,7 +301,23 @@ public class World {
             because we need to pass 80 blocks to move up.
          */
 
+        int numDoor = random.nextInt(1, 3); // the amount of door number will be a 1 in case
+
         int storeLoc1 = location;
+
+        String[] arr = {"room", "hallway"};
+        String s = "";
+
+        if (gridHeight == 4 && maxNumHall != 0 && numDoor == 2 ) {
+            s = arr[ Math.floorMod(random.nextInt(), 2)];
+            if (s.equals("hallway")) {
+                maxNumHall--;
+            }
+        } else {
+            s = "room";
+        }
+
+
 
         List<Integer> potentialDoors = new LinkedList<>();
 
@@ -314,7 +331,7 @@ public class World {
                     potentialDoors.add(current_location);
                 }
 
-                blockAt(current_location).changeType("room");
+                blockAt(current_location).changeType(s);
             }
             storeLoc1 += worldWidth;  // increment by the world's width length
         }
@@ -328,21 +345,31 @@ public class World {
          */
 
 
-        int numDoor = random.nextInt(1, 3); // the amount of door number will be a 1 in case
-
-
-
-
+        //System.out.println(numDoor);
 
         List<Integer> confirmedDoors = new LinkedList<>();
-        for (int i = 0; i < numDoor; i++) {
 
-            int confirmed = random.nextInt(0, potentialDoors.size()); // will give a random index
+        while (confirmedDoors.size() < numDoor) {
 
+            int selected = potentialDoors.get( random.nextInt(0, potentialDoors.size()));
+            //System.out.println("SELECTED DOOR:" + selected);
 
+            if (confirmedDoors.size() == 0) {
+                confirmedDoors.add(selected);
+            } else {
 
-            confirmedDoors.add(potentialDoors.remove(confirmed));
+                int alreadyConfirmed = confirmedDoors.get(0);
+
+                System.out.println(alreadyConfirmed + ", " + selected + ", " + !worldGraph.isConnected(alreadyConfirmed, selected));
+                if (!worldGraph.isConnected(alreadyConfirmed, selected)) {
+                    confirmedDoors.add(selected);
+                }
+            }
         }
+
+        //System.out.println(confirmedDoors);
+
+
 
         for (int i = 0; i < confirmedDoors.size(); i++) {
             blockAt(confirmedDoors.get(i)).changeType("door");
@@ -365,7 +392,7 @@ public class World {
 
                 for (int j = 0; j < gridWidth; j++) {
                     int current = storeLoc2 + j;
-                    if (blockAt(current).blockType().equals("room")) {
+                    if (blockAt(current).blockType().equals(s)) {
                         blockAt(current).changeType("wall");
                     }
                 }
@@ -376,7 +403,7 @@ public class World {
                 for (int j = 0; j < 2; j++) {
 
                     int current = storeLoc2 + idx;
-                    if (blockAt(current).blockType().equals("room")) {
+                    if (blockAt(current).blockType().equals(s)) {
                         blockAt(current).changeType("wall");
                     }
 
@@ -386,6 +413,13 @@ public class World {
 
             storeLoc2 += worldWidth;
         }
+
+
+
+
+
+
+
 
         return null;
     }
@@ -427,21 +461,24 @@ public class World {
 
             for (int j = 0; j < worldWidth; j++) {
 
-                System.out.print(world[j][i] + " ");
+                //System.out.print(world[j][i] + " ");
 
-                if (world[j][i].blockType() == "door") {
+                if (world[j][i].isDoor()) {
 
                     visualWorld[j][i] = Tileset.MOUNTAIN;
-                } else if (world[j][i].blockType() == "room") {
+                } else if (world[j][i].isRoom()) {
 
                     visualWorld[j][i] = Tileset.FLOOR;
-                } else if (world[j][i].blockType() == "wall"){
+                } else if (world[j][i].isWall()){
 
                     visualWorld[j][i] = Tileset.WALL;
+                } else if (world[j][i].isHallway()) {
+
+                    visualWorld[j][i] = Tileset.WATER;
                 }
 
             }
-            System.out.println();
+            //System.out.println();
 
         }
 
@@ -450,7 +487,7 @@ public class World {
     }
     public static void main(String[] args) {
 
-        World world = new World(30, 80, 1234);
+        World world = new World(30, 80, 3412);
 
         TERenderer ter = new TERenderer();
         ter.initialize(world.worldWidth, world.worldHeight);
