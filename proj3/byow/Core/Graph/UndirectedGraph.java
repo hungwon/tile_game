@@ -1,6 +1,7 @@
 package byow.Core.Graph;
 
 import byow.Core.worldMap.Block;
+import edu.princeton.cs.algs4.In;
 import org.apache.commons.collections.list.TreeList;
 
 import java.util.*;
@@ -19,6 +20,10 @@ public class UndirectedGraph {
         }
     }
 
+    public List<WeightedEdge> adj(int i) {
+        return adj.get(i);
+    }
+
     public void addEdge(int s, int t, double w) {
         adj.get(s).add(new WeightedEdge(s, t, w));
         adj.get(t).add(new WeightedEdge(t, s, w));
@@ -27,8 +32,12 @@ public class UndirectedGraph {
     }
 
     public boolean isConnected(int a, int b) {
-
-        return hasEdge(a, b) != null;
+        for (WeightedEdge e: adj(a)) {
+            if (e.to().equals(b)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

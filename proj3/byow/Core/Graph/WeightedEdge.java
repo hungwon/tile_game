@@ -10,7 +10,9 @@ public class WeightedEdge {
         end = v2;
         this.weight = weight;
     }
-
+    public Double weight() {
+        return weight;
+    }
     public Integer from() {
         return start;
     }

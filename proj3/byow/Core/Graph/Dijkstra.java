@@ -22,11 +22,31 @@ public class Dijkstra {
     public List<Integer> findPath(int s, int t) {
         List<Integer> hallwayIndex = new LinkedList<>();
         fringe.insert(s, 0.);
+        for (int i = 0; i < 2399; i++) {
+            if (i != s) {
+                fringe.insert(i, 100.);
+            }
+        }
+        while (!fringe.isEmpty()) {
+            int p = fringe.delMin();
+
+        }
+
 
 
         return hallwayIndex;
     }
+    public void relax(int index) {
+        for (WeightedEdge e: graph.adj(index)) {
+            int p = e.from();
+            int q = e.to();
+            if (distTo[p] + e.weight() < distTo[q]) {
 
-
+            }
+        }
+    }
+    public boolean isPossible(int index) {
+        return true;
+    }
 
 }

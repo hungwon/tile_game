@@ -185,8 +185,8 @@ public class World {
         for (int j = 0; j < worldHeight - 1; j++) {
             for (int i = 0; i < worldWidth - 1; i++) {
                 currIndex = j*worldWidth + i;
-                retGraph.addEdge(currIndex, currIndex + 1, random.nextDouble());
-                retGraph.addEdge(currIndex, currIndex + worldHeight, random.nextDouble());
+                retGraph.addEdge(currIndex, currIndex + 1, random.nextDouble(0, 100));
+                retGraph.addEdge(currIndex, currIndex + worldHeight, random.nextDouble(0, 100));
             }
         }
         return retGraph;
@@ -485,15 +485,15 @@ public class World {
 
         return visualWorld;
     }
-//    public static void main(String[] args) {
-//
-//        World world = new World(30, 80, 3412);
-//
-//        TERenderer ter = new TERenderer();
-//        ter.initialize(world.worldWidth, world.worldHeight);
-//
-//        TETile[][] testWorld = world.visualize();
-//        ter.renderFrame(testWorld);
-//    }
+    public static void main(String[] args) {
+
+        World world = new World(30, 80, 3412);
+
+        TERenderer ter = new TERenderer();
+        ter.initialize(world.worldWidth, world.worldHeight);
+
+        TETile[][] testWorld = world.visualize();
+        ter.renderFrame(testWorld);
+    }
 
 }
