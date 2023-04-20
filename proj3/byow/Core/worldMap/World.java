@@ -572,7 +572,7 @@ public class World {
     public static void main(String[] args) {
 
 
-        World world = new World(30, 80, 3412000);
+        World world = new World(30, 80, 3412);
 
         TERenderer ter = new TERenderer();
         ter.initialize(world.worldWidth, world.worldHeight);
