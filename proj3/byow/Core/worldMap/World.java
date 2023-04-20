@@ -21,7 +21,7 @@ public class World {
     private int maxNumHall;
     public static final int MAX_LIMIT = 10; // the maximum number of grid's width and height
     public static final double RANDDOUBLE = 0.8;
-    public static final int MAXROOM = 16;
+    public static final int MAXROOM = 8;
     private Integer startIndex;
     private UndirectedGraph worldGraph;
     private List<Integer> doorIndexLst;
@@ -36,7 +36,9 @@ public class World {
         Random deletedRandom = new Random(10000);
         random = new Random(Math.floorMod(seed, deletedRandom.nextInt(MAXDIVSTART, MAXDIVEND)));
         worldGraph = generateWorldGraph();
+        random = new Random(random.nextInt());
         generateRoom();
+        random = new Random(random.nextInt());
         startIndex = setStartPoint();
         generateHallways();
         generateWalls();
@@ -50,7 +52,7 @@ public class World {
 
         int widthIndex = index % worldWidth;
         int heightIndex = Math.floorDiv(index, worldWidth);
-        List<Integer> returnLst = new TreeList();
+        List<Integer> returnLst = new LinkedList<>();
         returnLst.add(widthIndex);
         returnLst.add(heightIndex);
 
@@ -547,5 +549,7 @@ public class World {
     }
 
  */
+
+
 
 }
