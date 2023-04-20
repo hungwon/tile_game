@@ -1,8 +1,10 @@
 package byow.Core.Graph;
 
 import byow.Core.worldMap.Block;
+import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.IndexMinPQ;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,37 +15,41 @@ public class Dijkstra {
     IndexMinPQ<Double> fringe;
     UndirectedGraph graph;
 
-    public static final double MAXDOUBLE = 10000;
+    List<Integer> lst;
+
+    public static final double MAXDOUBLE = 1000000.;
 
     public static final int MAXINDEX = 2400;
 
 
     public Dijkstra(UndirectedGraph g) {
         graph = g;
-        distTo = new Double[g.V()];
-        Arrays.fill(distTo, MAXDOUBLE);
-        edgeTo = new Integer[g.V()];
     }
 
     public List<Integer> findPath(int s, int t) {
 
-        System.out.println("findPath called");
+        distTo = new Double[graph.V()];
+        Arrays.fill(distTo, MAXDOUBLE);
+        edgeTo = new Integer[graph.V()];
         fringe = new IndexMinPQ<>(MAXINDEX);
-        List<Integer> hallwayIndex = new LinkedList<>();
-        fringe.insert(s, 0.);
-        distTo[s] = 0.;
+        lst = new ArrayList<>();
 
+        List<Integer> hallwayIndex = new LinkedList<>();
+        distTo[s] = 0.;
         for (int i = 0; i < MAXINDEX; i++) {
             if (i != s) {
                 fringe.insert(i, MAXDOUBLE);
             }
         }
-
-        while (!fringe.isEmpty()) { //) && edgeTo[t] == null ) {
-            int p = fringe.delMin();
+        int p = MAXINDEX;
+        while (!fringe.isEmpty() && edgeTo[t] == null) {
+            if (p == MAXINDEX) {
+                p = s;
+            } else {
+                p = fringe.delMin();
+            }
             relax(p);
         }
-
 
         int x = t;
         while (x != s) {
@@ -51,56 +57,65 @@ public class Dijkstra {
             x = edgeTo[x];
         }
         hallwayIndex.add(x);
-        System.out.println("findPath end");
 
         return hallwayIndex;
     }
 
     public void relax(int index) {
-        System.out.println("relax Start: ");
+        int cnt = 0;
         for (WeightedEdge e: graph.adj(index)) {
-
-            //역류방지
-            if (edgeTo[e.to().Key()] != null) {
-                System.out.println("skip" + e);
+            if (edgeTo[e.to().key()] != null) {
                 continue;
             }
 
             Block p = e.from();
-            int pIndex = p.Key();
-
+            int pIndex = p.key();
             Block q = e.to();
-            int qIndex = q.Key();
+            int qIndex = q.key();
 
 
-            System.out.println(pIndex + " -> " + qIndex);
-
-            if (distTo[pIndex] + e.weight() < distTo[qIndex] && isPossible(p, q)) {
+            if (distTo[pIndex] + e.weight() < distTo[qIndex] && isPossible(q)) {
+                cnt++;
                 distTo[qIndex] = distTo[pIndex] + e.weight();
                 edgeTo[qIndex] = pIndex;
-                System.out.println(fringe.minIndex());
                 fringe.changeKey(qIndex, distTo[qIndex]);
             }
         }
-        System.out.println("releax end");
+        if (cnt == 0) {
+            for (WeightedEdge e: graph.adj(index)) {
+                if (edgeTo[e.to().key()] != null) {
+                    continue;
+                }
+
+                Block p = e.from();
+                int pIndex = p.key();
+                Block q = e.to();
+                int qIndex = q.key();
+
+
+                if (isPossible(q)) {
+                    distTo[qIndex] = distTo[pIndex] + e.weight();
+                    edgeTo[qIndex] = pIndex;
+                    fringe.changeKey(qIndex, distTo[qIndex]);
+                }
+            }
+        }
     }
 
     /**
      * is q can be a path?
-     * @param end
+     * @param b
      * @return
      */
+    public boolean isPossible(Block b) {
 
-    public boolean isPossible(Block start, Block end) {
-        for (WeightedEdge e: graph.adj(end)) {
-            Block prev = e.to();
-            Block next = e.from();
-            if (!prev.Key().equals(start.Key())) {
-                if (next.isRoom()) {
-                    return false;
-                }
-            }
+
+        if (b.isRoom() || b.isMargin()) {
+            lst.add(b.key());
+            return false;
         }
         return true;
+
+
     }
 }

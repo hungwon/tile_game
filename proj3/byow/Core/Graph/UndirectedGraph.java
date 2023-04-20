@@ -39,7 +39,7 @@ public class UndirectedGraph {
         }
         for (WeightedEdge edgeE: adj(a)) {
 
-            if (edgeE.to().Key() == b) {
+            if (edgeE.to().key() == b) {
                 return true;
             }
         }
