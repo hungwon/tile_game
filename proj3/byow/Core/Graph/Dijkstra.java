@@ -33,16 +33,13 @@ public class Dijkstra {
         fringe.insert(s, 0.);
         distTo[s] = 0.;
 
-        fringe = new IndexMinPQ<>(MAXINDEX);
-
         for (int i = 0; i < MAXINDEX; i++) {
             if (i != s) {
                 fringe.insert(i, MAXDOUBLE);
             }
         }
 
-
-        while (!fringe.isEmpty()) {
+        while (!fringe.isEmpty()) { //) && edgeTo[t] == null ) {
             int p = fringe.delMin();
             relax(p);
         }
@@ -76,7 +73,6 @@ public class Dijkstra {
             int qIndex = q.Key();
 
 
-
             System.out.println(pIndex + " -> " + qIndex);
 
             if (distTo[pIndex] + e.weight() < distTo[qIndex] && isPossible(p, q)){
@@ -100,7 +96,7 @@ public class Dijkstra {
             Block prev = e.to();
             Block next = e.from();
             if (!prev.Key().equals(start.Key()) ) {
-                if (next.isRoom() && next.isAtMargin()) {
+                if (next.isRoom() && next.isAtMargin() ) {
                     return false;
                 }
             }

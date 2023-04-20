@@ -23,15 +23,17 @@ public class Block {
     }
     public boolean isAtMargin() {
 
+
         if (x == 0 || x == 79 ) {
             return true;
         }
 
-        if (y == 0 || y == 2399) {
+        if (y == 0 || y == 29) {
             return true;
         }
         return false;
     }
+
     public Integer Key() {
         return key;
     }

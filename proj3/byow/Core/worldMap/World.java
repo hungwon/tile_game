@@ -525,7 +525,7 @@ public class World {
 
     public void generateWalls() {
         for (int i = worldWidth + 1; i < (worldWidth * worldHeight) - worldWidth - 1; i++) {
-            if (blockAt(i).isWall()) {
+            if (blockAt(i).isHallway()) {
                 if (blockAt(i + 1).isNull()) {
                     blockAt(i + 1).changeType("wall");
                 }
@@ -586,7 +586,7 @@ public class World {
     public static void main(String[] args) {
 
 
-        World world = new World(30, 80, 3412);
+        World world = new World(30, 80, 13412);
 
         TERenderer ter = new TERenderer();
         ter.initialize(world.worldWidth, world.worldHeight);
