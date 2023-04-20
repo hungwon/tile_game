@@ -537,6 +537,7 @@ public class World {
         return visualWorld;
     }
 
+/*
     public static void main(String[] args) {
         World world = new World(30, 80, 1919191991);
         TERenderer ter = new TERenderer();
@@ -544,4 +545,7 @@ public class World {
         TETile[][] testWorld = world.visualize();
         ter.renderFrame(testWorld);
     }
+
+ */
+
 }

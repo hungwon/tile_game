@@ -24,7 +24,7 @@ public class Dijkstra {
     }
 
     public List<Integer> findPath(int s, int t) {
-        System.out.println("findPath: " + "s: " + s);
+        //System.out.println("findPath: " + "s: " + s);
 
         distTo = new Double[graph.V()];
         Arrays.fill(distTo, MAXDOUBLE);
@@ -60,8 +60,8 @@ public class Dijkstra {
 
     public void relax(int index) {
 
-        System.out.println("relax started with index = " + index);
-        System.out.println(graph.adj(index).toString());
+        //System.out.println("relax started with index = " + index);
+        //System.out.println(graph.adj(index).toString());
 
         for (WeightedEdge e: graph.adj(index)) {
             //System.out.println(edgeTo[e.to().key()] == null);
@@ -82,7 +82,7 @@ public class Dijkstra {
             }
         }
 
-        System.out.println("relax end");
+        //System.out.println("relax end");
     }
 
     /**
