@@ -96,7 +96,7 @@ public class Dijkstra {
             Block prev = e.to();
             Block next = e.from();
             if (!prev.Key().equals(start.Key()) ) {
-                if (next.isRoom() && next.isAtMargin()) {
+                if (next.isRoom()) {
                     return false;
                 }
             }
