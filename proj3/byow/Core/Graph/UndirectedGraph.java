@@ -90,10 +90,10 @@ public class UndirectedGraph {
         if (isConnected(a.Key(), b.Key())) {
             List<Integer> lst = hasEdge(a.Key(), b.Key());
             if (lst != null) {
-                int index_a = lst.get(0);
-                int index_b = lst.get(1);
-                adj(a).remove(index_a);
-                adj(b).remove(index_b);
+                int indexA = lst.get(0);
+                int indexB = lst.get(1);
+                adj(a).remove(indexA);
+                adj(b).remove(indexB);
                 e--;
             }
         }

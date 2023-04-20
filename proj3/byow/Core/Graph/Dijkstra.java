@@ -13,9 +13,9 @@ public class Dijkstra {
     IndexMinPQ<Double> fringe;
     UndirectedGraph graph;
 
-    public final static double MAXDOUBLE = 10000;
+    public static final double MAXDOUBLE = 10000;
 
-    public final static int MAXINDEX = 2400;
+    public static final int MAXINDEX = 2400;
 
 
     public Dijkstra(UndirectedGraph g) {
@@ -75,7 +75,7 @@ public class Dijkstra {
 
             System.out.println(pIndex + " -> " + qIndex);
 
-            if (distTo[pIndex] + e.weight() < distTo[qIndex] && isPossible(p, q)){
+            if (distTo[pIndex] + e.weight() < distTo[qIndex] && isPossible(p, q)) {
                 distTo[qIndex] = distTo[pIndex] + e.weight();
                 edgeTo[qIndex] = pIndex;
                 System.out.println(fringe.minIndex());
@@ -95,8 +95,8 @@ public class Dijkstra {
         for (WeightedEdge e: graph.adj(end)) {
             Block prev = e.to();
             Block next = e.from();
-            if (!prev.Key().equals(start.Key()) ) {
-                if (next.isRoom() && next.isAtMargin() ) {
+            if (!prev.Key().equals(start.Key())) {
+                if (next.isRoom()) {
                     return false;
                 }
             }

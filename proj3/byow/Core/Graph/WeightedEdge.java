@@ -29,6 +29,6 @@ public class WeightedEdge {
 
     @Override
     public String toString() {
-        return "(" + start + "," + end + ", " + weight +")";
+        return "(" + start + "," + end + ", " + weight + ")";
     }
 }
