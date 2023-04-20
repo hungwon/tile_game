@@ -545,7 +545,7 @@ public class World {
 
     public static void main(String[] args) {
 
-        int num2 = 899412;
+        int num2 = 123498;
         World world = new World(30, 80, num2);
         TERenderer ter = new TERenderer();
         ter.initialize(world.worldWidth, world.worldHeight);

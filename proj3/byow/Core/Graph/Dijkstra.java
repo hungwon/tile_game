@@ -36,18 +36,15 @@ public class Dijkstra {
 
         List<Integer> hallwayIndex = new LinkedList<>();
         distTo[s] = 0.;
+        fringe.insert(s, 0.);
         for (int i = 0; i < MAXINDEX; i++) {
             if (i != s) {
                 fringe.insert(i, MAXDOUBLE);
             }
         }
-        int p = MAXINDEX;
+        int p;
         while (!fringe.isEmpty() && edgeTo[t] == null) {
-            if (p == MAXINDEX) {
-                p = s;
-            } else {
-                p = fringe.delMin();
-            }
+            p = fringe.delMin();
             relax(p);
         }
 
@@ -62,36 +59,27 @@ public class Dijkstra {
     }
 
     public void relax(int index) {
-        int cnt = 0;
+        //int cnt = 0;
         for (WeightedEdge e: graph.adj(index)) {
-            if (edgeTo[e.to().key()] != null) {
-                continue;
-            }
-
             Block p = e.from();
             int pIndex = p.key();
             Block q = e.to();
             int qIndex = q.key();
 
-
             if (distTo[pIndex] + e.weight() < distTo[qIndex] && isPossible(q)) {
-                cnt++;
                 distTo[qIndex] = distTo[pIndex] + e.weight();
                 edgeTo[qIndex] = pIndex;
                 fringe.changeKey(qIndex, distTo[qIndex]);
             }
         }
+        /*
         if (cnt == 0) {
             for (WeightedEdge e: graph.adj(index)) {
-                if (edgeTo[e.to().key()] != null) {
-                    continue;
-                }
 
                 Block p = e.from();
                 int pIndex = p.key();
                 Block q = e.to();
                 int qIndex = q.key();
-
 
                 if (isPossible(q)) {
                     distTo[qIndex] = distTo[pIndex] + e.weight();
@@ -99,7 +87,9 @@ public class Dijkstra {
                     fringe.changeKey(qIndex, distTo[qIndex]);
                 }
             }
+
         }
+         */
     }
 
     /**
@@ -108,7 +98,6 @@ public class Dijkstra {
      * @return
      */
     public boolean isPossible(Block b) {
-
 
         if (b.isRoom() || b.isMargin()) {
             lst.add(b.key());
