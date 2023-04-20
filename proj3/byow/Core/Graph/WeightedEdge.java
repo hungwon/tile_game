@@ -27,27 +27,6 @@ public class WeightedEdge {
         return endBlock;
     }
 
-    /*
-    public static boolean isSame(WeightedEdge a, WeightedEdge b) {
-        /*
-        if (!a.weight.equals(b.weight)) {
-            return false;
-        }
-         */
-    /*
-        if (a.from().equals(b.from())) { // (1->2, 0.1) and (1->2, 0.1) are same
-            if (a.to().equals(b.to())) {
-                return true;
-            }
-        } else if (a.from().equals(b.to())) { // (1->2, 0.1) and (2->1, 0.1) are same
-            if (a.to().equals(b.from())) {
-                return true;
-            }
-        }
-        return false;
-    }
-    */
-
     @Override
     public String toString() {
         return "(" + start + "," + end + ", " + weight +")";
