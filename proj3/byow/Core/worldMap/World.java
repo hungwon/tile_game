@@ -525,7 +525,7 @@ public class World {
 
     public void generateWalls() {
         for (int i = worldWidth + 1; i < (worldWidth * worldHeight) - worldWidth - 1; i++) {
-            if (blockAt(i).isWall()) {
+            if (blockAt(i).isHallway()) {
                 if (blockAt(i + 1).isNull()) {
                     blockAt(i + 1).changeType("wall");
                 }
