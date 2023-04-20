@@ -20,7 +20,7 @@ public class World {
     private int worldHeight;
     private int maxNumHall;
 
-    private int MAX_LIMIT = 10; // the maximum number of grid's width and height
+    public static final int MAX_LIMIT = 10; // the maximum number of grid's width and height
     private Integer startIndex;
     private UndirectedGraph worldGraph;
     private List<Integer> doorIndexLst;
@@ -218,57 +218,85 @@ public class World {
 
     // ------------------------------ Step C -----------------------------------
     public void generateRoom() {
+
+        // doorIndexLst will contain every door's index (should be used to make hallways)
         doorIndexLst = new ArrayList<>();
 
-        int numRoom = random.nextInt(5, 16); // the number of room -> [5, 15]
+
+        // numRoom is the number of room; we will have 5 to 15 rooms per world.
+        int numRoom = random.nextInt(5, 16);
 
 
-        // These four lists contain same size.
+        // everySP is a list of list. It will contain every valid starting point's information
+        // Each of inner list have two specific index: [0] = starting point index , [1] = top right point index
         List<List<Integer>> everySP = new LinkedList<>();
 
 
-        for (int i = 0; i < numRoom; i++) {  // add 'numRomm' blocks into the doorIndexLst
-            int gridWidth = random.nextInt(3, MAX_LIMIT + 1); // width range -> [3, 10]
-            int gridHeight = random.nextInt(3, MAX_LIMIT + 1); // height range -> [3, 10]
+        for (int i = 0; i < numRoom; i++) {
 
-            // maximum gridWidth is MAX_LIMIT so maximum x-coordinate will be worldWidth - MAX_LIMIT
-            // maximum gridHeight is MAX_LIMIT so maximum y-coordinate will be worldHeight - MAX_LIMIT
+            // Create random gridWidth and gridHeight -> [3, MAX_LIMIT]
+            int gridWidth = random.nextInt(3, MAX_LIMIT + 1);
+            int gridHeight = random.nextInt(3, MAX_LIMIT + 1);
 
-            int maximum = (worldWidth - MAX_LIMIT) + (worldHeight - MAX_LIMIT) * worldWidth; // this is 1670 from 80 * 30 world.
 
+            // Instantiate a maximum starting point by using worldWidth, worldHeight, and MAX_LIMIT
+            int maximum = (worldWidth - MAX_LIMIT) + (worldHeight - MAX_LIMIT) * worldWidth;
+
+            // Create a random starting point which is between [0, MAXIMUM]
+            // This will prevent choosing an invalid starting point that are over worldHeight - MAX_LIMIT
+            // Instantiate the top right point of current starting point
+            // These will be changed if the 'random' gives an invalid number
             int startingP = random.nextInt(0, maximum + 1);
-            int topR = startingP + worldWidth * (gridHeight - 1) + (gridWidth - 1);
+
+            int topR = startingP + worldWidth * (gridHeight - 1) + (gridWidth - 1); // top right
+            int bottomL = startingP; // bottom left
+            int bottomR = startingP + gridWidth - 1; // bottom right
+            int topL = topR - gridWidth + 1; // top left
+
 
 
             while (startingP % worldWidth > worldWidth - MAX_LIMIT || isBetween(topR, everySP)
-                    || isBetween(startingP, everySP) || isBetween(startingP + gridWidth-1, everySP)
-                    || isBetween(topR - gridWidth - 1, everySP)) { // we subtract 10 because our maximum length of gridWidth is 1
+                    || isBetween(bottomL, everySP) || isBetween(bottomR, everySP)
+                    || isBetween(topL, everySP)) {
+
                 startingP = random.nextInt(0, maximum + 1);
+
                 topR = startingP + worldWidth * (gridHeight - 1) + (gridWidth - 1);
+                bottomL = startingP; // to test our starting point is valid or not
+                bottomR = startingP + gridWidth - 1;
+                topL = topR - gridWidth + 1;
             }
 
+
+            // create a list that will store starting point and top right point
             List<Integer> validSP = new LinkedList<>();
             validSP.add(startingP);
             validSP.add(topR);
 
+            // add every valid starting point's bottom left (itself) and the top right point
             everySP.add(validSP);
 
+
+            // draw a room
             makeNbyMRoom(startingP, gridWidth, gridHeight);
         }
-
     }
 
     private boolean isBetween (int topR, List<List<Integer>> everySP) {
-        // current list -> [startingP, topR, gridWidth, gridHeight]
-//        System.out.println(current);
-//        System.out.println();
+
+
+
         for (List<Integer> lst: everySP) {
+
+
             List<Integer> sp_coord = indexToXY(lst.get(0)); // starting point's coord
             List<Integer> tr_coord = indexToXY(lst.get(1)); // topright point's coord
-            List<Integer> current_tr_coord = indexToXY(topR); // current's topright point's coord
+            List<Integer> new_topR_coord = indexToXY(topR); // current's topright point's coord
 
-            if ((current_tr_coord.get(0) >= sp_coord.get(0) - 3 && current_tr_coord.get(0) <= tr_coord.get(0) + 3)
-             && (current_tr_coord.get(1) >= sp_coord.get(1) - 3 && current_tr_coord.get(1) <= tr_coord.get(1) + 3)) {
+
+
+            if ((new_topR_coord.get(0) >= sp_coord.get(0) - 3 && new_topR_coord.get(0) <= tr_coord.get(0) + 3)
+             && (new_topR_coord.get(1) >= sp_coord.get(1) - 3 && new_topR_coord.get(1) <= tr_coord.get(1) + 3)) {
                 return true;
             }
         }
@@ -286,13 +314,17 @@ public class World {
                 (location % worldWidth == worldWidth - 1);
     }
 
-    private boolean determineDoorPotential(int i, int j, int gridWidth, int gridHeight, int current_location) {
+    private boolean determineDoorPotential(int y, int x, int gridWidth, int gridHeight, int current_location) {
 
+        // If current location is part of the margin (or margin - 1 square), immediately return false
         if (invalidDoorLocation(current_location)) {
             return false;
-        } else if ((i == 0 || i == gridHeight - 1) && (j > 0 && j < gridWidth - 1)) {
+        }
+
+
+        if ((y == 0 || y == gridHeight - 1) && (x > 0 && x < gridWidth - 1)) {
             return true;
-        } else if ((i > 0 && i < gridHeight - 1) && (j == 0 || j == gridWidth - 1)) {
+        } else if ((y > 0 && y < gridHeight - 1) && (x == 0 || x == gridWidth - 1)) {
             return true;
         } else {
             return false;
@@ -301,44 +333,55 @@ public class World {
 
     private void determineDisconnect(int current) {
 
+        // see the drawing that I drew on the notion
+
         if (current > 0 && current < worldWidth - 1) { // red
 
+            System.out.println("RED");
             worldGraph.disconnect(blockAt(current), blockAt(current - 1));
             worldGraph.disconnect(blockAt(current), blockAt(current + 1));
             worldGraph.disconnect(blockAt(current), blockAt(current + worldWidth));
         } else if (current > worldWidth * worldHeight - worldWidth && current < worldWidth * worldHeight - 1) { // blue
 
+            System.out.println("BLUE");
             worldGraph.disconnect(blockAt(current), blockAt(current - 1));
             worldGraph.disconnect(blockAt(current), blockAt(current + 1));
             worldGraph.disconnect(blockAt(current), blockAt(current - worldWidth));
         } else if (current == 0) { // green
 
+            System.out.println("GREEN");
             worldGraph.disconnect(blockAt(current), blockAt(current + 1));
             worldGraph.disconnect(blockAt(current), blockAt(current + worldWidth));
         } else if (current == worldWidth - 1) { // purple
 
+            System.out.println("PURPLE");
             worldGraph.disconnect(blockAt(current), blockAt(current - 1));
             worldGraph.disconnect(blockAt(current), blockAt(current + worldWidth));
         } else if (current == worldWidth * worldHeight - worldWidth) { // pink
 
+            System.out.println("PINK");
             worldGraph.disconnect(blockAt(current), blockAt(current + 1));
             worldGraph.disconnect(blockAt(current), blockAt(current - worldWidth));
         } else if (current == worldWidth * worldHeight - 1) { // yellow
 
+            System.out.println("YELLOW");
             worldGraph.disconnect(blockAt(current), blockAt(current - 1));
             worldGraph.disconnect(blockAt(current), blockAt(current - worldWidth));
         } else if (current % worldWidth == 0) { // sky blue
 
+            System.out.println("SKY BLUE");
             worldGraph.disconnect(blockAt(current), blockAt(current + 1));
             worldGraph.disconnect(blockAt(current), blockAt(current + worldWidth));
             worldGraph.disconnect(blockAt(current), blockAt(current - worldWidth));
         } else if (current % worldWidth == worldWidth - 1) { // sky green
 
+            System.out.println("SKY GREEN");
             worldGraph.disconnect(blockAt(current), blockAt(current - 1));
             worldGraph.disconnect(blockAt(current), blockAt(current + worldWidth));
             worldGraph.disconnect(blockAt(current), blockAt(current - worldWidth));
         } else { // black
 
+            System.out.println("BLACK");
             worldGraph.disconnect(blockAt(current), blockAt(current + 1));
             worldGraph.disconnect(blockAt(current), blockAt(current - 1));
             worldGraph.disconnect(blockAt(current), blockAt(current + worldWidth));
@@ -347,20 +390,13 @@ public class World {
 
     }
 
-    public void makeNbyMRoom(int location, int gridWidth, int gridHeight) {
 
-        /*
-         Part 1. Room
-         1. Change every block's type into "room".
-         2. If current block's location is not on a corner of the grid, add their location index
-            into the "potentialDoors" list.
-         3. Every inner-loop ends, we should increment the starting location index by 80 (which is worldWidth)
-            because we need to pass 80 blocks to move up.
-         */
+    public void makeNbyMRoom(int startingP, int gridWidth, int gridHeight) {
 
-        int numDoor = random.nextInt(1, 3); // the amount of door number will be a 1 in case
 
-        int storeLoc1 = location;
+
+        int numDoor = random.nextInt(1, 3);
+
 
         String[] arr = {"room", "hallway"};
         String s = "";
@@ -376,118 +412,102 @@ public class World {
 
 
 
+        // 1. change every grid to room
+
+        int store1 = startingP;
+
         List<Integer> potentialDoors = new LinkedList<>();
 
-        for (int i = 0; i < gridHeight; i++) {
+        for (int y = 0; y < gridHeight; y++) {
 
-            for (int j = 0; j < gridWidth; j++) {
+            for (int x = 0; x < gridWidth; x++) {
 
-                int current_location = storeLoc1 + j;
+                int current_location = store1 + x;
 
-                if (determineDoorPotential(i, j, gridWidth, gridHeight, current_location)) {
+                if (determineDoorPotential(y, x, gridWidth, gridHeight, current_location)) {
                     potentialDoors.add(current_location);
                 }
 
                 blockAt(current_location).changeType(s);
             }
-            storeLoc1 += worldWidth;  // increment by the world's width length
+            store1 += worldWidth;
         }
 
 
-        /*
-        Part 2. Doors
-        1. Get a random number of a door (it will be 1 door for now ).
-        2. Use a for loop to add confirmed doors' location
-        3. Change the type of the block by using location indices from confirmedDoors list.
-         */
 
+
+
+        // 2. change some grid to door
 
 
         List<Integer> confirmedDoors = new LinkedList<>();
-
         while (confirmedDoors.size() < numDoor) {
-
-            int selected = potentialDoors.get( random.nextInt(0, potentialDoors.size()));
-
+            int selected = potentialDoors.get(random.nextInt(0, potentialDoors.size()));
             if (confirmedDoors.size() == 0) {
                 confirmedDoors.add(selected);
             } else {
-
                 int alreadyConfirmed = confirmedDoors.get(0);
 
-                //System.out.println("CONFIRMED AND ALREADY"+ " " + selected + " " + alreadyConfirmed);
+                // if selected door is NOT connected to the door that is already confirmed
+                // AND if selected door is NOT same as the door that is already confirmed
+                // add it into the confirmedDoors list
+                // !worldGraph.isConnected(alreadyConfirmed, selected)
 
+                // temporarily solved connected doors by comparing
+                // selected door + 1 or selected door - 1 or selected door + worldWidth or selected door - worldWidth
+                // is NOT equal to alreadyConfirmed door
 
-                //System.out.println(alreadyConfirmed + ", " + selected + ", " + worldGraph.isConnected(alreadyConfirmed, selected));
-                //System.out.println("a: " + worldGraph.adj(alreadyConfirmed));
-                //System.out.println(alreadyConfirmed + ", " + selected + ", " + worldGraph.isConnected(alreadyConfirmed, selected));
-
-                if (!worldGraph.isConnected(alreadyConfirmed, selected)) {
+                if (selected + 1 != alreadyConfirmed &&
+                        selected - 1 != alreadyConfirmed &&
+                        selected + worldWidth != alreadyConfirmed &&
+                        selected - worldWidth != alreadyConfirmed &&
+                        alreadyConfirmed != selected) {
                     confirmedDoors.add(selected);
                 }
             }
         }
 
-        //System.out.println("*************");
 
         for (int i = 0; i < confirmedDoors.size(); i++) {
             blockAt(confirmedDoors.get(i)).changeType("door");
-            //System.out.println(confirmedDoors.get(i));
         }
 
-        /*
-        Part 3. Walls
-        change blocks that are in potentialDoors but not in confirmedDoors
-        change where (i == j) or (i == grid width - 1 and j == 0) or (i == 0 and j == grid height - 1)
-
-         */
 
 
-        int storeLoc2 = location;
 
+
+        // 3. Change the edge rooms that are NOT door into wall
+
+        int storeLoc2 = startingP;
         for (int i = 0; i < gridHeight; i++) {
-
             if (i == 0 || i == gridHeight - 1) {
-
                 for (int j = 0; j < gridWidth; j++) {
                     int current = storeLoc2 + j;
                     if (blockAt(current).blockType().equals(s)) {
                         blockAt(current).changeType("wall");
-
-                        System.out.println(current);
-
+                        System.out.println("^^^^^^^^^");
                         determineDisconnect(current);
-
-                        System.out.println("CURRENT BLOCK DISCONNECTED?" + " " + worldGraph.isIsolated(current));
-
+                        System.out.println("^^^^^^^^^");
                     }
                 }
             } else {
-
                 int idx = 0;
-
                 for (int j = 0; j < 2; j++) {
-
                     int current = storeLoc2 + idx;
                     if (blockAt(current).blockType().equals(s)) {
                         blockAt(current).changeType("wall");
-
-                        System.out.println(current);
-
+                        System.out.println("^^^^^^^^^");
                         determineDisconnect(current);
-
-                        System.out.println("CURRENT BLOCK DISCONNECTED?" + " " + worldGraph.isIsolated(current));
-                        //
+                        System.out.println("^^^^^^^^^");
                     }
-
                     idx += gridWidth - 1;
                 }
             }
-
             storeLoc2 += worldWidth;
         }
 
-        // add into our doorIndexLst
+
+        // add every door index into the doorIndexLst list
         doorIndexLst.addAll(confirmedDoors);
     }
 
@@ -526,7 +546,6 @@ public class World {
 
             for (int j = 0; j < worldWidth; j++) {
 
-                //System.out.print(world[j][i] + " ");
 
                 if (world[j][i].isDoor()) {
 
@@ -543,7 +562,6 @@ public class World {
                 }
 
             }
-            //System.out.println();
 
         }
 
@@ -552,22 +570,7 @@ public class World {
 
 
 
-    public void testWallIsDisconnected() {
 
-        boolean b = true;
-
-        for (int i = 0; i < worldWidth * worldHeight; i++) {
-
-
-            if (blockAt(i).isWall() && !worldGraph.isIsolated(i)) {
-                b = false;
-            }
-            if (!b) {
-                throw new IllegalArgumentException("index: " + i + ", " + worldGraph.isIsolated(i) + ", " + blockAt(i).blockType());
-            }
-            b = true;
-        }
-    }
 
     public static void main(String[] args) {
 
@@ -578,10 +581,7 @@ public class World {
         ter.initialize(world.worldWidth, world.worldHeight);
 
 
-
         TETile[][] testWorld = world.visualize();
         ter.renderFrame(testWorld);
-
-        world.testWallIsDisconnected();
     }
 }
