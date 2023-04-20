@@ -27,7 +27,6 @@ public class UndirectedGraph {
     public List<WeightedEdge> adj(int i) {
         return adj.get(i);
     }
-
     public List<WeightedEdge> adj(Block b) {
         return adj.get(b.Key());
     }
@@ -94,19 +93,13 @@ public class UndirectedGraph {
 
         if (isConnected(a.Key(), b.Key())) {
             List<Integer> lst = hasEdge(a.Key(), b.Key());
-            System.out.println("disconnect called " + a.Key() + "," + b.Key());
+            System.out.println("disconnect called " + a.Key() + "," + b.Key() + ", " + isConnected(a.Key(), b.Key()) );
             if (lst != null) {
-                System.out.println("follwoing index will be removed: " + lst.get(0) + ", " + lst.get(1));
                 int index_a = lst.get(0);
                 int index_b = lst.get(1);
-
-                System.out.println("adj(a) : " + adj(a));
-                System.out.println("adj(b): " + adj(b));
                 adj(a).remove(index_a);
                 adj(b).remove(index_b);
                 e--;
-                System.out.println("adj(a) : " + adj(a));
-                System.out.println("adj(b): " + adj(b));
             }
         }
     }

@@ -193,11 +193,15 @@ public class World {
             }
         }
 
-        for (int i = 0; i < 2400; i++) {
-            System.out.println(retGraph.adj(i));
+        for (int j = 0; j < worldHeight - 1; j++) {
+            currIndex = j* worldWidth + (worldWidth - 1);
+            retGraph.addEdge(blockAt(currIndex), blockAt(currIndex + worldWidth) , random.nextDouble(0, 1));
         }
 
-
+        for (int i = 0; i <worldWidth - 1; i++) {
+            currIndex = (worldHeight -1) * worldWidth + i;
+            retGraph.addEdge(blockAt(currIndex), blockAt(currIndex + 1), random.nextDouble());
+        }
         return retGraph;
     }
 
@@ -217,8 +221,6 @@ public class World {
         doorIndexLst = new ArrayList<>();
 
         int numRoom = random.nextInt(5, 16); // the number of room -> [5, 15]
-
-       // System.out.println("NUMBER OF ROOMS:" + " " + numRoom);
 
 
         // These four lists contain same size.
@@ -276,7 +278,6 @@ public class World {
     /** The edge cannot be a door. */
     private boolean invalidDoorLocation(int location) {
 
-
         return (location >= 0 && location <= (worldWidth * 2) - 1) ||
                 (location >= ((worldHeight - 2) * worldWidth) && location <= (worldWidth * worldHeight) - 1) ||
                 (location % worldWidth == 0) ||
@@ -299,7 +300,6 @@ public class World {
     }
 
     private void determineDisconnect(int current) {
-
 
         if (current > 0 && current < worldWidth - 1) { // red
 
@@ -346,13 +346,6 @@ public class World {
         }
 
     }
-
-
-
-
-
-
-
 
     public void makeNbyMRoom(int location, int gridWidth, int gridHeight) {
 
@@ -409,7 +402,6 @@ public class World {
          */
 
 
-        //System.out.println(numDoor);
 
         List<Integer> confirmedDoors = new LinkedList<>();
 
