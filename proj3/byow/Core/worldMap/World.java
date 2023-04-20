@@ -34,7 +34,7 @@ public class World {
         worldGraph = generateWorldGraph();
         startIndex = setStartPoint();
         generateRoom();
-        //generateHallways();
+        generateHallways();
     }
 
     public Block blockAt(int index) {

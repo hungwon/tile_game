@@ -14,7 +14,7 @@ public class Dijkstra {
     UndirectedGraph graph;
 
     public final static double MAXDOUBLE = 10000;
-    public final static int MAXINDEX = 2399;
+    public final static int MAXINDEX = 2400;
 
 
     public Dijkstra(UndirectedGraph g) {
@@ -26,10 +26,12 @@ public class Dijkstra {
     }
 
     public List<Integer> findPath(int s, int t) {
+        //System.out.println("findPath called");
         List<Integer> hallwayIndex = new LinkedList<>();
         fringe.insert(s, 0.);
         distTo[s] = 0.;
         for (int i = 0; i < MAXINDEX; i++) {
+            System.out.println(i+ "," + s + ", " + (i==s));
             if (i != s) {
                 fringe.insert(i, MAXDOUBLE);
             }
