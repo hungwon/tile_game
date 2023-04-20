@@ -13,8 +13,8 @@ public class Dijkstra {
     IndexMinPQ<Double> fringe;
     UndirectedGraph graph;
 
-    public final static double MAXDOUBLE = 10000;
-    public final static int MAXINDEX = 2399;
+    public final static double MAXDOUBLE = 10000.;
+    public final static int MAXINDEX = 2400;
 
 
     public Dijkstra(UndirectedGraph g) {
@@ -29,8 +29,10 @@ public class Dijkstra {
         List<Integer> hallwayIndex = new LinkedList<>();
         fringe.insert(s, 0.);
         distTo[s] = 0.;
+
         for (int i = 0; i < MAXINDEX; i++) {
             if (i != s) {
+                System.out.println(i + " " + s);
                 fringe.insert(i, MAXDOUBLE);
             }
         }
@@ -41,7 +43,7 @@ public class Dijkstra {
 
         int x = t;
         while (x != s) {
-            System.out.println(edgeTo[x]);
+            // System.out.println(edgeTo[x]);
             hallwayIndex.add(x);
             x = edgeTo[x];
         }
@@ -53,9 +55,11 @@ public class Dijkstra {
         for (WeightedEdge e: graph.adj(index)) {
             Block p = e.from();
             int pIndex = p.Key();
+
             Block q = e.to();
             int qIndex = q.Key();
-            if (distTo[pIndex] + e.weight() < distTo[qIndex]) { //&& isPossible(p,q) ) {
+
+            if (distTo[pIndex] + e.weight() < distTo[qIndex] ) { //&& isPossible(p,q) ) {
                 distTo[qIndex] = distTo[pIndex] + e.weight();
                 edgeTo[qIndex] = pIndex;
                 fringe.changeKey(qIndex, distTo[qIndex]);
