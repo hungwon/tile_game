@@ -35,6 +35,7 @@ public class World {
         startIndex = setStartPoint();
         generateRoom();
         generateHallways();
+        generateWalls();
     }
 
     public Block blockAt(int index) {
@@ -507,16 +508,45 @@ public class World {
     public void generateHallways() {
         List<Integer> hallwayIndexList;
         Dijkstra dijk = new Dijkstra(worldGraph);
+
         for (Integer doorIndex: doorIndexLst) {
+
             hallwayIndexList = dijk.findPath(startIndex, doorIndex);
+
             for (int i: hallwayIndexList) {
-                if (blockAt(i).isNull()) {
-                    blockAt(i).changeType("hallway");
-                }
+                blockAt(i).changeType("hallway");
+                //if (blockAt(i).isNull()) {
+                //    blockAt(i).changeType("hallway");
+                //}
             }
         }
     }
 
+
+    public void generateWalls() {
+
+        for (int i = worldWidth + 1; i < (worldWidth * worldHeight) - worldWidth - 1; i++) {
+
+            if (blockAt(i).isWall()) {
+
+                if (blockAt(i + 1).isNull()) {
+                    blockAt(i + 1).changeType("wall");
+                }
+
+                if (blockAt(i - 1).isNull()) {
+                    blockAt(i - 1).changeType("wall");
+                }
+
+                if (blockAt(i + worldWidth).isNull()) {
+                    blockAt(i + worldWidth).changeType("wall");
+                }
+
+                if (blockAt(i - worldWidth).isNull()) {
+                    blockAt(i - worldWidth).changeType("wall");
+                }
+            }
+        }
+    }
 
     // ------------------------------ Step E -----------------------------------
     public TETile[][] visualize() {
@@ -545,7 +575,7 @@ public class World {
                     visualWorld[j][i] = Tileset.WALL;
                 } else if (world[j][i].isHallway()) {
 
-                    visualWorld[j][i] = Tileset.WATER;
+                    visualWorld[j][i] = Tileset.FLOWER;
                 }
 
             }

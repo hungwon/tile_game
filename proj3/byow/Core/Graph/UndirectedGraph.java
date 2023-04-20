@@ -41,8 +41,6 @@ public class UndirectedGraph {
         if (isIsolated(a) || isIsolated(b)) {
             return false;
         }
-
-        //System.out.println("ISCONNECTED:" + " " + a + " " + b);
         for (WeightedEdge e: adj(a)) {
 
             if (e.to().Key() == b) {
