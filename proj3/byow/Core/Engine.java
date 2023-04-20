@@ -10,6 +10,8 @@ public class Engine {
     public static final int WIDTH = 80;
     public static final int HEIGHT = 30;
 
+    public static final int NUMBER = 10000000;
+
     /**
      * Method used for exploring a fresh world. This method should handle all inputs,
      * including inputs from the main menu.
@@ -39,7 +41,6 @@ public class Engine {
      * @return the 2D TETile[][] representing the state of the world
      */
     public TETile[][] interactWithInputString(String input) {
-        // TODO: Fill out this method so that it run the engine using the input
         // passed in as an argument, and return a 2D tile representation of the
         // world that would have been drawn if the same inputs had been given
         // to interactWithKeyboard().
@@ -57,11 +58,11 @@ public class Engine {
             }
         }
 
-        long intSeed = Math.floorMod(Long.parseLong(strSeed), 10000000);
+        long intSeed = Math.floorMod(Long.parseLong(strSeed), );
 
         System.out.println(intSeed);
 
-        World world = new World(30, 80, intSeed);
+        World world = new World( HEIGHT, WIDTH, intSeed);
 
         ter.initialize(world.getWorldWidth(), world.getWorldHeight());
 
