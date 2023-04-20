@@ -185,13 +185,18 @@ public class World {
         for (int j = 0; j < worldHeight - 1; j++) {
             for (int i = 0; i < worldWidth - 1; i++) {
                 currIndex = j*worldWidth + i;
-                if ( Math.floorMod(currIndex + 1, worldWidth) != 0) {
+                if (Math.floorMod(currIndex + 1, worldWidth) != 0) {
                     retGraph.addEdge(blockAt(currIndex), blockAt(currIndex + 1), random.nextDouble(0, 1));
                 }
-
+                // rightmost 일때 해결
                 retGraph.addEdge(blockAt(currIndex), blockAt(currIndex + worldWidth), random.nextDouble(0, 1));
             }
         }
+
+        for (int i = 0; i < 2400; i++) {
+            System.out.println(retGraph.adj(i));
+        }
+
 
         return retGraph;
     }
