@@ -1,8 +1,6 @@
 package byow.Core.Graph;
 
 import byow.Core.worldMap.Block;
-import edu.princeton.cs.algs4.StdOut;
-
 import java.util.*;
 
 public class UndirectedGraph {
@@ -15,7 +13,7 @@ public class UndirectedGraph {
         e = 0;
         adj = new HashMap<>();
         for (int i = 0; i < size; i++) {
-            adj.put(i, new LinkedList<>());
+            adj.put(i, new ArrayList<>());
         }
     }
 
@@ -29,7 +27,6 @@ public class UndirectedGraph {
     public List<WeightedEdge> adj(int i) {
         return adj.get(i);
     }
-
     public List<WeightedEdge> adj(Block b) {
         return adj.get(b.Key());
     }
@@ -41,11 +38,14 @@ public class UndirectedGraph {
     }
 
     public boolean isConnected(int a, int b) {
+        if (isIsolated(a) || isIsolated(b)) {
+            return false;
+        }
 
         //System.out.println("ISCONNECTED:" + " " + a + " " + b);
         for (WeightedEdge e: adj(a)) {
 
-            if (e.to().equals(b)) {
+            if (e.to().Key() == b) {
                 return true;
             }
         }
@@ -67,55 +67,41 @@ public class UndirectedGraph {
      */
     public List<Integer> hasEdge(int a, int b) {
         List<Integer> lst = new ArrayList<>();
+        int i = 0;
         for (WeightedEdge e: adj(a)) {
-            for (int i = 0; i < adj(a).size(); i++) {
-                if (e.to().equals(b)) {
-                    lst.add(i);
-                }
+            if (e.to().Key() == b) {
+                lst.add(i);
+                System.out.println(adj(a).get(i).toString());
             }
+            i++;
         }
+        i = 0;
         for (WeightedEdge e: adj(b)) {
-            for (int i = 0; i < adj(b).size(); i++) {
-                if (e.to().equals(a)) {
-                    lst.add(i);
-                }
+            if (e.to().Key() == a) {
+                lst.add(i);
+                System.out.println(adj(b).get(i).toString());
             }
+            i++;
         }
-
         if (lst.size() == 0) {
             lst = null;
         }
         return lst;
     }
 
-    /**
-     * If there are (Edge: {@code a} -> {@code b}) or (Edge: {@code b} -> {@code a}) in {@code adj},
-     * remove those Edges in {@code adj}.
-     * @param a
-     * @param b
-     */
     public void disconnect(Block a, Block b) {
-        System.out.println("disconnect called " + isConnected(a.Key(), b.Key()) + ", " + a.Key()+ ", "+ b.Key());
-
 
         if (isConnected(a.Key(), b.Key())) {
             List<Integer> lst = hasEdge(a.Key(), b.Key());
-            System.out.println("follwoing index will be removed: " + lst.get(0) + ", " + lst.get(1));
+            System.out.println("disconnect called " + a.Key() + "," + b.Key() + ", " + isConnected(a.Key(), b.Key()) );
             if (lst != null) {
-                Integer index_a = lst.indexOf(0);
-                Integer index_b = lst.indexOf(1);
-
-                System.out.println("adj(a) : " + adj(a));
-                System.out.println("adj(b): " + adj(b));
+                int index_a = lst.get(0);
+                int index_b = lst.get(1);
                 adj(a).remove(index_a);
                 adj(b).remove(index_b);
                 e--;
-                System.out.println("adj(a) : " + adj(a));
-                System.out.println("adj(b): " + adj(b));
             }
         }
-
-
     }
 
     /**

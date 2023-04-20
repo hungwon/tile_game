@@ -185,14 +185,23 @@ public class World {
         for (int j = 0; j < worldHeight - 1; j++) {
             for (int i = 0; i < worldWidth - 1; i++) {
                 currIndex = j*worldWidth + i;
-                if ( Math.floorMod(currIndex + 1, worldWidth) != 0) {
+                if (Math.floorMod(currIndex + 1, worldWidth) != 0) {
                     retGraph.addEdge(blockAt(currIndex), blockAt(currIndex + 1), random.nextDouble(0, 1));
                 }
-
+                // rightmost 일때 해결
                 retGraph.addEdge(blockAt(currIndex), blockAt(currIndex + worldWidth), random.nextDouble(0, 1));
             }
         }
 
+        for (int j = 0; j < worldHeight - 1; j++) {
+            currIndex = j* worldWidth + (worldWidth - 1);
+            retGraph.addEdge(blockAt(currIndex), blockAt(currIndex + worldWidth) , random.nextDouble(0, 1));
+        }
+
+        for (int i = 0; i <worldWidth - 1; i++) {
+            currIndex = (worldHeight -1) * worldWidth + i;
+            retGraph.addEdge(blockAt(currIndex), blockAt(currIndex + 1), random.nextDouble());
+        }
         return retGraph;
     }
 
@@ -297,7 +306,6 @@ public class World {
     /** The edge cannot be a door. */
     private boolean invalidDoorLocation(int location) {
 
-
         return (location >= 0 && location <= (worldWidth * 2) - 1) ||
                 (location >= ((worldHeight - 2) * worldWidth) && location <= (worldWidth * worldHeight) - 1) ||
                 (location % worldWidth == 0) ||
@@ -326,7 +334,6 @@ public class World {
     private void determineDisconnect(int current) {
 
         // see the drawing that I drew on the notion
-
 
         if (current > 0 && current < worldWidth - 1) { // red
 
@@ -384,13 +391,8 @@ public class World {
     }
 
 
-
-
-
-
-
-
     public void makeNbyMRoom(int startingP, int gridWidth, int gridHeight) {
+
 
 
         int numDoor = random.nextInt(1, 3);
@@ -434,7 +436,9 @@ public class World {
 
 
 
+
         // 2. change some grid to door
+
 
         List<Integer> confirmedDoors = new LinkedList<>();
         while (confirmedDoors.size() < numDoor) {
@@ -566,27 +570,6 @@ public class World {
 
 
 
-    public void testWallIsDisconnected() {
-
-        boolean b = true;
-
-        for (int i = 0; i < worldWidth * worldHeight; i++) {
-
-
-            if (blockAt(i).isWall() && !worldGraph.isIsolated(i)) {
-                b = false;
-            }
-            if (!b) {
-                throw new IllegalArgumentException("index: " + i + ", " + worldGraph.isIsolated(i) + ", " + blockAt(i).blockType());
-            }
-            b = true;
-        }
-
-
-    }
-
-
-
 
 
     public static void main(String[] args) {
@@ -598,12 +581,7 @@ public class World {
         ter.initialize(world.worldWidth, world.worldHeight);
 
 
-
         TETile[][] testWorld = world.visualize();
         ter.renderFrame(testWorld);
-
-
-        //world.testWallIsDisconnected();
     }
-
 }

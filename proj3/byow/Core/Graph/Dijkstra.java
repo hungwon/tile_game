@@ -13,22 +13,25 @@ public class Dijkstra {
     IndexMinPQ<Double> fringe;
     UndirectedGraph graph;
 
+    public final static double MAXDOUBLE = 10000;
+    public final static int MAXINDEX = 2399;
 
-    public Dijkstra(UndirectedGraph g ) {
+
+    public Dijkstra(UndirectedGraph g) {
         graph = g;
         distTo = new Double[g.V()];
-        Arrays.fill(distTo, 10000.);
+        Arrays.fill(distTo, MAXDOUBLE);
         edgeTo = new Integer[g.V()];
-        fringe = new IndexMinPQ<>(2399);
+        fringe = new IndexMinPQ<>(MAXINDEX);
     }
 
     public List<Integer> findPath(int s, int t) {
         List<Integer> hallwayIndex = new LinkedList<>();
         fringe.insert(s, 0.);
         distTo[s] = 0.;
-        for (int i = 0; i < 2399; i++) {
+        for (int i = 0; i < MAXINDEX; i++) {
             if (i != s) {
-                fringe.insert(i, 10000.);
+                fringe.insert(i, MAXDOUBLE);
             }
         }
         while (!fringe.isEmpty() && edgeTo[t] == null) {
@@ -52,7 +55,7 @@ public class Dijkstra {
             int pIndex = p.Key();
             Block q = e.to();
             int qIndex = q.Key();
-            if (distTo[pIndex] + e.weight() < distTo[qIndex] && isPossible(p, q)) {
+            if (distTo[pIndex] + e.weight() < distTo[qIndex]) { //&& isPossible(p,q) ) {
                 distTo[qIndex] = distTo[pIndex] + e.weight();
                 edgeTo[qIndex] = pIndex;
                 fringe.changeKey(qIndex, distTo[qIndex]);
