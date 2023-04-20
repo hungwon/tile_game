@@ -76,6 +76,7 @@ public class Dijkstra {
             int qIndex = q.Key();
 
 
+
             System.out.println(pIndex + " -> " + qIndex);
 
             if (distTo[pIndex] + e.weight() < distTo[qIndex] && isPossible(p, q)){
