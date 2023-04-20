@@ -36,7 +36,7 @@ public class World {
         worldGraph = generateWorldGraph();
         startIndex = setStartPoint();
         generateRoom();
-        generateHallways();
+        //generateHallways();
     }
 
     public Block blockAt(int index) {
@@ -582,7 +582,7 @@ public class World {
         TETile[][] testWorld = world.visualize();
         ter.renderFrame(testWorld);
 
-        //world.testWallIsDisconnected();
+        world.testWallIsDisconnected();
     }
 
 }

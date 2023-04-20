@@ -88,20 +88,24 @@ public class UndirectedGraph {
         return lst;
     }
 
-    /**
-     * If there are (Edge: {@code a} -> {@code b}) or (Edge: {@code b} -> {@code a}) in {@code adj},
-     * remove those Edges in {@code adj}.
-     * @param a
-     * @param b
-     */
     public void disconnect(Block a, Block b) {
-        List<Integer> lst = hasEdge(a.Key(), b.Key());
-        if (lst != null) {
-            Integer index_a = lst.indexOf(0);
-            Integer index_b = lst.indexOf(1);
-            adj(a).remove(index_a);
-            adj(b).remove(index_b);
-            e--;
+
+        if (isConnected(a.Key(), b.Key())) {
+            List<Integer> lst = hasEdge(a.Key(), b.Key());
+            System.out.println("disconnect called");
+            System.out.println("follwoing index will be removed: " + lst.get(0) + ", " + lst.get(1));
+            if (lst != null) {
+                Integer index_a = lst.indexOf(0);
+                Integer index_b = lst.indexOf(1);
+
+                System.out.println("adj(a) : " + adj(a));
+                System.out.println("adj(b): " + adj(b));
+                adj(a).remove(index_a);
+                adj(b).remove(index_b);
+                e--;
+                System.out.println("adj(a) : " + adj(a));
+                System.out.println("adj(b): " + adj(b));
+            }
         }
     }
 
