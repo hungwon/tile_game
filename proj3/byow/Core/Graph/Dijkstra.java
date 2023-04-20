@@ -100,7 +100,7 @@ public class Dijkstra {
             Block prev = e.to();
             Block next = e.from();
             if (!prev.Key().equals(start.Key()) ) {
-                if (next.isRoom()) {
+                if (next.isRoom() && next.isAtMargin()) {
                     return false;
                 }
             }
