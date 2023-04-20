@@ -95,18 +95,27 @@ public class UndirectedGraph {
      * @param b
      */
     public void disconnect(Block a, Block b) {
-        System.out.println("CALLED");
+        System.out.println("disconnect called " + isConnected(a.Key(), b.Key()) + ", " + a.Key()+ ", "+ b.Key());
 
-        List<Integer> lst = hasEdge(a.Key(), b.Key());
-        if (lst != null) {
-            Integer index_a = lst.indexOf(0);
-            Integer index_b = lst.indexOf(1);
 
-            adj(a).remove(index_a);
-            adj(b).remove(index_b);
+        if (isConnected(a.Key(), b.Key())) {
+            List<Integer> lst = hasEdge(a.Key(), b.Key());
+            System.out.println("follwoing index will be removed: " + lst.get(0) + ", " + lst.get(1));
+            if (lst != null) {
+                Integer index_a = lst.indexOf(0);
+                Integer index_b = lst.indexOf(1);
 
-            e--;
+                System.out.println("adj(a) : " + adj(a));
+                System.out.println("adj(b): " + adj(b));
+                adj(a).remove(index_a);
+                adj(b).remove(index_b);
+                e--;
+                System.out.println("adj(a) : " + adj(a));
+                System.out.println("adj(b): " + adj(b));
+            }
         }
+
+
     }
 
     /**
