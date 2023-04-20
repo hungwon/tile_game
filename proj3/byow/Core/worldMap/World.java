@@ -16,7 +16,7 @@ public class World {
 
     private Block[][] world; // Block[i][j] means x_location = i, y_location = j
     private Random random;
-    private int worldWidth;
+    public int worldWidth;
     private int worldHeight;
     private int maxNumHall;
 
@@ -30,7 +30,7 @@ public class World {
         worldWidth = width;
         worldHeight = height;
         world = generateEmptyWorld(height, width);
-        random = new Random(seed);
+        random = new Random(Math.floorMod(seed, width));
         worldGraph = generateWorldGraph();
         startIndex = setStartPoint();
         generateRoom();
@@ -582,17 +582,4 @@ public class World {
 
 
 
-
-    public static void main(String[] args) {
-
-
-        World world = new World(30, 80, 13412);
-
-        TERenderer ter = new TERenderer();
-        ter.initialize(world.worldWidth, world.worldHeight);
-
-
-        TETile[][] testWorld = world.visualize();
-        ter.renderFrame(testWorld);
-    }
 }

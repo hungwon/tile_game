@@ -57,7 +57,7 @@ public class Engine {
             }
         }
 
-        int intSeed = Integer.parseInt(strSeed);
+        long intSeed = Math.floorMod(Long.parseLong(strSeed), 10000000);
 
         System.out.println(intSeed);
 

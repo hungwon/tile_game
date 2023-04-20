@@ -12,8 +12,8 @@ public class WeightedEdge {
     public WeightedEdge(Block b1, Block b2, double weight) {
         startBlock = b1;
         endBlock = b2;
-        start = b1.Key();
-        end = b2.Key();
+        start = b1.key();
+        end = b2.key();
         this.weight = weight;
     }
     public Double weight() {
@@ -29,6 +29,6 @@ public class WeightedEdge {
 
     @Override
     public String toString() {
-        return "(" + start + "," + end + ", " + weight +")";
+        return "(" + start + "," + end + ", " + weight + ")";
     }
 }

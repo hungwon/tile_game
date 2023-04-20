@@ -1,7 +1,5 @@
 package byow.Core.worldMap;
 
-import java.util.List;
-
 public class Block {
     private String type;
     private int x;
@@ -21,20 +19,8 @@ public class Block {
         this.y = y;
         this.type = type;
     }
-    public boolean isAtMargin() {
 
-
-        if (x == 0 || x == 79 ) {
-            return true;
-        }
-
-        if (y == 0 || y == 29) {
-            return true;
-        }
-        return false;
-    }
-
-    public Integer Key() {
+    public Integer key() {
         return key;
     }
 
@@ -46,8 +32,8 @@ public class Block {
         return y;
     }
 
-    public void changeType(String type) {
-        this.type = type;
+    public void changeType(String tyPe) {
+        this.type = tyPe;
     }
 
     /**
