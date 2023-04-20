@@ -6,6 +6,9 @@ public class Block {
     private int y;
     private int key; // Index of Block[][] world
 
+    public static final int MAXINDEXFORY = 29;
+    public static final int MAXINDEXFORX = 2399;
+
     /**
      *
      * @param index Index of {@code Block[][] world}.
@@ -18,6 +21,17 @@ public class Block {
         this.x = x;
         this.y = y;
         this.type = type;
+    }
+
+    public boolean isMargin() {
+        if (x == 0 || x == MAXINDEXFORX) {
+            return true;
+        }
+        if (y == 0 || y == MAXINDEXFORY) {
+            return true;
+        }
+
+        return false;
     }
 
     public Integer key() {
