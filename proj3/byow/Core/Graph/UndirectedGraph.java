@@ -41,8 +41,6 @@ public class UndirectedGraph {
         if (isIsolated(a) || isIsolated(b)) {
             return false;
         }
-
-        //System.out.println("ISCONNECTED:" + " " + a + " " + b);
         for (WeightedEdge e: adj(a)) {
 
             if (e.to().Key() == b) {
@@ -71,7 +69,6 @@ public class UndirectedGraph {
         for (WeightedEdge e: adj(a)) {
             if (e.to().Key() == b) {
                 lst.add(i);
-                System.out.println(adj(a).get(i).toString());
             }
             i++;
         }
@@ -79,7 +76,6 @@ public class UndirectedGraph {
         for (WeightedEdge e: adj(b)) {
             if (e.to().Key() == a) {
                 lst.add(i);
-                System.out.println(adj(b).get(i).toString());
             }
             i++;
         }
@@ -93,7 +89,6 @@ public class UndirectedGraph {
 
         if (isConnected(a.Key(), b.Key())) {
             List<Integer> lst = hasEdge(a.Key(), b.Key());
-            System.out.println("disconnect called " + a.Key() + "," + b.Key() + ", " + isConnected(a.Key(), b.Key()) );
             if (lst != null) {
                 int index_a = lst.get(0);
                 int index_b = lst.get(1);

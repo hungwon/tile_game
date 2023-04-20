@@ -337,51 +337,42 @@ public class World {
 
         if (current > 0 && current < worldWidth - 1) { // red
 
-            System.out.println("RED");
             worldGraph.disconnect(blockAt(current), blockAt(current - 1));
             worldGraph.disconnect(blockAt(current), blockAt(current + 1));
             worldGraph.disconnect(blockAt(current), blockAt(current + worldWidth));
         } else if (current > worldWidth * worldHeight - worldWidth && current < worldWidth * worldHeight - 1) { // blue
 
-            System.out.println("BLUE");
             worldGraph.disconnect(blockAt(current), blockAt(current - 1));
             worldGraph.disconnect(blockAt(current), blockAt(current + 1));
             worldGraph.disconnect(blockAt(current), blockAt(current - worldWidth));
         } else if (current == 0) { // green
 
-            System.out.println("GREEN");
             worldGraph.disconnect(blockAt(current), blockAt(current + 1));
             worldGraph.disconnect(blockAt(current), blockAt(current + worldWidth));
         } else if (current == worldWidth - 1) { // purple
 
-            System.out.println("PURPLE");
             worldGraph.disconnect(blockAt(current), blockAt(current - 1));
             worldGraph.disconnect(blockAt(current), blockAt(current + worldWidth));
         } else if (current == worldWidth * worldHeight - worldWidth) { // pink
 
-            System.out.println("PINK");
             worldGraph.disconnect(blockAt(current), blockAt(current + 1));
             worldGraph.disconnect(blockAt(current), blockAt(current - worldWidth));
         } else if (current == worldWidth * worldHeight - 1) { // yellow
 
-            System.out.println("YELLOW");
             worldGraph.disconnect(blockAt(current), blockAt(current - 1));
             worldGraph.disconnect(blockAt(current), blockAt(current - worldWidth));
         } else if (current % worldWidth == 0) { // sky blue
 
-            System.out.println("SKY BLUE");
             worldGraph.disconnect(blockAt(current), blockAt(current + 1));
             worldGraph.disconnect(blockAt(current), blockAt(current + worldWidth));
             worldGraph.disconnect(blockAt(current), blockAt(current - worldWidth));
         } else if (current % worldWidth == worldWidth - 1) { // sky green
 
-            System.out.println("SKY GREEN");
             worldGraph.disconnect(blockAt(current), blockAt(current - 1));
             worldGraph.disconnect(blockAt(current), blockAt(current + worldWidth));
             worldGraph.disconnect(blockAt(current), blockAt(current - worldWidth));
         } else { // black
 
-            System.out.println("BLACK");
             worldGraph.disconnect(blockAt(current), blockAt(current + 1));
             worldGraph.disconnect(blockAt(current), blockAt(current - 1));
             worldGraph.disconnect(blockAt(current), blockAt(current + worldWidth));
@@ -485,9 +476,7 @@ public class World {
                     int current = storeLoc2 + j;
                     if (blockAt(current).blockType().equals(s)) {
                         blockAt(current).changeType("wall");
-                        System.out.println("^^^^^^^^^");
                         determineDisconnect(current);
-                        System.out.println("^^^^^^^^^");
                     }
                 }
             } else {
@@ -496,9 +485,7 @@ public class World {
                     int current = storeLoc2 + idx;
                     if (blockAt(current).blockType().equals(s)) {
                         blockAt(current).changeType("wall");
-                        System.out.println("^^^^^^^^^");
                         determineDisconnect(current);
-                        System.out.println("^^^^^^^^^");
                     }
                     idx += gridWidth - 1;
                 }
@@ -520,8 +507,11 @@ public class World {
     public void generateHallways() {
         List<Integer> hallwayIndexList;
         Dijkstra dijk = new Dijkstra(worldGraph);
+
         for (Integer doorIndex: doorIndexLst) {
+
             hallwayIndexList = dijk.findPath(startIndex, doorIndex);
+
             for (int i: hallwayIndexList) {
                 if (blockAt(i).isNull()) {
                     blockAt(i).changeType("hallway");
