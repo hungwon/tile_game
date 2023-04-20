@@ -70,6 +70,15 @@ public class Block {
         return false;
     }
 
+    public boolean isStart(){
+        if (type == null) {
+            return false;
+        }
+        if (type.equals("start")) {
+            return true;
+        }
+        return false;
+    }
     public boolean isDoor() {
         if (type == null) {
             return false;

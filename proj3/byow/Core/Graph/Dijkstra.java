@@ -1,8 +1,10 @@
 package byow.Core.Graph;
 
 import byow.Core.worldMap.Block;
+import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.IndexMinPQ;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,6 +15,8 @@ public class Dijkstra {
     IndexMinPQ<Double> fringe;
     UndirectedGraph graph;
 
+    List<Integer> lst;
+
     public static final double MAXDOUBLE = 1000000.;
 
     public static final int MAXINDEX = 2400;
@@ -20,16 +24,15 @@ public class Dijkstra {
 
     public Dijkstra(UndirectedGraph g) {
         graph = g;
-
     }
 
     public List<Integer> findPath(int s, int t) {
-        //System.out.println("findPath: " + "s: " + s);
 
         distTo = new Double[graph.V()];
         Arrays.fill(distTo, MAXDOUBLE);
         edgeTo = new Integer[graph.V()];
         fringe = new IndexMinPQ<>(MAXINDEX);
+        lst = new ArrayList<>();
 
         List<Integer> hallwayIndex = new LinkedList<>();
         distTo[s] = 0.;
@@ -59,14 +62,9 @@ public class Dijkstra {
     }
 
     public void relax(int index) {
-
-        //System.out.println("relax started with index = " + index);
-        //System.out.println(graph.adj(index).toString());
-
+        int cnt = 0;
         for (WeightedEdge e: graph.adj(index)) {
-            //System.out.println(edgeTo[e.to().key()] == null);
             if (edgeTo[e.to().key()] != null) {
-                //System.out.println("so Skip");
                 continue;
             }
 
@@ -75,14 +73,33 @@ public class Dijkstra {
             Block q = e.to();
             int qIndex = q.key();
 
+
             if (distTo[pIndex] + e.weight() < distTo[qIndex] && isPossible(q)) {
+                cnt++;
                 distTo[qIndex] = distTo[pIndex] + e.weight();
                 edgeTo[qIndex] = pIndex;
                 fringe.changeKey(qIndex, distTo[qIndex]);
             }
         }
+        if (cnt == 0) {
+            for (WeightedEdge e: graph.adj(index)) {
+                if (edgeTo[e.to().key()] != null) {
+                    continue;
+                }
 
-        //System.out.println("relax end");
+                Block p = e.from();
+                int pIndex = p.key();
+                Block q = e.to();
+                int qIndex = q.key();
+
+
+                if (isPossible(q)) {
+                    distTo[qIndex] = distTo[pIndex] + e.weight();
+                    edgeTo[qIndex] = pIndex;
+                    fringe.changeKey(qIndex, distTo[qIndex]);
+                }
+            }
+        }
     }
 
     /**
@@ -92,14 +109,9 @@ public class Dijkstra {
      */
     public boolean isPossible(Block b) {
 
-        /*
-        for (WeightedEdge edge: graph.adj(b)) {
-            Block next = edge.to();
-            if (B)
-        }
-        */
 
-        if (b.isDoor() && b.isMargin()) {
+        if (b.isRoom() || b.isMargin()) {
+            lst.add(b.key());
             return false;
         }
         return true;

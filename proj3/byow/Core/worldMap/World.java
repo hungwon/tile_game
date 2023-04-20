@@ -13,21 +13,20 @@ import java.util.List;
 import java.util.Random;
 
 public class World {
-
     private Block[][] world; // Block[i][j] means x_location = i, y_location = j
     private Random random;
     private int worldWidth;
     private int worldHeight;
     private int maxNumHall;
-    public static final int MAX_LIMIT = 10; // the maximum number of grid's width and height
-    public static final double RANDDOUBLE = 0.8;
-    public static final int MAXROOM = 8;
     private Integer startIndex;
     private UndirectedGraph worldGraph;
     private List<Integer> doorIndexLst;
     public static final int MAXDIVSTART = 10000000;
     public static final int MAXDIVEND = 10000009;
-
+    public static final int MAX_LIMIT = 10; // the maximum number of grid's width and height
+    public static final double RANDDOUBLE = 0.8;
+    public static final int MAXROOM = 8;
+    public static final int MAXINDEX = 2399;
     public World(int height, int width, long seed) {
         maxNumHall = 2;
         worldWidth = width;
@@ -36,12 +35,11 @@ public class World {
         Random deletedRandom = new Random(10000);
         random = new Random(Math.floorMod(seed, deletedRandom.nextInt(MAXDIVSTART, MAXDIVEND)));
         worldGraph = generateWorldGraph();
-        random = new Random(random.nextInt());
         generateRoom();
-        random = new Random(random.nextInt());
         startIndex = setStartPoint();
         generateHallways();
         generateWalls();
+        blockAt(startIndex).changeType("start");
     }
 
     public Block blockAt(int index) {
@@ -66,7 +64,7 @@ public class World {
     public int getWorldHeight() {
         return worldHeight;
     }
-
+    //--------------------------------- Tool Box -------------------------------------
     public boolean isEdgePoint(int index, int bottomLeftIndex, int upperRightIndex) {
 
         if (isTopLeft(index, bottomLeftIndex, upperRightIndex)) {
@@ -170,129 +168,7 @@ public class World {
         return false;
     }
 
-
-    // ------------------------------ Step A -----------------------------------
-    public Block[][] generateEmptyWorld(int h, int w) {
-        Block[][] retWorld = new Block[w][h];
-        for (int j = 0; j < h; j++) {
-            for (int i = 0; i < w; i++) {
-                retWorld[i][j] = new Block(j * worldWidth + i, i, j, null); // index check
-            }
-        }
-        return retWorld;
-    }
-
-    // ------------------------------ Step B -----------------------------------
-    public UndirectedGraph generateWorldGraph() {
-        UndirectedGraph retGraph = new UndirectedGraph(worldHeight * worldWidth);
-
-        int maxIndex = worldHeight * worldWidth - 1;
-        int currIndex = 0;
-
-        for (int j = 0; j < worldHeight - 1; j++) {
-            for (int i = 0; i < worldWidth - 1; i++) {
-                double d;
-                if (i == 0 || j == 0) {
-                    d = random.nextDouble(RANDDOUBLE, 1);
-                } else {
-                    d = random.nextDouble(0, 1);
-                }
-                currIndex = j * worldWidth + i;
-                if (Math.floorMod(currIndex + 1, worldWidth) != 0) {
-                    retGraph.addEdge(blockAt(currIndex), blockAt(currIndex + 1), d);
-                }
-                retGraph.addEdge(blockAt(currIndex), blockAt(currIndex + worldWidth), d);
-            }
-        }
-
-        for (int j = 0; j < worldHeight - 1; j++) { // right margin
-            currIndex = j * worldWidth + (worldWidth - 1);
-            retGraph.addEdge(blockAt(currIndex), blockAt(currIndex + worldWidth), random.nextDouble(RANDDOUBLE, 1));
-        }
-
-        for (int i = 0; i < worldWidth - 1; i++) { //top margin
-            currIndex = (worldHeight - 1) * worldWidth + i;
-            retGraph.addEdge(blockAt(currIndex), blockAt(currIndex + 1), random.nextDouble(RANDDOUBLE, 1));
-        }
-        return retGraph;
-    }
-
-    public Integer setStartPoint() {
-        List<Integer> possibleStartingPoint = new ArrayList<>();
-        for (int i = 0; i < worldWidth * worldHeight - 1; i++) {
-            if (blockAt(i).isNull()
-                    && !isMarginOfRoom(i, worldWidth + 1, worldWidth * (worldHeight - 1) - 2)) {
-                possibleStartingPoint.add(i);
-            }
-        }
-        return possibleStartingPoint.get(random.nextInt(0, possibleStartingPoint.size()));
-    }
-
-    // ------------------------------ Step C -----------------------------------
-    public void generateRoom() {
-
-        // doorIndexLst will contain every door's index (should be used to make hallways)
-        doorIndexLst = new ArrayList<>();
-
-
-        // numRoom is the number of room; we will have 5 to 15 rooms per world.
-        int numRoom = random.nextInt(5, MAXROOM);
-
-
-        // everySP is a list of list. It will contain every valid starting point's information
-        // Each of inner list have two specific index: [0] = starting point index , [1] = top right point index
-        List<List<Integer>> everySP = new LinkedList<>();
-
-
-        for (int i = 0; i < numRoom; i++) {
-
-            // Create random gridWidth and gridHeight -> [3, MAX_LIMIT]
-            int gridWidth = random.nextInt(3, MAX_LIMIT + 1);
-            int gridHeight = random.nextInt(3, MAX_LIMIT + 1);
-
-
-            // Instantiate a maximum starting point by using worldWidth, worldHeight, and MAX_LIMIT
-            int maximum = (worldWidth - MAX_LIMIT) + (worldHeight - MAX_LIMIT) * worldWidth;
-
-            // Create a random starting point which is between [0, MAXIMUM]
-            // This will prevent choosing an invalid starting point that are over worldHeight - MAX_LIMIT
-            // Instantiate the top right point of current starting point
-            // These will be changed if the 'random' gives an invalid number
-            int startingP = random.nextInt(0, maximum + 1);
-
-            int topR = startingP + worldWidth * (gridHeight - 1) + (gridWidth - 1); // top right
-            int bottomL = startingP; // bottom left
-            int bottomR = startingP + gridWidth - 1; // bottom right
-            int topL = topR - gridWidth + 1; // top left
-
-
-
-            while (startingP % worldWidth > worldWidth - MAX_LIMIT || isBetween(topR, everySP)
-                    || isBetween(bottomL, everySP) || isBetween(bottomR, everySP)
-                    || isBetween(topL, everySP)) {
-
-                startingP = random.nextInt(0, maximum + 1);
-
-                topR = startingP + worldWidth * (gridHeight - 1) + (gridWidth - 1);
-                bottomL = startingP; // to test our starting point is valid or not
-                bottomR = startingP + gridWidth - 1;
-                topL = topR - gridWidth + 1;
-            }
-
-
-            // create a list that will store starting point and top right point
-            List<Integer> validSP = new LinkedList<>();
-            validSP.add(startingP);
-            validSP.add(topR);
-
-            // add every valid starting point's bottom left (itself) and the top right point
-            everySP.add(validSP);
-
-
-            // draw a room
-            makeNbyMRoom(startingP, gridWidth, gridHeight);
-        }
-    }
+    // --------------------------------- Tool Box for Creating Room --------------------------------
     private boolean isBetween(int topR, List<List<Integer>> everySP) {
         for (List<Integer> lst: everySP) {
             List<Integer> spCoord = indexToXY(lst.get(0)); // starting point's coord
@@ -383,6 +259,130 @@ public class World {
 
     }
 
+    // ------------------------------ Step A -----------------------------------
+    public Block[][] generateEmptyWorld(int h, int w) {
+        Block[][] retWorld = new Block[w][h];
+        for (int j = 0; j < h; j++) {
+            for (int i = 0; i < w; i++) {
+                retWorld[i][j] = new Block(j * worldWidth + i, i, j, null); // index check
+            }
+        }
+        return retWorld;
+    }
+
+    // ------------------------------ Step B -----------------------------------
+    public UndirectedGraph generateWorldGraph() {
+        UndirectedGraph retGraph = new UndirectedGraph(worldHeight * worldWidth);
+
+        int maxIndex = worldHeight * worldWidth - 1;
+        int currIndex = 0;
+
+        for (int j = 0; j < worldHeight - 1; j++) {
+            for (int i = 0; i < worldWidth - 1; i++) {
+                double d;
+                if (i == 0 || j == 0) {
+                    d = random.nextDouble(RANDDOUBLE, 1);
+                } else {
+                    d = random.nextDouble(0, 1);
+                }
+                currIndex = j * worldWidth + i;
+                if (Math.floorMod(currIndex + 1, worldWidth) != 0) {
+                    retGraph.addEdge(blockAt(currIndex), blockAt(currIndex + 1), d);
+                }
+                retGraph.addEdge(blockAt(currIndex), blockAt(currIndex + worldWidth), d);
+            }
+        }
+
+        for (int j = 0; j < worldHeight - 1; j++) { // right margin
+            currIndex = j * worldWidth + (worldWidth - 1);
+            retGraph.addEdge(blockAt(currIndex), blockAt(currIndex + worldWidth), random.nextDouble(RANDDOUBLE, 1));
+        }
+
+        for (int i = 0; i < worldWidth - 1; i++) { //top margin
+            currIndex = (worldHeight - 1) * worldWidth + i;
+            retGraph.addEdge(blockAt(currIndex), blockAt(currIndex + 1), random.nextDouble(RANDDOUBLE, 1));
+        }
+        return retGraph;
+    }
+
+    public Integer setStartPoint() {
+        List<Integer> possibleStartingPoint = new ArrayList<>();
+        for (int i = 0; i < worldWidth * worldHeight - 1; i++) {
+            if (blockAt(i).isNull()
+                    && !isMarginOfRoom(i, worldWidth + 1, worldWidth * (worldHeight - 1) - 2)
+                    && !isMarginOfRoom(i, 0, MAXINDEX)) {
+                possibleStartingPoint.add(i);
+            }
+        }
+        return possibleStartingPoint.get(random.nextInt(0, possibleStartingPoint.size()));
+    }
+
+    // ------------------------------ Step C -----------------------------------
+    public void generateRoom() {
+
+        // doorIndexLst will contain every door's index (should be used to make hallways)
+        doorIndexLst = new ArrayList<>();
+
+
+        // numRoom is the number of room; we will have 5 to 15 rooms per world.
+        int numRoom = random.nextInt(5, MAXROOM);
+
+
+        // everySP is a list of list. It will contain every valid starting point's information
+        // Each of inner list have two specific index: [0] = starting point index , [1] = top right point index
+        List<List<Integer>> everySP = new LinkedList<>();
+
+
+        for (int i = 0; i < numRoom; i++) {
+
+            // Create random gridWidth and gridHeight -> [4, MAX_LIMIT]
+            int gridWidth = random.nextInt(4, MAX_LIMIT + 1);
+            int gridHeight = random.nextInt(4, MAX_LIMIT + 1);
+
+
+            // Instantiate a maximum starting point by using worldWidth, worldHeight, and MAX_LIMIT
+            int maximum = (worldWidth - MAX_LIMIT) + (worldHeight - MAX_LIMIT) * worldWidth;
+
+            // Create a random starting point which is between [0, MAXIMUM]
+            // This will prevent choosing an invalid starting point that are over worldHeight - MAX_LIMIT
+            // Instantiate the top right point of current starting point
+            // These will be changed if the 'random' gives an invalid number
+            int startingP = random.nextInt(0, maximum + 1);
+
+            int topR = startingP + worldWidth * (gridHeight - 1) + (gridWidth - 1); // top right
+            int bottomL = startingP; // bottom left
+            int bottomR = startingP + gridWidth - 1; // bottom right
+            int topL = topR - gridWidth + 1; // top left
+
+
+
+            while (startingP % worldWidth > worldWidth - MAX_LIMIT || isBetween(topR, everySP)
+                    || isBetween(bottomL, everySP) || isBetween(bottomR, everySP)
+                    || isBetween(topL, everySP)) {
+
+                startingP = random.nextInt(0, maximum + 1);
+
+                topR = startingP + worldWidth * (gridHeight - 1) + (gridWidth - 1);
+                bottomL = startingP; // to test our starting point is valid or not
+                bottomR = startingP + gridWidth - 1;
+                topL = topR - gridWidth + 1;
+            }
+
+
+            // create a list that will store starting point and top right point
+            List<Integer> validSP = new LinkedList<>();
+            validSP.add(startingP);
+            validSP.add(topR);
+
+            // add every valid starting point's bottom left (itself) and the top right point
+            everySP.add(validSP);
+
+
+            // draw a room
+            makeNbyMRoom(startingP, gridWidth, gridHeight);
+        }
+    }
+
     /**
      * for step 2:
      *  if selected door is NOT connected to the door that is already confirmed
@@ -402,10 +402,11 @@ public class World {
         int numDoor = random.nextInt(1, 3);
         String[] arr = {"room", "hallway"};
         String s = "";
-        if (gridHeight == 4 && maxNumHall != 0 && numDoor == 2) {
+        if (gridHeight == 4 && maxNumHall != 0 && numDoor == 2 && gridWidth >= 7) {
             s = arr[ Math.floorMod(random.nextInt(), 2)];
             if (s.equals("hallway")) {
                 maxNumHall--;
+                //System.out.println("MAKE H = 2 HALLWAY");
             }
         } else {
             s = "room";
@@ -475,7 +476,6 @@ public class World {
     }
 
     // ------------------------------ Step D -----------------------------------
-
     public void generateHallways() {
         List<Integer> hallwayIndexList;
         Dijkstra dijk = new Dijkstra(worldGraph);
@@ -492,7 +492,6 @@ public class World {
             }
         }
     }
-
 
     public void generateWalls() {
         for (int i = worldWidth + 1; i < (worldWidth * worldHeight) - worldWidth - 1; i++) {
@@ -528,28 +527,29 @@ public class World {
                 if (world[j][i].isDoor()) {
                     visualWorld[j][i] = Tileset.MOUNTAIN;
                 } else if (world[j][i].isRoom()) {
-                    visualWorld[j][i] = Tileset.FLOOR;
+                    visualWorld[j][i] = Tileset.TREE;
                 } else if (world[j][i].isWall()) {
                     visualWorld[j][i] = Tileset.WALL;
                 } else if (world[j][i].isHallway()) {
                     visualWorld[j][i] = Tileset.FLOOR;
+                } else if (world[j][i].isStart()) {
+                    visualWorld[j][i] = Tileset.FLOWER;
+
                 }
             }
         }
         return visualWorld;
     }
 
-/*
+    // ------------------------------ Main --------------------------------------
+
     public static void main(String[] args) {
-        World world = new World(30, 80, 1919191991);
+
+        int num2 = 899412;
+        World world = new World(30, 80, num2);
         TERenderer ter = new TERenderer();
         ter.initialize(world.worldWidth, world.worldHeight);
         TETile[][] testWorld = world.visualize();
         ter.renderFrame(testWorld);
     }
-
- */
-
-
-
 }

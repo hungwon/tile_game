@@ -17,6 +17,7 @@ public class Engine {
      * including inputs from the main menu.
      */
     public void interactWithKeyboard() {
+
     }
 
     /**
@@ -48,8 +49,6 @@ public class Engine {
         // See proj3.byow.InputDemo for a demo of how you can make a nice clean interface
         // that works for many different input types.
 
-
-
         String strSeed = "";
 
         for (int i = 0; i < input.length(); i++) {
@@ -58,7 +57,7 @@ public class Engine {
             }
         }
 
-        long intSeed = Math.floorMod(Long.parseLong(strSeed), );
+        long intSeed = Math.floorMod(Long.parseLong(strSeed),NUMBER);
 
         System.out.println(intSeed);
 

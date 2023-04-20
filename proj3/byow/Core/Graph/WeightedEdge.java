@@ -22,11 +22,9 @@ public class WeightedEdge {
     public Block from() {
         return startBlock;
     }
-
     public Block to() {
         return endBlock;
     }
-
     @Override
     public String toString() {
         return "(" + start + "," + end + ", " + weight + ")";
