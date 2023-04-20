@@ -2,11 +2,9 @@ package byow.Core.worldMap;
 
 import byow.Core.Graph.Dijkstra;
 import byow.Core.Graph.UndirectedGraph;
-import byow.Core.worldMap.Block;
 import byow.TileEngine.TETile;
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.Tileset;
-import edu.princeton.cs.algs4.StdOut;
 import org.apache.commons.collections.list.TreeList;
 
 import java.util.ArrayList;
@@ -27,7 +25,7 @@ public class World {
     private UndirectedGraph worldGraph;
     private List<Integer> doorIndexLst;
 
-    public World(int height, int width, int seed) {
+    public World(int height, int width, long seed) {
         maxNumHall = 2;
         worldWidth = width;
         worldHeight = height;
@@ -137,8 +135,8 @@ public class World {
     }
 
     public void checkIndex (int index) {
-        if (index >= worldWidth*worldHeight ) {
-            throw new IllegalArgumentException(index + ": index exceed 2399");
+        if (index >= worldWidth * worldHeight ) {
+            throw new IllegalArgumentException (index + ": index exceed 2399");
         }
     }
 
@@ -263,7 +261,7 @@ public class World {
             List<Integer> current_tr_coord = indexToXY(topR); // current's topright point's coord
 
             if ((current_tr_coord.get(0) >= sp_coord.get(0) - 3 && current_tr_coord.get(0) <= tr_coord.get(0) + 3)
-             && (current_tr_coord.get(1)  >= sp_coord.get(1) - 3 && current_tr_coord.get(1) <= tr_coord.get(1) + 3)) {
+             && (current_tr_coord.get(1) >= sp_coord.get(1) - 3 && current_tr_coord.get(1) <= tr_coord.get(1) + 3)) {
                 return true;
             }
         }
@@ -419,7 +417,9 @@ public class World {
             } else {
 
                 int alreadyConfirmed = confirmedDoors.get(0);
+
                 //System.out.println("CONFIRMED AND ALREADY"+ " " + selected + " " + alreadyConfirmed);
+
 
                 //System.out.println(alreadyConfirmed + ", " + selected + ", " + worldGraph.isConnected(alreadyConfirmed, selected));
                 //System.out.println("a: " + worldGraph.adj(alreadyConfirmed));
@@ -457,7 +457,11 @@ public class World {
                     if (blockAt(current).blockType().equals(s)) {
                         blockAt(current).changeType("wall");
 
+                        System.out.println(current);
+
                         determineDisconnect(current);
+
+                        System.out.println("CURRENT BLOCK DISCONNECTED?" + " " + worldGraph.isIsolated(current));
 
                     }
                 }
@@ -471,7 +475,11 @@ public class World {
                     if (blockAt(current).blockType().equals(s)) {
                         blockAt(current).changeType("wall");
 
+                        System.out.println(current);
+
                         determineDisconnect(current);
+
+                        System.out.println("CURRENT BLOCK DISCONNECTED?" + " " + worldGraph.isIsolated(current));
                         //
                     }
 
@@ -529,7 +537,7 @@ public class World {
                 } else if (world[j][i].isRoom()) {
 
                     visualWorld[j][i] = Tileset.FLOOR;
-                } else if (world[j][i].isWall()){
+                } else if (world[j][i].isWall()) {
 
                     visualWorld[j][i] = Tileset.WALL;
                 } else if (world[j][i].isHallway()) {
@@ -551,23 +559,18 @@ public class World {
 
         boolean b = true;
 
-        for (int i = 0; i < worldWidth * worldHeight; i++){
+        for (int i = 0; i < worldWidth * worldHeight; i++) {
+
 
             if (blockAt(i).isWall() && !worldGraph.isIsolated(i)) {
                 b = false;
             }
             if (!b) {
-                throw new IllegalArgumentException("index: " + i + ", " + worldGraph.isIsolated(i));
+                throw new IllegalArgumentException("index: " + i + ", " + worldGraph.isIsolated(i) + ", " + blockAt(i).blockType());
             }
             b = true;
         }
-
-
     }
-
-
-
-
 
     public static void main(String[] args) {
 
@@ -584,5 +587,4 @@ public class World {
 
         world.testWallIsDisconnected();
     }
-
 }

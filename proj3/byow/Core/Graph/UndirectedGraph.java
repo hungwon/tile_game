@@ -1,6 +1,7 @@
 package byow.Core.Graph;
 
 import byow.Core.worldMap.Block;
+import edu.princeton.cs.algs4.StdOut;
 
 import java.util.*;
 
@@ -18,7 +19,7 @@ public class UndirectedGraph {
         }
     }
 
-    public boolean isIsolated (int i) {
+    public boolean isIsolated(int i) {
         if (adj(i).size() == 0) {
             return true;
         } else {
@@ -43,7 +44,6 @@ public class UndirectedGraph {
 
         //System.out.println("ISCONNECTED:" + " " + a + " " + b);
         for (WeightedEdge e: adj(a)) {
-            //System.out.println( a + ", "+ b + ", " + e.to().equals(b));
 
             if (e.to().equals(b)) {
                 return true;
@@ -89,7 +89,6 @@ public class UndirectedGraph {
     }
 
     public void disconnect(Block a, Block b) {
-
         if (isConnected(a.Key(), b.Key())) {
             List<Integer> lst = hasEdge(a.Key(), b.Key());
             System.out.println("disconnect called");

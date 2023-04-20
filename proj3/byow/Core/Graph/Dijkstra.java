@@ -68,7 +68,7 @@ public class Dijkstra {
      * @param end
      * @return
      */
-    public boolean isPossible (Block start, Block end) {
+    public boolean isPossible(Block start, Block end) {
         for (WeightedEdge e: graph.adj(end)) {
             Block prev = e.to();
             Block next = e.from();
