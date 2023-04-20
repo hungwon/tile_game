@@ -75,7 +75,7 @@ public class Dijkstra {
 
             System.out.println(pIndex + " -> " + qIndex);
 
-            if (distTo[pIndex] + e.weight() < distTo[qIndex] && isPossible(p, q)){
+            if ((distTo[pIndex] + e.weight() < distTo[qIndex]) && isPossible(p, q)){
                 distTo[qIndex] = distTo[pIndex] + e.weight();
                 edgeTo[qIndex] = pIndex;
                 System.out.println(fringe.minIndex());
@@ -96,7 +96,7 @@ public class Dijkstra {
             Block prev = e.to();
             Block next = e.from();
             if (!prev.Key().equals(start.Key()) ) {
-                if (next.isRoom() && next.isAtMargin() ) {
+                if (next.isRoom() && next.isAtMargin()) {
                     return false;
                 }
             }
