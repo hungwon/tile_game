@@ -30,12 +30,14 @@ public class Dijkstra {
         fringe.insert(s, 0.);
         distTo[s] = 0.;
 
+        fringe = new IndexMinPQ<>(MAXINDEX);
+
         for (int i = 0; i < MAXINDEX; i++) {
             if (i != s) {
-                System.out.println(i + " " + s);
                 fringe.insert(i, MAXDOUBLE);
             }
         }
+
         while (!fringe.isEmpty() && edgeTo[t] == null) {
             int p = fringe.delMin();
             relax(p);
@@ -43,7 +45,6 @@ public class Dijkstra {
 
         int x = t;
         while (x != s) {
-            // System.out.println(edgeTo[x]);
             hallwayIndex.add(x);
             x = edgeTo[x];
         }
