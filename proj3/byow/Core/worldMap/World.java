@@ -3,6 +3,7 @@ package byow.Core.worldMap;
 import byow.Core.Graph.Dijkstra;
 import byow.Core.Graph.UndirectedGraph;
 import byow.TileEngine.TETile;
+import byow.TileEngine.TERenderer;
 import byow.TileEngine.Tileset;
 import org.apache.commons.collections.list.TreeList;
 
@@ -29,7 +30,7 @@ public class World {
         worldWidth = width;
         worldHeight = height;
         world = generateEmptyWorld(height, width);
-        random = new Random(seed);
+        random = new Random(Math.floorMod(seed, width));
         worldGraph = generateWorldGraph();
         startIndex = setStartPoint();
         generateRoom();
@@ -577,4 +578,8 @@ public class World {
 
         return visualWorld;
     }
+
+
+
+
 }

@@ -18,21 +18,17 @@ public class UndirectedGraph {
     }
 
     public boolean isIsolated(int i) {
-        if (adj(i).size() == 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return adj(i).size() == 0;
     }
     public List<WeightedEdge> adj(int i) {
         return adj.get(i);
     }
     public List<WeightedEdge> adj(Block b) {
-        return adj.get(b.Key());
+        return adj.get(b.key());
     }
     public void addEdge(Block s, Block t, double w) {
-        adj.get(s.Key()).add(new WeightedEdge(s, t, w));
-        adj.get(t.Key()).add(new WeightedEdge(t, s, w));
+        adj.get(s.key()).add(new WeightedEdge(s, t, w));
+        adj.get(t.key()).add(new WeightedEdge(t, s, w));
         e++;
 
     }
@@ -41,9 +37,9 @@ public class UndirectedGraph {
         if (isIsolated(a) || isIsolated(b)) {
             return false;
         }
-        for (WeightedEdge e: adj(a)) {
+        for (WeightedEdge edgeE: adj(a)) {
 
-            if (e.to().Key() == b) {
+            if (edgeE.to().Key() == b) {
                 return true;
             }
         }
@@ -66,15 +62,15 @@ public class UndirectedGraph {
     public List<Integer> hasEdge(int a, int b) {
         List<Integer> lst = new ArrayList<>();
         int i = 0;
-        for (WeightedEdge e: adj(a)) {
-            if (e.to().Key() == b) {
+        for (WeightedEdge edgeE: adj(a)) {
+            if (edgeE.to().key() == b) {
                 lst.add(i);
             }
             i++;
         }
         i = 0;
-        for (WeightedEdge e: adj(b)) {
-            if (e.to().Key() == a) {
+        for (WeightedEdge edgeE: adj(b)) {
+            if (edgeE.to().key() == a) {
                 lst.add(i);
             }
             i++;
@@ -87,8 +83,8 @@ public class UndirectedGraph {
 
     public void disconnect(Block a, Block b) {
 
-        if (isConnected(a.Key(), b.Key())) {
-            List<Integer> lst = hasEdge(a.Key(), b.Key());
+        if (isConnected(a.key(), b.key())) {
+            List<Integer> lst = hasEdge(a.key(), b.key());
             if (lst != null) {
                 int indexA = lst.get(0);
                 int indexB = lst.get(1);

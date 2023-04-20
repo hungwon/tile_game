@@ -21,7 +21,7 @@ public class Block {
     }
 
 
-    public Integer Key() {
+    public Integer key() {
         return key;
     }
 
@@ -33,8 +33,8 @@ public class Block {
         return y;
     }
 
-    public void changeType(String type) {
-        this.type = type;
+    public void changeType(String tyPe) {
+        this.type = tyPe;
     }
 
     /**
