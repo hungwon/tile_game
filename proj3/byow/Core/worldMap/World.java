@@ -35,6 +35,7 @@ public class World {
         startIndex = setStartPoint();
         generateRoom();
         generateHallways();
+        generateWalls();
     }
 
     public Block blockAt(int index) {
@@ -513,13 +514,18 @@ public class World {
             hallwayIndexList = dijk.findPath(startIndex, doorIndex);
 
             for (int i: hallwayIndexList) {
-                if (blockAt(i).isNull()) {
-                    blockAt(i).changeType("hallway");
-                }
+                blockAt(i).changeType("hallway");
+                //if (blockAt(i).isNull()) {
+                //    blockAt(i).changeType("hallway");
+                //}
             }
         }
     }
 
+    public void generateWalls() {
+
+
+    }
 
     // ------------------------------ Step E -----------------------------------
     public TETile[][] visualize() {
@@ -548,7 +554,7 @@ public class World {
                     visualWorld[j][i] = Tileset.WALL;
                 } else if (world[j][i].isHallway()) {
 
-                    visualWorld[j][i] = Tileset.WATER;
+                    visualWorld[j][i] = Tileset.FLOWER;
                 }
 
             }

@@ -26,6 +26,7 @@ public class Dijkstra {
     }
 
     public List<Integer> findPath(int s, int t) {
+
         System.out.println("findPath called");
         fringe = new IndexMinPQ<>(MAXINDEX);
         List<Integer> hallwayIndex = new LinkedList<>();
@@ -33,25 +34,23 @@ public class Dijkstra {
         distTo[s] = 0.;
 
         for (int i = 0; i < MAXINDEX; i++) {
-            //System.out.println(i+ "," + s + ", " + (i==s));
             if (i != s) {
                 fringe.insert(i, MAXDOUBLE);
             }
         }
 
-        while (!fringe.isEmpty() && edgeTo[t] == null ) {
+        while (!fringe.isEmpty()) { //) && edgeTo[t] == null ) {
             int p = fringe.delMin();
             relax(p);
         }
 
+
         int x = t;
         while (x != s) {
-            // System.out.println(edgeTo[x]);
             hallwayIndex.add(x);
             x = edgeTo[x];
         }
         hallwayIndex.add(x);
-        System.out.println(hallwayIndex.toString());
         System.out.println("findPath end");
 
         return hallwayIndex;
@@ -76,7 +75,7 @@ public class Dijkstra {
 
             System.out.println(pIndex + " -> " + qIndex);
 
-            if (distTo[pIndex] + e.weight() < distTo[qIndex] ) { //&& isPossible(p,q) ) {
+            if (distTo[pIndex] + e.weight() < distTo[qIndex]  ){
                 distTo[qIndex] = distTo[pIndex] + e.weight();
                 edgeTo[qIndex] = pIndex;
                 System.out.println(fringe.minIndex());
@@ -91,17 +90,17 @@ public class Dijkstra {
      * @param end
      * @return
      */
+
     public boolean isPossible(Block start, Block end) {
         for (WeightedEdge e: graph.adj(end)) {
             Block prev = e.to();
             Block next = e.from();
             if (!prev.Key().equals(start.Key())) {
-                if (!next.isNull() || !next.isWall()) {
+                if (next.isNull() || next.isWall() ) {
                     return false;
                 }
             }
         }
         return true;
     }
-
 }
