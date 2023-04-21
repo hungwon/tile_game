@@ -1,16 +1,9 @@
 80
 30
-<<<<<<< HEAD
 1893
 0
-1488
+1896
 1
-=======
-1539
-0
-1481
-16
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 0,0,0,null,false,false
 1,1,0,null,false,false
 2,2,0,null,false,false
@@ -99,13 +92,13 @@
 85,5,1,null,false,false
 86,6,1,null,false,false
 87,7,1,null,false,false
-88,8,1,wall,false,false
-89,9,1,wall,false,false
-90,10,1,wall,false,false
-91,11,1,wall,false,false
-92,12,1,wall,false,false
-93,13,1,wall,false,false
-94,14,1,wall,false,false
+88,8,1,null,false,false
+89,9,1,null,false,false
+90,10,1,null,false,false
+91,11,1,null,false,false
+92,12,1,null,false,false
+93,13,1,null,false,false
+94,14,1,null,false,false
 95,15,1,null,false,false
 96,16,1,null,false,false
 97,17,1,null,false,false
@@ -129,7 +122,6 @@
 115,35,1,null,false,false
 116,36,1,null,false,false
 117,37,1,null,false,false
-<<<<<<< HEAD
 118,38,1,null,false,false
 119,39,1,null,false,false
 120,40,1,null,false,false
@@ -138,16 +130,6 @@
 123,43,1,wall,false,false
 124,44,1,wall,false,false
 125,45,1,wall,false,false
-=======
-118,38,1,wall,false,false
-119,39,1,wall,false,false
-120,40,1,wall,false,false
-121,41,1,null,false,false
-122,42,1,null,false,false
-123,43,1,null,false,false
-124,44,1,null,false,false
-125,45,1,null,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 126,46,1,null,false,false
 127,47,1,null,false,false
 128,48,1,null,false,false
@@ -190,7 +172,6 @@
 165,5,2,null,false,false
 166,6,2,null,false,false
 167,7,2,null,false,false
-<<<<<<< HEAD
 168,8,2,null,false,false
 169,9,2,null,false,false
 170,10,2,null,false,false
@@ -200,17 +181,6 @@
 174,14,2,wall,false,false
 175,15,2,wall,false,false
 176,16,2,wall,false,false
-=======
-168,8,2,wall,false,false
-169,9,2,room,false,false
-170,10,2,room,false,false
-171,11,2,room,false,false
-172,12,2,room,false,false
-173,13,2,room,false,false
-174,14,2,wall,false,false
-175,15,2,null,false,false
-176,16,2,null,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 177,17,2,null,false,false
 178,18,2,null,false,false
 179,19,2,null,false,false
@@ -231,7 +201,6 @@
 194,34,2,null,false,false
 195,35,2,null,false,false
 196,36,2,null,false,false
-<<<<<<< HEAD
 197,37,2,null,false,false
 198,38,2,null,false,false
 199,39,2,null,false,false
@@ -242,18 +211,6 @@
 204,44,2,hallway,false,false
 205,45,2,hallway,false,false
 206,46,2,wall,false,false
-=======
-197,37,2,wall,false,false
-198,38,2,hallway,false,false
-199,39,2,hallway,false,false
-200,40,2,hallway,false,false
-201,41,2,wall,false,false
-202,42,2,wall,false,false
-203,43,2,null,false,false
-204,44,2,null,false,false
-205,45,2,null,false,false
-206,46,2,null,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 207,47,2,null,false,false
 208,48,2,null,false,false
 209,49,2,null,false,false
@@ -295,7 +252,6 @@
 245,5,3,null,false,false
 246,6,3,null,false,false
 247,7,3,null,false,false
-<<<<<<< HEAD
 248,8,3,null,false,false
 249,9,3,null,false,false
 250,10,3,null,false,false
@@ -308,20 +264,6 @@
 257,17,3,wall,false,false
 258,18,3,wall,false,false
 259,19,3,wall,false,false
-=======
-248,8,3,wall,false,false
-249,9,3,room,false,false
-250,10,3,room,false,false
-251,11,3,room,false,false
-252,12,3,room,false,false
-253,13,3,room,false,false
-254,14,3,wall,false,false
-255,15,3,wall,false,false
-256,16,3,null,false,false
-257,17,3,null,false,false
-258,18,3,null,false,false
-259,19,3,null,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 260,20,3,null,false,false
 261,21,3,null,false,false
 262,22,3,null,false,false
@@ -337,7 +279,6 @@
 272,32,3,null,false,false
 273,33,3,null,false,false
 274,34,3,null,false,false
-<<<<<<< HEAD
 275,35,3,null,false,false
 276,36,3,null,false,false
 277,37,3,null,false,false
@@ -352,22 +293,6 @@
 286,46,3,hallway,false,false
 287,47,3,wall,false,false
 288,48,3,wall,false,false
-=======
-275,35,3,wall,false,false
-276,36,3,wall,false,false
-277,37,3,hallway,false,false
-278,38,3,hallway,false,false
-279,39,3,wall,false,false
-280,40,3,hallway,false,false
-281,41,3,hallway,false,false
-282,42,3,hallway,false,false
-283,43,3,wall,false,false
-284,44,3,null,false,false
-285,45,3,null,false,false
-286,46,3,null,false,false
-287,47,3,null,false,false
-288,48,3,null,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 289,49,3,null,false,false
 290,50,3,null,false,false
 291,51,3,null,false,false
@@ -407,7 +332,6 @@
 325,5,4,null,false,false
 326,6,4,null,false,false
 327,7,4,null,false,false
-<<<<<<< HEAD
 328,8,4,null,false,false
 329,9,4,null,false,false
 330,10,4,wall,false,false
@@ -421,21 +345,6 @@
 338,18,4,hallway,false,false
 339,19,4,hallway,false,false
 340,20,4,wall,false,false
-=======
-328,8,4,wall,false,false
-329,9,4,room,false,false
-330,10,4,room,false,false
-331,11,4,room,false,false
-332,12,4,room,false,false
-333,13,4,room,false,false
-334,14,4,hallway,false,false
-335,15,4,hallway,false,false
-336,16,4,wall,false,false
-337,17,4,null,false,false
-338,18,4,null,false,false
-339,19,4,null,false,false
-340,20,4,null,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 341,21,4,null,false,false
 342,22,4,null,false,false
 343,23,4,null,false,false
@@ -449,7 +358,6 @@
 351,31,4,null,false,false
 352,32,4,null,false,false
 353,33,4,null,false,false
-<<<<<<< HEAD
 354,34,4,null,false,false
 355,35,4,null,false,false
 356,36,4,null,false,false
@@ -473,31 +381,6 @@
 374,54,4,null,false,false
 375,55,4,null,false,false
 376,56,4,null,false,false
-=======
-354,34,4,wall,false,false
-355,35,4,hallway,false,false
-356,36,4,hallway,false,false
-357,37,4,hallway,false,false
-358,38,4,wall,false,false
-359,39,4,null,false,false
-360,40,4,wall,false,false
-361,41,4,wall,false,false
-362,42,4,hallway,false,false
-363,43,4,wall,false,false
-364,44,4,null,false,false
-365,45,4,null,false,false
-366,46,4,wall,false,false
-367,47,4,wall,false,false
-368,48,4,null,false,false
-369,49,4,null,false,false
-370,50,4,null,false,false
-371,51,4,wall,false,false
-372,52,4,wall,false,false
-373,53,4,wall,false,false
-374,54,4,wall,false,false
-375,55,4,wall,false,false
-376,56,4,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 377,57,4,null,false,false
 378,58,4,null,false,false
 379,59,4,null,false,false
@@ -530,7 +413,6 @@
 406,6,5,null,false,false
 407,7,5,null,false,false
 408,8,5,wall,false,false
-<<<<<<< HEAD
 409,9,5,wall,false,false
 410,10,5,wall,false,false
 411,11,5,hallway,false,false
@@ -544,21 +426,6 @@
 419,19,5,hallway,false,false
 420,20,5,wall,false,false
 421,21,5,wall,false,false
-=======
-409,9,5,room,false,false
-410,10,5,room,false,false
-411,11,5,room,false,false
-412,12,5,room,false,false
-413,13,5,room,false,false
-414,14,5,wall,false,false
-415,15,5,hallway,false,false
-416,16,5,wall,false,false
-417,17,5,null,false,false
-418,18,5,null,false,false
-419,19,5,null,false,false
-420,20,5,null,false,false
-421,21,5,null,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 422,22,5,null,false,false
 423,23,5,null,false,false
 424,24,5,null,false,false
@@ -567,16 +434,15 @@
 427,27,5,null,false,false
 428,28,5,null,false,false
 429,29,5,null,false,false
-430,30,5,wall,false,false
-431,31,5,wall,false,false
-432,32,5,wall,false,false
-433,33,5,wall,false,false
-434,34,5,hallway,false,false
-435,35,5,hallway,false,false
-436,36,5,wall,false,false
-437,37,5,wall,false,false
+430,30,5,null,false,false
+431,31,5,null,false,false
+432,32,5,null,false,false
+433,33,5,null,false,false
+434,34,5,null,false,false
+435,35,5,null,false,false
+436,36,5,null,false,false
+437,37,5,null,false,false
 438,38,5,null,false,false
-<<<<<<< HEAD
 439,39,5,wall,false,false
 440,40,5,room,false,false
 441,41,5,room,false,false
@@ -596,27 +462,6 @@
 455,55,5,null,false,false
 456,56,5,null,false,false
 457,57,5,null,false,false
-=======
-439,39,5,null,false,false
-440,40,5,null,false,false
-441,41,5,wall,false,false
-442,42,5,hallway,false,false
-443,43,5,wall,false,false
-444,44,5,wall,false,false
-445,45,5,wall,false,false
-446,46,5,hallway,false,false
-447,47,5,hallway,false,false
-448,48,5,wall,false,false
-449,49,5,wall,false,false
-450,50,5,wall,false,false
-451,51,5,hallway,false,false
-452,52,5,hallway,false,false
-453,53,5,hallway,false,false
-454,54,5,hallway,false,false
-455,55,5,hallway,false,false
-456,56,5,hallway,false,false
-457,57,5,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 458,58,5,null,false,false
 459,59,5,null,false,false
 460,60,5,null,false,false
@@ -653,7 +498,6 @@
 491,11,6,room,false,false
 492,12,6,room,false,false
 493,13,6,room,false,false
-<<<<<<< HEAD
 494,14,6,room,false,false
 495,15,6,wall,false,false
 496,16,6,null,false,false
@@ -664,24 +508,11 @@
 501,21,6,hallway,false,false
 502,22,6,wall,false,false
 503,23,6,wall,false,false
-=======
-494,14,6,wall,false,false
-495,15,6,hallway,false,false
-496,16,6,wall,false,false
-497,17,6,null,false,false
-498,18,6,null,false,false
-499,19,6,null,false,false
-500,20,6,null,false,false
-501,21,6,null,false,false
-502,22,6,null,false,false
-503,23,6,null,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 504,24,6,null,false,false
 505,25,6,null,false,false
 506,26,6,null,false,false
 507,27,6,null,false,false
 508,28,6,null,false,false
-<<<<<<< HEAD
 509,29,6,null,false,false
 510,30,6,null,false,false
 511,31,6,null,false,false
@@ -711,37 +542,6 @@
 535,55,6,null,false,false
 536,56,6,null,false,false
 537,57,6,null,false,false
-=======
-509,29,6,wall,false,false
-510,30,6,hallway,false,false
-511,31,6,hallway,false,false
-512,32,6,hallway,false,false
-513,33,6,hallway,false,false
-514,34,6,hallway,false,false
-515,35,6,wall,false,false
-516,36,6,null,false,false
-517,37,6,null,false,false
-518,38,6,null,false,false
-519,39,6,null,false,false
-520,40,6,null,false,false
-521,41,6,wall,false,false
-522,42,6,hallway,false,false
-523,43,6,hallway,false,false
-524,44,6,hallway,false,false
-525,45,6,hallway,false,false
-526,46,6,hallway,false,false
-527,47,6,hallway,false,false
-528,48,6,hallway,false,false
-529,49,6,hallway,false,false
-530,50,6,hallway,false,false
-531,51,6,hallway,false,false
-532,52,6,wall,false,false
-533,53,6,wall,false,false
-534,54,6,wall,false,false
-535,55,6,wall,false,false
-536,56,6,hallway,false,false
-537,57,6,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 538,58,6,null,false,false
 539,59,6,null,false,false
 540,60,6,null,false,false
@@ -778,7 +578,6 @@
 571,11,7,room,false,false
 572,12,7,room,false,false
 573,13,7,room,false,false
-<<<<<<< HEAD
 574,14,7,room,false,false
 575,15,7,wall,false,false
 576,16,7,null,false,false
@@ -790,38 +589,16 @@
 582,22,7,hallway,false,false
 583,23,7,hallway,false,false
 584,24,7,wall,false,false
-=======
-574,14,7,wall,false,false
-575,15,7,hallway,false,false
-576,16,7,wall,false,false
-577,17,7,null,false,false
-578,18,7,null,false,false
-579,19,7,null,false,false
-580,20,7,null,false,false
-581,21,7,null,false,false
-582,22,7,null,false,false
-583,23,7,null,false,false
-584,24,7,null,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 585,25,7,null,false,false
 586,26,7,null,false,false
 587,27,7,null,false,false
 588,28,7,null,false,false
-<<<<<<< HEAD
 589,29,7,null,false,false
 590,30,7,null,false,false
 591,31,7,null,false,false
 592,32,7,null,false,false
 593,33,7,null,false,false
 594,34,7,null,false,false
-=======
-589,29,7,wall,false,false
-590,30,7,hallway,false,false
-591,31,7,wall,false,false
-592,32,7,wall,false,false
-593,33,7,wall,false,false
-594,34,7,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 595,35,7,null,false,false
 596,36,7,null,false,false
 597,37,7,null,false,false
@@ -829,25 +606,15 @@
 599,39,7,null,false,false
 600,40,7,null,false,false
 601,41,7,null,false,false
-<<<<<<< HEAD
 602,42,7,null,false,false
 603,43,7,null,false,false
 604,44,7,null,false,false
 605,45,7,null,false,false
 606,46,7,null,false,false
 607,47,7,null,false,false
-=======
-602,42,7,wall,false,false
-603,43,7,wall,false,false
-604,44,7,wall,false,false
-605,45,7,wall,false,false
-606,46,7,wall,false,false
-607,47,7,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 608,48,7,wall,false,false
 609,49,7,hallway,false,false
 610,50,7,wall,false,false
-<<<<<<< HEAD
 611,51,7,null,false,false
 612,52,7,null,false,false
 613,53,7,null,false,false
@@ -856,16 +623,6 @@
 616,56,7,null,false,false
 617,57,7,null,false,false
 618,58,7,null,false,false
-=======
-611,51,7,wall,false,false
-612,52,7,null,false,false
-613,53,7,null,false,false
-614,54,7,null,false,false
-615,55,7,wall,false,false
-616,56,7,hallway,false,false
-617,57,7,hallway,false,false
-618,58,7,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 619,59,7,null,false,false
 620,60,7,null,false,false
 621,61,7,null,false,false
@@ -901,7 +658,6 @@
 651,11,8,room,false,false
 652,12,8,room,false,false
 653,13,8,room,false,false
-<<<<<<< HEAD
 654,14,8,room,false,false
 655,15,8,wall,false,false
 656,16,8,null,false,false
@@ -920,26 +676,6 @@
 669,29,8,wall,false,false
 670,30,8,null,false,false
 671,31,8,null,false,false
-=======
-654,14,8,wall,false,false
-655,15,8,hallway,false,false
-656,16,8,hallway,false,false
-657,17,8,wall,false,false
-658,18,8,wall,false,false
-659,19,8,wall,false,false
-660,20,8,null,false,false
-661,21,8,null,false,false
-662,22,8,null,false,false
-663,23,8,null,false,false
-664,24,8,null,false,false
-665,25,8,null,false,false
-666,26,8,null,false,false
-667,27,8,null,false,false
-668,28,8,wall,false,false
-669,29,8,hallway,false,false
-670,30,8,hallway,false,false
-671,31,8,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 672,32,8,null,false,false
 673,33,8,null,false,false
 674,34,8,null,false,false
@@ -956,7 +692,6 @@
 685,45,8,null,false,false
 686,46,8,null,false,false
 687,47,8,null,false,false
-<<<<<<< HEAD
 688,48,8,wall,false,false
 689,49,8,hallway,false,false
 690,50,8,hallway,false,false
@@ -974,40 +709,21 @@
 702,62,8,null,false,false
 703,63,8,null,false,false
 704,64,8,null,false,false
-=======
-688,48,8,null,false,false
-689,49,8,null,false,false
-690,50,8,null,false,false
-691,51,8,null,false,false
-692,52,8,null,false,false
-693,53,8,null,false,false
-694,54,8,null,false,false
-695,55,8,wall,false,false
-696,56,8,wall,false,false
-697,57,8,hallway,false,false
-698,58,8,wall,false,false
-699,59,8,wall,false,false
-700,60,8,wall,false,false
-701,61,8,wall,false,false
-702,62,8,wall,false,false
-703,63,8,wall,false,false
-704,64,8,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 705,65,8,null,false,false
 706,66,8,null,false,false
 707,67,8,null,false,false
 708,68,8,null,false,false
 709,69,8,null,false,false
-710,70,8,wall,false,false
-711,71,8,wall,false,false
-712,72,8,wall,false,false
-713,73,8,wall,false,false
-714,74,8,wall,false,false
-715,75,8,wall,false,false
-716,76,8,wall,false,false
-717,77,8,wall,false,false
-718,78,8,wall,false,false
-719,79,8,wall,false,false
+710,70,8,null,false,false
+711,71,8,null,false,false
+712,72,8,null,false,false
+713,73,8,null,false,false
+714,74,8,null,false,false
+715,75,8,null,false,false
+716,76,8,null,false,false
+717,77,8,null,false,false
+718,78,8,null,false,false
+719,79,8,null,false,false
 720,0,9,null,false,false
 721,1,9,null,false,false
 722,2,9,null,false,false
@@ -1017,7 +733,6 @@
 726,6,9,null,false,false
 727,7,9,null,false,false
 728,8,9,wall,false,false
-<<<<<<< HEAD
 729,9,9,room,false,false
 730,10,9,room,false,false
 731,11,9,room,false,false
@@ -1044,34 +759,6 @@
 752,32,9,null,false,false
 753,33,9,null,false,false
 754,34,9,null,false,false
-=======
-729,9,9,wall,false,false
-730,10,9,wall,false,false
-731,11,9,hallway,false,false
-732,12,9,wall,false,false
-733,13,9,wall,false,false
-734,14,9,wall,false,false
-735,15,9,wall,false,false
-736,16,9,hallway,false,false
-737,17,9,hallway,false,false
-738,18,9,hallway,false,false
-739,19,9,hallway,false,false
-740,20,9,wall,false,false
-741,21,9,null,false,false
-742,22,9,null,false,false
-743,23,9,null,false,false
-744,24,9,null,false,false
-745,25,9,null,false,false
-746,26,9,null,false,false
-747,27,9,null,false,false
-748,28,9,wall,false,false
-749,29,9,hallway,false,false
-750,30,9,wall,false,false
-751,31,9,wall,false,false
-752,32,9,wall,false,false
-753,33,9,wall,false,false
-754,34,9,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 755,35,9,null,false,false
 756,36,9,null,false,false
 757,37,9,null,false,false
@@ -1086,7 +773,6 @@
 766,46,9,null,false,false
 767,47,9,null,false,false
 768,48,9,null,false,false
-<<<<<<< HEAD
 769,49,9,wall,false,false
 770,50,9,hallway,false,false
 771,51,9,wall,false,false
@@ -1103,39 +789,21 @@
 782,62,9,null,false,false
 783,63,9,null,false,false
 784,64,9,null,false,false
-=======
-769,49,9,null,false,false
-770,50,9,null,false,false
-771,51,9,null,false,false
-772,52,9,null,false,false
-773,53,9,null,false,false
-774,54,9,null,false,false
-775,55,9,wall,false,false
-776,56,9,room,false,false
-777,57,9,room,false,false
-778,58,9,room,false,false
-779,59,9,room,false,false
-780,60,9,room,false,false
-781,61,9,room,false,false
-782,62,9,room,false,false
-783,63,9,room,false,false
-784,64,9,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 785,65,9,null,false,false
 786,66,9,null,false,false
 787,67,9,null,false,false
 788,68,9,null,false,false
 789,69,9,null,false,false
-790,70,9,wall,false,false
-791,71,9,room,false,false
-792,72,9,room,false,false
-793,73,9,room,false,false
-794,74,9,room,false,false
-795,75,9,room,false,false
-796,76,9,room,false,false
-797,77,9,room,false,false
-798,78,9,room,false,false
-799,79,9,wall,false,false
+790,70,9,null,false,false
+791,71,9,null,false,false
+792,72,9,null,false,false
+793,73,9,null,false,false
+794,74,9,null,false,false
+795,75,9,null,false,false
+796,76,9,null,false,false
+797,77,9,null,false,false
+798,78,9,null,false,false
+799,79,9,null,false,false
 800,0,10,null,false,false
 801,1,10,null,false,false
 802,2,10,null,false,false
@@ -1144,7 +812,6 @@
 805,5,10,null,false,false
 806,6,10,null,false,false
 807,7,10,null,false,false
-<<<<<<< HEAD
 808,8,10,wall,false,false
 809,9,10,wall,false,false
 810,10,10,wall,false,false
@@ -1172,35 +839,6 @@
 832,32,10,wall,false,false
 833,33,10,null,false,false
 834,34,10,null,false,false
-=======
-808,8,10,null,false,false
-809,9,10,null,false,false
-810,10,10,wall,false,false
-811,11,10,hallway,false,false
-812,12,10,wall,false,false
-813,13,10,null,false,false
-814,14,10,null,false,false
-815,15,10,null,false,false
-816,16,10,wall,false,false
-817,17,10,wall,false,false
-818,18,10,wall,false,false
-819,19,10,hallway,false,false
-820,20,10,hallway,false,false
-821,21,10,wall,false,false
-822,22,10,null,false,false
-823,23,10,null,false,false
-824,24,10,null,false,false
-825,25,10,null,false,false
-826,26,10,null,false,false
-827,27,10,null,false,false
-828,28,10,wall,false,false
-829,29,10,hallway,false,false
-830,30,10,wall,false,false
-831,31,10,room,false,false
-832,32,10,room,false,false
-833,33,10,room,false,false
-834,34,10,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 835,35,10,null,false,false
 836,36,10,null,false,false
 837,37,10,null,false,false
@@ -1221,7 +859,6 @@
 852,52,10,null,false,false
 853,53,10,null,false,false
 854,54,10,null,false,false
-<<<<<<< HEAD
 855,55,10,null,false,false
 856,56,10,null,false,false
 857,57,10,null,false,false
@@ -1232,25 +869,12 @@
 862,62,10,null,false,false
 863,63,10,null,false,false
 864,64,10,null,false,false
-=======
-855,55,10,wall,false,false
-856,56,10,room,false,false
-857,57,10,room,false,false
-858,58,10,room,false,false
-859,59,10,room,false,false
-860,60,10,room,false,false
-861,61,10,room,false,false
-862,62,10,room,false,false
-863,63,10,room,false,false
-864,64,10,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 865,65,10,null,false,false
 866,66,10,null,false,false
 867,67,10,null,false,false
 868,68,10,null,false,false
 869,69,10,null,false,false
 870,70,10,wall,false,false
-<<<<<<< HEAD
 871,71,10,wall,false,false
 872,72,10,wall,false,false
 873,73,10,wall,false,false
@@ -1259,16 +883,6 @@
 876,76,10,wall,false,false
 877,77,10,wall,false,false
 878,78,10,wall,false,false
-=======
-871,71,10,room,false,false
-872,72,10,room,false,false
-873,73,10,room,false,false
-874,74,10,room,false,false
-875,75,10,room,false,false
-876,76,10,room,false,false
-877,77,10,room,false,false
-878,78,10,room,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 879,79,10,wall,false,false
 880,0,11,null,false,false
 881,1,11,null,false,false
@@ -1280,29 +894,22 @@
 887,7,11,null,false,false
 888,8,11,null,false,false
 889,9,11,null,false,false
-<<<<<<< HEAD
 890,10,11,null,false,false
 891,11,11,null,false,false
 892,12,11,null,false,false
-=======
-890,10,11,wall,false,false
-891,11,11,hallway,false,false
-892,12,11,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 893,13,11,null,false,false
 894,14,11,null,false,false
 895,15,11,null,false,false
 896,16,11,null,false,false
 897,17,11,null,false,false
 898,18,11,null,false,false
-899,19,11,wall,false,false
-900,20,11,hallway,false,false
-901,21,11,wall,false,false
+899,19,11,null,false,false
+900,20,11,null,false,false
+901,21,11,null,false,false
 902,22,11,null,false,false
 903,23,11,null,false,false
 904,24,11,null,false,false
 905,25,11,null,false,false
-<<<<<<< HEAD
 906,26,11,null,false,false
 907,27,11,null,false,false
 908,28,11,null,false,false
@@ -1312,17 +919,6 @@
 912,32,11,hallway,false,false
 913,33,11,wall,false,false
 914,34,11,null,false,false
-=======
-906,26,11,wall,false,false
-907,27,11,wall,false,false
-908,28,11,hallway,false,false
-909,29,11,hallway,false,false
-910,30,11,wall,false,false
-911,31,11,room,false,false
-912,32,11,room,false,false
-913,33,11,room,false,false
-914,34,11,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 915,35,11,null,false,false
 916,36,11,null,false,false
 917,37,11,null,false,false
@@ -1337,7 +933,6 @@
 926,46,11,null,false,false
 927,47,11,null,false,false
 928,48,11,null,false,false
-<<<<<<< HEAD
 929,49,11,wall,false,false
 930,50,11,hallway,false,false
 931,51,11,hallway,false,false
@@ -1354,24 +949,6 @@
 942,62,11,null,false,false
 943,63,11,null,false,false
 944,64,11,null,false,false
-=======
-929,49,11,null,false,false
-930,50,11,null,false,false
-931,51,11,null,false,false
-932,52,11,null,false,false
-933,53,11,null,false,false
-934,54,11,null,false,false
-935,55,11,wall,false,false
-936,56,11,room,false,false
-937,57,11,room,false,false
-938,58,11,room,false,false
-939,59,11,room,false,false
-940,60,11,room,false,false
-941,61,11,room,false,false
-942,62,11,room,false,false
-943,63,11,room,false,false
-944,64,11,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 945,65,11,null,false,false
 946,66,11,null,false,false
 947,67,11,null,false,false
@@ -1397,29 +974,21 @@
 967,7,12,null,false,false
 968,8,12,null,false,false
 969,9,12,null,false,false
-<<<<<<< HEAD
 970,10,12,null,false,false
 971,11,12,null,false,false
 972,12,12,null,false,false
 973,13,12,null,false,false
-=======
-970,10,12,wall,false,false
-971,11,12,hallway,false,false
-972,12,12,hallway,false,false
-973,13,12,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 974,14,12,null,false,false
 975,15,12,null,false,false
 976,16,12,null,false,false
 977,17,12,null,false,false
 978,18,12,null,false,false
-979,19,12,wall,false,false
-980,20,12,hallway,false,false
-981,21,12,wall,false,false
+979,19,12,null,false,false
+980,20,12,null,false,false
+981,21,12,null,false,false
 982,22,12,null,false,false
 983,23,12,null,false,false
 984,24,12,null,false,false
-<<<<<<< HEAD
 985,25,12,null,false,false
 986,26,12,null,false,false
 987,27,12,null,false,false
@@ -1431,19 +1000,6 @@
 993,33,12,wall,false,false
 994,34,12,wall,false,false
 995,35,12,wall,false,false
-=======
-985,25,12,wall,false,false
-986,26,12,hallway,false,false
-987,27,12,hallway,false,false
-988,28,12,hallway,false,false
-989,29,12,wall,false,false
-990,30,12,wall,false,false
-991,31,12,room,false,false
-992,32,12,room,false,false
-993,33,12,room,false,false
-994,34,12,wall,false,false
-995,35,12,null,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 996,36,12,null,false,false
 997,37,12,null,false,false
 998,38,12,null,false,false
@@ -1458,7 +1014,6 @@
 1007,47,12,null,false,false
 1008,48,12,null,false,false
 1009,49,12,null,false,false
-<<<<<<< HEAD
 1010,50,12,wall,false,false
 1011,51,12,hallway,false,false
 1012,52,12,hallway,false,false
@@ -1474,23 +1029,6 @@
 1022,62,12,null,false,false
 1023,63,12,null,false,false
 1024,64,12,null,false,false
-=======
-1010,50,12,null,false,false
-1011,51,12,null,false,false
-1012,52,12,null,false,false
-1013,53,12,null,false,false
-1014,54,12,null,false,false
-1015,55,12,wall,false,false
-1016,56,12,room,false,false
-1017,57,12,room,false,false
-1018,58,12,room,false,false
-1019,59,12,room,false,false
-1020,60,12,room,false,false
-1021,61,12,room,false,false
-1022,62,12,room,false,false
-1023,63,12,room,false,false
-1024,64,12,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 1025,65,12,null,false,false
 1026,66,12,null,false,false
 1027,67,12,null,false,false
@@ -1517,32 +1055,25 @@
 1048,8,13,null,false,false
 1049,9,13,null,false,false
 1050,10,13,null,false,false
-<<<<<<< HEAD
 1051,11,13,null,false,false
 1052,12,13,null,false,false
 1053,13,13,null,false,false
-=======
-1051,11,13,wall,false,false
-1052,12,13,hallway,false,false
-1053,13,13,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 1054,14,13,null,false,false
 1055,15,13,null,false,false
 1056,16,13,null,false,false
 1057,17,13,null,false,false
 1058,18,13,null,false,false
-1059,19,13,wall,false,false
-1060,20,13,hallway,false,false
-1061,21,13,wall,false,false
+1059,19,13,null,false,false
+1060,20,13,null,false,false
+1061,21,13,null,false,false
 1062,22,13,null,false,false
 1063,23,13,null,false,false
-1064,24,13,wall,false,false
-1065,25,13,hallway,false,false
-1066,26,13,hallway,false,false
-1067,27,13,wall,false,false
-1068,28,13,wall,false,false
+1064,24,13,null,false,false
+1065,25,13,null,false,false
+1066,26,13,null,false,false
+1067,27,13,null,false,false
+1068,28,13,null,false,false
 1069,29,13,null,false,false
-<<<<<<< HEAD
 1070,30,13,null,false,false
 1071,31,13,wall,false,false
 1072,32,13,hallway,false,false
@@ -1557,22 +1088,6 @@
 1081,41,13,wall,false,false
 1082,42,13,wall,false,false
 1083,43,13,wall,false,false
-=======
-1070,30,13,wall,false,false
-1071,31,13,room,false,false
-1072,32,13,room,false,false
-1073,33,13,room,false,false
-1074,34,13,wall,false,false
-1075,35,13,null,false,false
-1076,36,13,null,false,false
-1077,37,13,null,false,false
-1078,38,13,null,false,false
-1079,39,13,null,false,false
-1080,40,13,null,false,false
-1081,41,13,null,false,false
-1082,42,13,null,false,false
-1083,43,13,null,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 1084,44,13,null,false,false
 1085,45,13,null,false,false
 1086,46,13,null,false,false
@@ -1580,7 +1095,6 @@
 1088,48,13,null,false,false
 1089,49,13,null,false,false
 1090,50,13,null,false,false
-<<<<<<< HEAD
 1091,51,13,wall,false,false
 1092,52,13,hallway,false,false
 1093,53,13,wall,false,false
@@ -1595,22 +1109,6 @@
 1102,62,13,null,false,false
 1103,63,13,null,false,false
 1104,64,13,null,false,false
-=======
-1091,51,13,null,false,false
-1092,52,13,null,false,false
-1093,53,13,null,false,false
-1094,54,13,null,false,false
-1095,55,13,wall,false,false
-1096,56,13,room,false,false
-1097,57,13,room,false,false
-1098,58,13,room,false,false
-1099,59,13,room,false,false
-1100,60,13,room,false,false
-1101,61,13,room,false,false
-1102,62,13,room,false,false
-1103,63,13,room,false,false
-1104,64,13,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 1105,65,13,null,false,false
 1106,66,13,null,false,false
 1107,67,13,null,false,false
@@ -1637,7 +1135,6 @@
 1128,8,14,null,false,false
 1129,9,14,null,false,false
 1130,10,14,null,false,false
-<<<<<<< HEAD
 1131,11,14,null,false,false
 1132,12,14,null,false,false
 1133,13,14,null,false,false
@@ -1674,49 +1171,10 @@
 1164,44,14,wall,false,false
 1165,45,14,wall,false,false
 1166,46,14,wall,false,false
-=======
-1131,11,14,wall,false,false
-1132,12,14,hallway,false,false
-1133,13,14,wall,false,false
-1134,14,14,wall,false,false
-1135,15,14,wall,false,false
-1136,16,14,wall,false,false
-1137,17,14,wall,false,false
-1138,18,14,null,false,false
-1139,19,14,wall,false,false
-1140,20,14,hallway,false,false
-1141,21,14,hallway,false,false
-1142,22,14,wall,false,false
-1143,23,14,wall,false,false
-1144,24,14,hallway,false,false
-1145,25,14,hallway,false,false
-1146,26,14,wall,false,false
-1147,27,14,wall,false,false
-1148,28,14,wall,false,false
-1149,29,14,wall,false,false
-1150,30,14,wall,false,false
-1151,31,14,room,false,false
-1152,32,14,room,false,false
-1153,33,14,room,false,false
-1154,34,14,wall,false,false
-1155,35,14,wall,false,false
-1156,36,14,wall,false,false
-1157,37,14,wall,false,false
-1158,38,14,null,false,false
-1159,39,14,null,false,false
-1160,40,14,null,false,false
-1161,41,14,null,false,false
-1162,42,14,null,false,false
-1163,43,14,null,false,false
-1164,44,14,null,false,false
-1165,45,14,null,false,false
-1166,46,14,null,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 1167,47,14,null,false,false
 1168,48,14,null,false,false
 1169,49,14,null,false,false
 1170,50,14,null,false,false
-<<<<<<< HEAD
 1171,51,14,wall,false,false
 1172,52,14,hallway,false,false
 1173,53,14,wall,false,false
@@ -1731,27 +1189,10 @@
 1182,62,14,null,false,false
 1183,63,14,null,false,false
 1184,64,14,null,false,false
-=======
-1171,51,14,null,false,false
-1172,52,14,null,false,false
-1173,53,14,null,false,false
-1174,54,14,null,false,false
-1175,55,14,wall,false,false
-1176,56,14,wall,false,false
-1177,57,14,wall,false,false
-1178,58,14,wall,false,false
-1179,59,14,wall,false,false
-1180,60,14,wall,false,false
-1181,61,14,wall,false,false
-1182,62,14,wall,false,false
-1183,63,14,wall,false,false
-1184,64,14,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 1185,65,14,null,false,false
 1186,66,14,null,false,false
 1187,67,14,null,false,false
 1188,68,14,null,false,false
-<<<<<<< HEAD
 1189,69,14,null,false,false
 1190,70,14,wall,false,false
 1191,71,14,room,false,false
@@ -1762,18 +1203,6 @@
 1196,76,14,room,false,false
 1197,77,14,room,false,false
 1198,78,14,room,false,false
-=======
-1189,69,14,wall,false,false
-1190,70,14,wall,false,false
-1191,71,14,wall,false,false
-1192,72,14,hallway,false,false
-1193,73,14,wall,false,false
-1194,74,14,wall,false,false
-1195,75,14,wall,false,false
-1196,76,14,wall,false,false
-1197,77,14,wall,false,false
-1198,78,14,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 1199,79,14,wall,false,false
 1200,0,15,null,false,false
 1201,1,15,null,false,false
@@ -1786,7 +1215,6 @@
 1208,8,15,null,false,false
 1209,9,15,null,false,false
 1210,10,15,null,false,false
-<<<<<<< HEAD
 1211,11,15,null,false,false
 1212,12,15,null,false,false
 1213,13,15,null,false,false
@@ -1830,51 +1258,6 @@
 1251,51,15,hallway,false,false
 1252,52,15,hallway,false,false
 1253,53,15,wall,false,false
-=======
-1211,11,15,wall,false,false
-1212,12,15,hallway,false,false
-1213,13,15,hallway,false,false
-1214,14,15,hallway,false,false
-1215,15,15,hallway,false,false
-1216,16,15,hallway,false,false
-1217,17,15,hallway,false,false
-1218,18,15,wall,false,false
-1219,19,15,null,false,false
-1220,20,15,wall,false,false
-1221,21,15,hallway,false,false
-1222,22,15,wall,false,false
-1223,23,15,hallway,false,false
-1224,24,15,hallway,false,false
-1225,25,15,hallway,false,false
-1226,26,15,wall,false,false
-1227,27,15,hallway,false,false
-1228,28,15,hallway,false,false
-1229,29,15,hallway,false,false
-1230,30,15,hallway,false,false
-1231,31,15,room,false,false
-1232,32,15,room,false,false
-1233,33,15,room,false,false
-1234,34,15,hallway,false,false
-1235,35,15,hallway,false,false
-1236,36,15,hallway,false,false
-1237,37,15,hallway,false,false
-1238,38,15,wall,false,false
-1239,39,15,wall,false,false
-1240,40,15,null,false,false
-1241,41,15,null,false,true
-1242,42,15,null,false,false
-1243,43,15,null,false,false
-1244,44,15,null,false,false
-1245,45,15,null,false,false
-1246,46,15,null,false,false
-1247,47,15,null,false,false
-1248,48,15,null,false,false
-1249,49,15,null,false,false
-1250,50,15,null,false,false
-1251,51,15,null,false,false
-1252,52,15,null,false,false
-1253,53,15,null,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 1254,54,15,null,false,false
 1255,55,15,null,false,false
 1256,56,15,null,false,false
@@ -1886,7 +1269,6 @@
 1262,62,15,null,false,false
 1263,63,15,null,false,false
 1264,64,15,null,false,false
-<<<<<<< HEAD
 1265,65,15,null,false,false
 1266,66,15,null,false,false
 1267,67,15,null,false,false
@@ -1902,23 +1284,6 @@
 1277,77,15,room,false,false
 1278,78,15,room,false,false
 1279,79,15,wall,false,false
-=======
-1265,65,15,wall,false,false
-1266,66,15,wall,false,false
-1267,67,15,wall,false,false
-1268,68,15,wall,false,false
-1269,69,15,hallway,false,false
-1270,70,15,hallway,false,false
-1271,71,15,hallway,false,false
-1272,72,15,hallway,false,false
-1273,73,15,wall,false,false
-1274,74,15,null,false,false
-1275,75,15,null,false,false
-1276,76,15,null,false,false
-1277,77,15,null,false,false
-1278,78,15,null,false,false
-1279,79,15,null,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 1280,0,16,null,false,false
 1281,1,16,null,false,false
 1282,2,16,null,false,false
@@ -1931,7 +1296,6 @@
 1289,9,16,null,false,false
 1290,10,16,null,false,false
 1291,11,16,null,false,false
-<<<<<<< HEAD
 1292,12,16,null,false,false
 1293,13,16,null,false,false
 1294,14,16,null,false,false
@@ -1973,49 +1337,6 @@
 1330,50,16,wall,false,false
 1331,51,16,hallway,false,false
 1332,52,16,wall,false,false
-=======
-1292,12,16,wall,false,false
-1293,13,16,wall,false,false
-1294,14,16,wall,false,false
-1295,15,16,wall,false,false
-1296,16,16,wall,false,false
-1297,17,16,hallway,false,false
-1298,18,16,wall,false,false
-1299,19,16,null,false,false
-1300,20,16,wall,false,false
-1301,21,16,hallway,false,false
-1302,22,16,hallway,false,false
-1303,23,16,hallway,false,false
-1304,24,16,wall,false,false
-1305,25,16,hallway,false,false
-1306,26,16,hallway,false,false
-1307,27,16,hallway,false,false
-1308,28,16,hallway,false,false
-1309,29,16,hallway,false,false
-1310,30,16,wall,false,false
-1311,31,16,room,false,false
-1312,32,16,room,false,false
-1313,33,16,room,false,false
-1314,34,16,wall,false,false
-1315,35,16,wall,false,false
-1316,36,16,wall,false,false
-1317,37,16,hallway,false,false
-1318,38,16,hallway,false,false
-1319,39,16,hallway,false,true
-1320,40,16,wall,false,true
-1321,41,16,null,false,true
-1322,42,16,null,false,true
-1323,43,16,null,false,true
-1324,44,16,null,false,false
-1325,45,16,wall,false,false
-1326,46,16,wall,false,false
-1327,47,16,null,false,false
-1328,48,16,null,false,false
-1329,49,16,null,false,false
-1330,50,16,null,false,false
-1331,51,16,null,false,false
-1332,52,16,null,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 1333,53,16,null,false,false
 1334,54,16,null,false,false
 1335,55,16,null,false,false
@@ -2023,7 +1344,6 @@
 1337,57,16,null,false,false
 1338,58,16,null,false,false
 1339,59,16,null,false,false
-<<<<<<< HEAD
 1340,60,16,null,false,false
 1341,61,16,null,false,false
 1342,62,16,null,false,false
@@ -2044,28 +1364,6 @@
 1357,77,16,room,false,false
 1358,78,16,room,false,false
 1359,79,16,wall,false,false
-=======
-1340,60,16,wall,false,false
-1341,61,16,wall,false,false
-1342,62,16,wall,false,false
-1343,63,16,wall,false,false
-1344,64,16,wall,false,false
-1345,65,16,hallway,false,false
-1346,66,16,hallway,false,false
-1347,67,16,hallway,false,false
-1348,68,16,hallway,false,false
-1349,69,16,hallway,false,false
-1350,70,16,wall,false,false
-1351,71,16,wall,false,false
-1352,72,16,wall,false,false
-1353,73,16,null,false,false
-1354,74,16,null,false,false
-1355,75,16,null,false,false
-1356,76,16,null,false,false
-1357,77,16,null,false,false
-1358,78,16,null,false,false
-1359,79,16,null,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 1360,0,17,null,false,false
 1361,1,17,null,false,false
 1362,2,17,null,false,false
@@ -2082,7 +1380,6 @@
 1373,13,17,null,false,false
 1374,14,17,null,false,false
 1375,15,17,null,false,false
-<<<<<<< HEAD
 1376,16,17,null,false,false
 1377,17,17,null,false,false
 1378,18,17,null,false,false
@@ -2147,72 +1444,6 @@
 1437,77,17,room,false,false
 1438,78,17,room,false,false
 1439,79,17,wall,false,false
-=======
-1376,16,17,wall,false,false
-1377,17,17,hallway,false,false
-1378,18,17,hallway,false,false
-1379,19,17,wall,false,false
-1380,20,17,wall,false,false
-1381,21,17,hallway,false,false
-1382,22,17,wall,false,false
-1383,23,17,wall,false,false
-1384,24,17,null,false,false
-1385,25,17,wall,false,false
-1386,26,17,wall,false,false
-1387,27,17,wall,false,false
-1388,28,17,wall,false,false
-1389,29,17,hallway,false,false
-1390,30,17,wall,false,false
-1391,31,17,room,false,false
-1392,32,17,room,false,false
-1393,33,17,room,false,false
-1394,34,17,wall,false,false
-1395,35,17,wall,false,false
-1396,36,17,hallway,false,false
-1397,37,17,hallway,false,false
-1398,38,17,wall,false,false
-1399,39,17,hallway,false,true
-1400,40,17,hallway,false,true
-1401,41,17,wall,false,true
-1402,42,17,wall,false,true
-1403,43,17,wall,false,true
-1404,44,17,wall,false,false
-1405,45,17,hallway,false,false
-1406,46,17,hallway,false,false
-1407,47,17,wall,false,false
-1408,48,17,null,false,false
-1409,49,17,null,false,false
-1410,50,17,null,false,false
-1411,51,17,wall,false,false
-1412,52,17,wall,false,false
-1413,53,17,wall,false,false
-1414,54,17,wall,false,false
-1415,55,17,wall,false,false
-1416,56,17,wall,false,false
-1417,57,17,wall,false,false
-1418,58,17,wall,false,false
-1419,59,17,wall,false,false
-1420,60,17,hallway,false,false
-1421,61,17,hallway,false,false
-1422,62,17,hallway,false,false
-1423,63,17,hallway,false,false
-1424,64,17,hallway,false,false
-1425,65,17,hallway,false,false
-1426,66,17,wall,false,false
-1427,67,17,wall,false,false
-1428,68,17,wall,false,false
-1429,69,17,wall,false,false
-1430,70,17,null,false,false
-1431,71,17,null,false,false
-1432,72,17,null,false,false
-1433,73,17,null,false,false
-1434,74,17,null,false,false
-1435,75,17,null,false,false
-1436,76,17,null,false,false
-1437,77,17,null,false,false
-1438,78,17,null,false,false
-1439,79,17,null,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 1440,0,18,null,false,false
 1441,1,18,null,false,false
 1442,2,18,null,false,false
@@ -2230,27 +1461,17 @@
 1454,14,18,null,false,false
 1455,15,18,null,false,false
 1456,16,18,null,false,false
-<<<<<<< HEAD
 1457,17,18,null,false,false
 1458,18,18,null,false,false
 1459,19,18,null,false,false
 1460,20,18,null,false,false
 1461,21,18,null,false,false
 1462,22,18,null,false,false
-=======
-1457,17,18,wall,false,false
-1458,18,18,hallway,false,false
-1459,19,18,hallway,false,false
-1460,20,18,hallway,false,false
-1461,21,18,hallway,false,false
-1462,22,18,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 1463,23,18,null,false,false
 1464,24,18,null,false,false
 1465,25,18,null,false,false
 1466,26,18,null,false,false
 1467,27,18,null,false,false
-<<<<<<< HEAD
 1468,28,18,null,false,false
 1469,29,18,null,false,false
 1470,30,18,null,false,false
@@ -2271,7 +1492,7 @@
 1485,45,18,null,false,false
 1486,46,18,wall,false,false
 1487,47,18,wall,false,false
-1488,48,18,hallway,true,false
+1488,48,18,hallway,false,false
 1489,49,18,wall,false,false
 1490,50,18,wall,false,false
 1491,51,18,hallway,false,false
@@ -2289,46 +1510,6 @@
 1503,63,18,null,false,false
 1504,64,18,null,false,false
 1505,65,18,null,false,false
-=======
-1468,28,18,wall,false,false
-1469,29,18,hallway,false,false
-1470,30,18,wall,false,false
-1471,31,18,wall,false,false
-1472,32,18,wall,false,false
-1473,33,18,wall,false,false
-1474,34,18,wall,false,false
-1475,35,18,wall,false,false
-1476,36,18,hallway,false,false
-1477,37,18,wall,false,false
-1478,38,18,null,false,true
-1479,39,18,wall,false,true
-1480,40,18,hallway,false,true
-1481,41,18,hallway,true,true
-1482,42,18,hallway,false,true
-1483,43,18,hallway,false,true
-1484,44,18,hallway,false,false
-1485,45,18,hallway,false,false
-1486,46,18,hallway,false,false
-1487,47,18,wall,false,false
-1488,48,18,wall,false,false
-1489,49,18,wall,false,false
-1490,50,18,wall,false,false
-1491,51,18,hallway,false,false
-1492,52,18,hallway,false,false
-1493,53,18,hallway,false,false
-1494,54,18,hallway,false,false
-1495,55,18,hallway,false,false
-1496,56,18,hallway,false,false
-1497,57,18,hallway,false,false
-1498,58,18,hallway,false,false
-1499,59,18,hallway,false,false
-1500,60,18,hallway,false,false
-1501,61,18,wall,false,false
-1502,62,18,wall,false,false
-1503,63,18,wall,false,false
-1504,64,18,wall,false,false
-1505,65,18,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 1506,66,18,null,false,false
 1507,67,18,null,false,false
 1508,68,18,null,false,false
@@ -2361,24 +1542,16 @@
 1535,15,19,null,false,false
 1536,16,19,null,false,false
 1537,17,19,null,false,false
-<<<<<<< HEAD
 1538,18,19,null,false,false
 1539,19,19,null,false,false
 1540,20,19,null,false,false
 1541,21,19,null,false,false
-=======
-1538,18,19,wall,false,false
-1539,19,19,start,false,false
-1540,20,19,wall,false,false
-1541,21,19,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 1542,22,19,null,false,false
 1543,23,19,null,false,false
 1544,24,19,null,false,false
 1545,25,19,null,false,false
 1546,26,19,null,false,false
 1547,27,19,null,false,false
-<<<<<<< HEAD
 1548,28,19,null,false,false
 1549,29,19,null,false,false
 1550,30,19,null,false,false
@@ -2399,34 +1572,11 @@
 1565,45,19,null,false,false
 1566,46,19,null,false,false
 1567,47,19,wall,false,false
-=======
-1548,28,19,wall,false,false
-1549,29,19,hallway,false,false
-1550,30,19,wall,false,false
-1551,31,19,wall,false,false
-1552,32,19,wall,false,false
-1553,33,19,wall,false,false
-1554,34,19,hallway,false,false
-1555,35,19,hallway,false,false
-1556,36,19,hallway,false,false
-1557,37,19,wall,false,false
-1558,38,19,null,false,false
-1559,39,19,null,false,true
-1560,40,19,wall,false,true
-1561,41,19,wall,false,true
-1562,42,19,wall,false,true
-1563,43,19,wall,false,true
-1564,44,19,wall,false,false
-1565,45,19,wall,false,false
-1566,46,19,hallway,false,false
-1567,47,19,hallway,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 1568,48,19,hallway,false,false
 1569,49,19,hallway,false,false
 1570,50,19,hallway,false,false
 1571,51,19,hallway,false,false
 1572,52,19,wall,false,false
-<<<<<<< HEAD
 1573,53,19,null,false,false
 1574,54,19,null,false,false
 1575,55,19,null,false,false
@@ -2435,16 +1585,6 @@
 1578,58,19,null,false,false
 1579,59,19,null,false,false
 1580,60,19,null,false,false
-=======
-1573,53,19,wall,false,false
-1574,54,19,wall,false,false
-1575,55,19,wall,false,false
-1576,56,19,wall,false,false
-1577,57,19,wall,false,false
-1578,58,19,wall,false,false
-1579,59,19,wall,false,false
-1580,60,19,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 1581,61,19,null,false,false
 1582,62,19,null,false,false
 1583,63,19,null,false,false
@@ -2483,11 +1623,7 @@
 1616,16,20,null,false,false
 1617,17,20,null,false,false
 1618,18,20,null,false,false
-<<<<<<< HEAD
 1619,19,20,null,false,false
-=======
-1619,19,20,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 1620,20,20,null,false,false
 1621,21,20,null,false,false
 1622,22,20,null,false,false
@@ -2496,7 +1632,6 @@
 1625,25,20,null,false,false
 1626,26,20,null,false,false
 1627,27,20,null,false,false
-<<<<<<< HEAD
 1628,28,20,null,false,false
 1629,29,20,null,false,false
 1630,30,20,null,false,false
@@ -2506,39 +1641,20 @@
 1634,34,20,null,false,false
 1635,35,20,null,false,false
 1636,36,20,null,false,false
-=======
-1628,28,20,wall,false,false
-1629,29,20,hallway,false,false
-1630,30,20,hallway,false,false
-1631,31,20,hallway,false,false
-1632,32,20,hallway,false,false
-1633,33,20,hallway,false,false
-1634,34,20,hallway,false,false
-1635,35,20,wall,false,false
-1636,36,20,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 1637,37,20,null,false,false
 1638,38,20,null,false,false
-1639,39,20,null,false,true
-1640,40,20,null,false,true
-1641,41,20,null,false,true
-1642,42,20,null,false,true
-1643,43,20,null,false,true
+1639,39,20,null,false,false
+1640,40,20,null,false,false
+1641,41,20,null,false,false
+1642,42,20,null,false,false
+1643,43,20,null,false,false
 1644,44,20,null,false,false
 1645,45,20,null,false,false
-<<<<<<< HEAD
 1646,46,20,null,false,false
 1647,47,20,null,false,false
 1648,48,20,wall,false,false
 1649,49,20,hallway,false,false
 1650,50,20,hallway,false,false
-=======
-1646,46,20,wall,false,false
-1647,47,20,wall,false,false
-1648,48,20,wall,false,false
-1649,49,20,wall,false,false
-1650,50,20,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 1651,51,20,wall,false,false
 1652,52,20,null,false,false
 1653,53,20,null,false,false
@@ -2597,21 +1713,12 @@
 1706,26,21,null,false,false
 1707,27,21,null,false,false
 1708,28,21,null,false,false
-<<<<<<< HEAD
 1709,29,21,null,false,false
 1710,30,21,null,false,false
 1711,31,21,null,false,false
 1712,32,21,null,false,false
 1713,33,21,null,false,false
 1714,34,21,null,false,false
-=======
-1709,29,21,wall,false,false
-1710,30,21,wall,false,false
-1711,31,21,wall,false,false
-1712,32,21,wall,false,false
-1713,33,21,wall,false,false
-1714,34,21,wall,false,false
->>>>>>> 43443941cd27193af8070fdd685a443385692927
 1715,35,21,null,false,false
 1716,36,21,null,false,false
 1717,37,21,null,false,false
@@ -2793,7 +1900,7 @@
 1893,53,23,start,false,false
 1894,54,23,hallway,false,false
 1895,55,23,hallway,false,false
-1896,56,23,hallway,false,false
+1896,56,23,hallway,true,false
 1897,57,23,wall,false,false
 1898,58,23,hallway,false,false
 1899,59,23,wall,false,false

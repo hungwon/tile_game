@@ -2,7 +2,6 @@ package byow.Core.worldMap;
 
 import byow.Core.Graph.Dijkstra;
 import byow.Core.Graph.UndirectedGraph;
-import byow.Core.Main;
 import byow.TileEngine.TETile;
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.Tileset;
@@ -632,7 +631,7 @@ public class World {
      */
     public TETile[][] partialVisualize() {
         TETile[][] visualWorld = new TETile[worldWidth][worldHeight];
-        if (visualizeAll){
+        if (visualizeAll) {
             visualWorld = allVisualize();
             return visualWorld;
         }
