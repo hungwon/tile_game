@@ -14,125 +14,73 @@ public class Engine {
     public static final int WIDTH = 80;
     public static final int HEIGHT = 30;
     public static final int NUMBER = 10000000;
-
     public boolean gameOver = false;
-
-
-
-
-
 
     /**
      * Method used for exploring a fresh world. This method should handle all inputs,
      * including inputs from the main menu.
      */
-
-
-
     public void gameStart(World world) {
-
         boolean gameOver = false;
         int cnt = 0;
-
         char prev = ' ';
-
         while (!gameOver) {
-
-            String s = world.tileAtMousePoint();
-
-
-            StdDraw.setPenColor(Color.WHITE);
-            Font fontBig = new Font("Monaco", Font.BOLD, 20);
-            StdDraw.setFont(fontBig);
-
-            StdDraw.text(4, HEIGHT - 1, world.tileAtMousePoint());
-            StdDraw.show();
-
+            TETile[][] teTiles = world.partialVisualize();
+            for (int i = 0; i< world.tileAtMousePoint().length(); i++) {
+                teTiles[WIDTH/2 + i][HEIGHT - 1] =  new TETile(world.tileAtMousePoint().charAt(i), Color.white, Color.BLACK, "" );
+            }
+            ter.renderFrame(teTiles);
             if (StdDraw.hasNextKeyTyped()) {
                 char c = StdDraw.nextKeyTyped();
-
-
                 if (prev == ':' && (c == 'q' || c == 'Q')) {
                     world.save();
                     gameOver = true;
                     System.exit(0);
-                }
-
-                else if (c == 'W' || c == 'w') {
+                } else if (c == 'W' || c == 'w') {
                     world.up();
                     cnt++;
-
                 } else if (c == 'S' || c == 's') {
                     world.down();
                     cnt++;
-
                 } else if (c == 'A' || c == 'a') {
                     world.left();
                     cnt++;
-
                 } else if (c == 'D' || c == 'd') {
                     world.right();
                     cnt++;
-
                 } else if (c == 'G' || c == 'g') {
                     world.changeVisualizeMode();
                 } else if (c == 'O' || c == 'o') {
                     world.changeAvatarTile();
                 }
-
                 prev = c;
             }
-
             if (cnt == 100000) {
                 gameOver = true;
             }
         }
-
-
-
     }
-
-
-
-
     public void interactWithKeyboard() {
 
         TERenderer ter = new TERenderer();
         ter.initialize(80, 30);
-
         World world; // declare the world object
-
         String command = ter.drawWord(1, false);
-
         if (command.equals("n") || command.equals("N")) {
-
             String inputSeed = ter.drawSeed(19, false); // greatest number of seed has 19 digits
-
             long longSeed = Long.parseLong(inputSeed);
             world = new World(30, 80, longSeed);
             TETile[][] testWorld = world.allVisualize();
             ter.renderFrame(testWorld);
             gameStart(world);
-
-
-
         } else if (command.equals("l") || command.equals("L")) {
-
             world = World.load();
             TETile[][] testWorld = world.partialVisualize();
             ter.renderFrame(testWorld);
             gameStart(world);
-
-
         } else {
-
             System.exit(0);
         }
-
-
-
-
-
     }
 
     /**
