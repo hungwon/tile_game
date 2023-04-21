@@ -97,6 +97,7 @@ public class TERenderer {
             }
         }
         StdDraw.show();
+        StdDraw.pause(100);
     }
 
 
@@ -104,7 +105,7 @@ public class TERenderer {
 
 
 
-    public void drawFrame(String s, boolean gameOver) {
+    public void renderMainMenu(String s, boolean gameOver) {
 
         StdDraw.clear(Color.BLACK);
         StdDraw.setPenColor(Color.WHITE);
@@ -115,7 +116,7 @@ public class TERenderer {
         if (!gameOver) {
             StdDraw.setFont(fontBig);
             StdDraw.text(this.width - (this.width - 10), this.height - 5, "New Game (N)");
-            StdDraw.text(this.width / 2, this.height - 5, "Load Game (N)");
+            StdDraw.text(this.width / 2, this.height - 5, "Load Game (L)");
             StdDraw.text(this.width - 10, this.height - 5, "Quit (Q)");
         }
 
@@ -126,6 +127,7 @@ public class TERenderer {
 
     public String drawWord(int n, boolean gameOver) {
 
+
         int cnt = 0;
 
         StringBuilder sb = new StringBuilder();
@@ -133,13 +135,70 @@ public class TERenderer {
         while (cnt < n) {
             if (StdDraw.hasNextKeyTyped()) {
                 char c = StdDraw.nextKeyTyped();
-                sb.append(c);
-                cnt++;
+
+                if (c == 'n' || c == 'N' || c == 'l' || c == 'L' || c == 'q' || c == 'Q') {
+                    sb.append(c);
+                    cnt++;
+                }
             }
-            drawFrame(sb.toString(), gameOver);
+            renderMainMenu(sb.toString(), gameOver);
             StdDraw.pause(200);
         }
 
         return sb.toString();
     }
+
+
+
+
+
+
+
+
+    public void renderStartMenu(String s, boolean gameOver) {
+
+        StdDraw.clear(Color.BLACK);
+        StdDraw.setPenColor(Color.WHITE);
+        Font fontBig = new Font("Monaco", Font.BOLD, 30);
+        StdDraw.setFont(fontBig);
+        StdDraw.text(this.width / 2, this.height / 2, s);
+
+        if (!gameOver) {
+            StdDraw.setFont(fontBig);
+            StdDraw.text(this.width / 2, this.height - 5, "Type the Seed and Press (S) to Start");
+        }
+
+        StdDraw.show();
+    }
+
+
+
+
+    public String drawSeed(int n, boolean gameOver) {
+
+        int cnt = 0;
+
+        StringBuilder sb = new StringBuilder();
+
+        while (cnt < n) {
+            if (StdDraw.hasNextKeyTyped()) {
+                char c = StdDraw.nextKeyTyped();
+                System.out.println(c);
+                System.out.println(c>='0' && c <= '9');
+
+                if (c >= '0' && c <= '9') {
+                    sb.append(c);
+                    cnt++;
+                } else if (cnt > 0 && (c == 's' || c == 'S')) {
+                    cnt = n;
+                }
+            }
+
+            renderStartMenu(sb.toString(), gameOver);
+            StdDraw.pause(200);
+        }
+
+        return sb.toString();
+    }
+
 }

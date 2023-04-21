@@ -5,6 +5,7 @@ public class Block {
     private int x;
     private int y;
     private int key; // Index of Block[][] world
+    private boolean isAvatarAt;
 
     public static final int MAXINDEXFORY = 29;
     public static final int MAXINDEXFORX = 2399;
@@ -21,6 +22,35 @@ public class Block {
         this.x = x;
         this.y = y;
         this.type = type;
+        this.isAvatarAt = false;
+    }
+
+    public Block(int index, int x, int y, String type, boolean isAvatar) {
+        key = index;
+        this.x = x;
+        this.y = y;
+        this.type = type;
+        this.isAvatarAt = isAvatar;
+    }
+
+    public boolean isAvatar() {
+        return isAvatarAt;
+    }
+
+    /**
+     * move avatar from a to b
+     * @param a avatar's initial location
+     * @param b where avatar will be arrived
+     */
+    public static int moveAvaterTo(Block a, Block b) {
+        if (b == null) {
+            a.isAvatarAt = true;
+            return a.key;
+        }
+
+        a.isAvatarAt = false;
+        b.isAvatarAt = true;
+        return b.key();
     }
 
     public boolean isMargin() {
@@ -70,7 +100,7 @@ public class Block {
         return false;
     }
 
-    public boolean isStart(){
+    public boolean isStart() {
         if (type == null) {
             return false;
         }

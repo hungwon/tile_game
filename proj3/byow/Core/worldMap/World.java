@@ -5,6 +5,8 @@ import byow.Core.Graph.UndirectedGraph;
 import byow.TileEngine.TETile;
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.Tileset;
+import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.Out;
 import edu.princeton.cs.algs4.StdDraw;
 
 import java.util.ArrayList;
@@ -27,19 +29,51 @@ public class World {
     public static final double RANDDOUBLE = 0.8;
     public static final int MAXROOM = 8;
     public static final int MAXINDEX = 2399;
+    public static final int MAXY = 29;
+    public static final int MAXX = 79;
+    public static final int N = 10000;
+    private TERenderer ter;
+    private long seed;
+    private int avatarLocation;
+
     public World(int height, int width, long seed) {
         maxNumHall = 2;
         worldWidth = width;
         worldHeight = height;
+
         world = generateEmptyWorld(height, width);
-        Random deletedRandom = new Random(10000);
-        random = new Random(Math.floorMod(seed, deletedRandom.nextInt(MAXDIVSTART, MAXDIVEND)));
+        Random deletedRandom = new Random(N);
+        seed = Math.floorMod(seed, deletedRandom.nextInt(MAXDIVSTART, MAXDIVEND));
+        random = new Random(seed);
+
         worldGraph = generateWorldGraph();
+
         generateRoom();
+
         startIndex = setStartPoint();
+
         generateHallways();
         generateWalls();
+
         blockAt(startIndex).changeType("start");
+        createAvatar();
+
+        ter = new TERenderer();
+        ter.initialize(worldWidth, worldHeight);
+    }
+
+    public World(int height, int width, long seed, int start, int avatarLoc, Block[][] lastWord) {
+        world = lastWord;
+        worldWidth = width;
+        worldHeight = height;
+        this.seed = seed;
+        this.random = new Random(this.seed);
+        startIndex = start;
+        blockAt(startIndex).changeType("start");
+        this.avatarLocation = avatarLoc;
+        ter = new TERenderer();
+        ter.initialize(worldWidth, worldHeight);
+
     }
 
     public Block blockAt(int index) {
@@ -64,6 +98,7 @@ public class World {
     public int getWorldHeight() {
         return worldHeight;
     }
+
     //--------------------------------- Tool Box -------------------------------------
     public boolean isEdgePoint(int index, int bottomLeftIndex, int upperRightIndex) {
 
@@ -170,7 +205,7 @@ public class World {
 
     // --------------------------------- Tool Box for Creating Room --------------------------------
     private boolean isBetween(int topR, List<List<Integer>> everySP) {
-        for (List<Integer> lst: everySP) {
+        for (List<Integer> lst : everySP) {
             List<Integer> spCoord = indexToXY(lst.get(0)); // starting point's coord
             List<Integer> trCoord = indexToXY(lst.get(1)); // topright point's coord
             List<Integer> newTopRightCoord = indexToXY(topR); // current's topright point's coord
@@ -184,7 +219,9 @@ public class World {
         return false;
     }
 
-    /** The edge cannot be a door. */
+    /**
+     * The edge cannot be a door.
+     */
     private boolean invalidDoorLocation(int location) {
 
         return (location >= 0 && location <= (worldWidth * 2) - 1)
@@ -328,8 +365,6 @@ public class World {
         int numRoom = random.nextInt(5, MAXROOM);
 
 
-
-
         // everySP is a list of list. It will contain every valid starting point's information
         // Each of inner list have two specific index: [0] = starting point index , [1] = top right point index
         List<List<Integer>> everySP = new LinkedList<>();
@@ -355,7 +390,6 @@ public class World {
             int bottomL = startingP; // bottom left
             int bottomR = startingP + gridWidth - 1; // bottom right
             int topL = topR - gridWidth + 1; // top left
-
 
 
             while (startingP % worldWidth > worldWidth - MAX_LIMIT || isBetween(topR, everySP)
@@ -393,14 +427,15 @@ public class World {
 
     /**
      * for step 2:
-     *  if selected door is NOT connected to the door that is already confirmed
-     *      AND if selected door is NOT same as the door that is already confirmed
-     *      add it into the confirmedDoors list
-     *      !worldGraph.isConnected(alreadyConfirmed, selected)
+     * if selected door is NOT connected to the door that is already confirmed
+     * AND if selected door is NOT same as the door that is already confirmed
+     * add it into the confirmedDoors list
+     * !worldGraph.isConnected(alreadyConfirmed, selected)
+     * <p>
+     * temporarily solved connected doors by comparing
+     * selected door + 1 or selected door - 1 or selected door + worldWidth or selected door - worldWidth
+     * is NOT equal to alreadyConfirmed door
      *
-     *      temporarily solved connected doors by comparing
-     *      selected door + 1 or selected door - 1 or selected door + worldWidth or selected door - worldWidth
-     *      is NOT equal to alreadyConfirmed door
      * @param startingP
      * @param gridWidth
      * @param gridHeight
@@ -411,7 +446,7 @@ public class World {
         String[] arr = {"room", "hallway"};
         String s = "";
         if (gridHeight == 4 && maxNumHall != 0 && numDoor == 2 && gridWidth >= 7) {
-            s = arr[ Math.floorMod(random.nextInt(), 2)];
+            s = arr[Math.floorMod(random.nextInt(), 2)];
             if (s.equals("hallway")) {
                 maxNumHall--;
                 //System.out.println("MAKE H = 2 HALLWAY");
@@ -437,7 +472,6 @@ public class World {
         // step 2. change some grid to door
         List<Integer> confirmedDoors = new LinkedList<>();
         while (confirmedDoors.size() < numDoor) {
-            System.out.println("valid door");
             int selected = potentialDoors.get(random.nextInt(0, potentialDoors.size()));
             if (confirmedDoors.size() == 0) {
                 confirmedDoors.add(selected);
@@ -489,11 +523,11 @@ public class World {
         List<Integer> hallwayIndexList;
         Dijkstra dijk = new Dijkstra(worldGraph);
 
-        for (Integer doorIndex: doorIndexLst) {
+        for (Integer doorIndex : doorIndexLst) {
 
             hallwayIndexList = dijk.findPath(startIndex, doorIndex);
 
-            for (int i: hallwayIndexList) {
+            for (int i : hallwayIndexList) {
                 blockAt(i).changeType("hallway");
             }
         }
@@ -530,8 +564,8 @@ public class World {
 
         for (int i = 0; i < worldHeight; i++) {
             for (int j = 0; j < worldWidth; j++) {
-                if (world[j][i].isDoor()) {
-                    visualWorld[j][i] = Tileset.MOUNTAIN;
+                if (world[j][i].isAvatar()) {
+                    visualWorld[j][i] = Tileset.AVATAR;
                 } else if (world[j][i].isRoom()) {
                     visualWorld[j][i] = Tileset.TREE;
                 } else if (world[j][i].isWall()) {
@@ -540,22 +574,102 @@ public class World {
                     visualWorld[j][i] = Tileset.FLOOR;
                 } else if (world[j][i].isStart()) {
                     visualWorld[j][i] = Tileset.FLOWER;
-
+                } else if (world[j][i].isDoor()) {
+                    visualWorld[j][i] = Tileset.MOUNTAIN;
                 }
             }
         }
         return visualWorld;
     }
 
+    // ---------------------------- Avatar -------------------------------------
+    public void createAvatar() {
+        avatarLocation = Block.moveAvaterTo(blockAt(startIndex), null);
+    }
 
+    public void up() {
+        if (indexToXY(avatarLocation).get(1) + 1 != MAXY && !blockAt(avatarLocation + worldWidth).isWall()) {
+            avatarLocation = Block.moveAvaterTo(blockAt(avatarLocation), blockAt(avatarLocation + worldWidth));
+        }
+        TETile[][] testWorld = visualize();
+        ter.renderFrame(testWorld);
+    }
 
+    public void down() {
+        if (indexToXY(avatarLocation).get(1) - 1 != 0 && !blockAt(avatarLocation - worldWidth).isWall()) {
+            avatarLocation = Block.moveAvaterTo(blockAt(avatarLocation), blockAt(avatarLocation - worldWidth));
+        }
+        TETile[][] testWorld = visualize();
+        ter.renderFrame(testWorld);
+    }
 
+    public void left() {
+        if (indexToXY(avatarLocation).get(0) - 1 != 0 && !blockAt(avatarLocation - 1).isWall()) {
+            avatarLocation = Block.moveAvaterTo(blockAt(avatarLocation), blockAt(avatarLocation - 1));
+        }
+        TETile[][] testWorld = visualize();
+        ter.renderFrame(testWorld);
+    }
 
+    public void right() {
+        if (indexToXY(avatarLocation).get(0) + 1 != MAXX && !blockAt(avatarLocation + 1).isWall()) {
+            avatarLocation = Block.moveAvaterTo(blockAt(avatarLocation), blockAt(avatarLocation + 1));
+        }
+        TETile[][] testWorld = visualize();
+        ter.renderFrame(testWorld);
+    }
 
+    // ------------------------------ Save -------------------------------------
 
+    public void save() {
+        Out o = new Out("save.txt");
+        o.println(worldWidth);
+        o.println(worldHeight);
+        o.println(startIndex);
+        o.println(seed);
+        o.println(avatarLocation);
+        for (int i = 0; i <= MAXINDEX; i++) {
+            o.println(i + "," + indexToXY(i).get(0) + "," + indexToXY(i).get(1) + ","
+                    + blockAt(i).blockType() + "," + blockAt(i).isAvatar());
+        }
+        o.close();
+        System.out.println("save finished");
+    }
 
+    public static World load() {
 
+        In in = new In("save.txt");
+        int w = Integer.parseInt(in.readLine());
+        System.out.println("width: " + w);
+        int h = Integer.parseInt(in.readLine());
+        System.out.println("height: " + h);
+        int sI = Integer.parseInt(in.readLine());
+        System.out.println("startIndex: " + sI);
+        Long s = Long.parseLong(in.readLine());
+        System.out.println("seed: " + s);
+        int aLoc = Integer.parseInt(in.readLine());
+        System.out.println("avatar location: " + aLoc);
 
+        int index = 0;
+        int x = 0;
+        int y = 0;
+        String type = "";
+        boolean isAvatar = false;
+
+        Block[][] newWorld = new Block[w][h];
+        int i = 0;
+        while (!in.isEmpty()) {
+            String[] splitline = in.readLine().split(",");
+            index = Integer.parseInt(splitline[0]);
+            x = Integer.parseInt(splitline[1]);
+            y = Integer.parseInt(splitline[2]);
+            type = splitline[3];
+            isAvatar = Boolean.parseBoolean(splitline[4]);
+            newWorld[x][y] = new Block(index, x, y, type, isAvatar);
+            i++;
+        }
+        return new World(h, w, s, sI, aLoc, newWorld);
+    }
 
 
     // ------------------------------ Main --------------------------------------
@@ -570,7 +684,7 @@ public class World {
 //        }
 
         TERenderer ter = new TERenderer();
-
+        ter.initialize(80, 30);
 
 
         String command = "";
@@ -579,8 +693,10 @@ public class World {
         boolean menu = false;
 
         while (!menu) {
+
             String inputString = ter.drawWord(1, menu);
             command = inputString;
+
 
             if (inputString.equals("n") ||
                     inputString.equals("N") ||
@@ -592,11 +708,9 @@ public class World {
             }
         }
 
-
         if (command.equals("n") || command.equals("N")) {
 
             World world = new World(30, 80, 58000);
-            ter.initialize(world.worldWidth, world.worldHeight);
             TETile[][] testWorld = world.visualize();
             ter.renderFrame(testWorld);
 
@@ -612,10 +726,62 @@ public class World {
 
 
 
-
-
         // visualize the world
         //ter.renderFrame(testWorld);
     }
+
+
+//    public static void main(String[] args) {
+//
+//        int num2 = 89898;
+//        World world = new World(30, 80, num2);
+//        TETile[][] testWorld = world.visualize();
+//        world.ter.renderFrame(testWorld);
+//
+//        int i = 0;
+//        int cnt = 0;
+//        Random ran = new Random(num2);
+//        while (cnt <= 20) {
+//            cnt++;
+//            i = ran.nextInt(0, 4);
+//            if (i == 0) {
+//                world.up();
+//            } else if (i == 1) {
+//                world.right();
+//            } else if (i == 2) {
+//                world.left();
+//            } else {
+//                world.down();
+//            }
+//        }
+//        world.save();
+//
+//        StdDraw.pause(1000);
+//        world = new World(30, 80, num2 + 1);
+//        testWorld = world.visualize();
+//        world.ter.renderFrame(testWorld);
+//        System.out.println("refresh");
+//        StdDraw.pause(1000);
+//
+//        world = world.load();
+//        testWorld = world.visualize();
+//        world.ter.renderFrame(testWorld);
+//
+//        cnt = 0;
+//        while (cnt <= 20000) {
+//            cnt++;
+//            i = ran.nextInt(0, 4);
+//            if (i == 0) {
+//                world.up();
+//            } else if (i == 1) {
+//                world.right();
+//            } else if (i == 2) {
+//                world.left();
+//            } else {
+//                world.down();
+//            }
+//        }
+//    }
 }
+
 
