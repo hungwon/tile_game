@@ -631,8 +631,12 @@ public class World {
      * @return TETile[][]
      */
     public TETile[][] partialVisualize() {
-
         TETile[][] visualWorld = new TETile[worldWidth][worldHeight];
+        if (visualizeAll){
+            visualWorld = allVisualize();
+            return visualWorld;
+        }
+
         int xIndex = indexToXY(avatarLocation).get(0);
         int yIndex = indexToXY(avatarLocation).get(1);
         int r = 3;
@@ -699,84 +703,64 @@ public class World {
         if (indexToXY(avatarLocation).get(1) + 1 != MAXY && !blockAt(avatarLocation + worldWidth).isWall()) {
             avatarLocation = Block.moveAvaterTo(blockAt(avatarLocation), blockAt(avatarLocation + worldWidth));
         }
-        TETile[][] testWorld;
         if (visualizeAll && moveCnt < MAXMOVECNT) {
-            testWorld = allVisualize();
             moveCnt++;
             if (moveCnt >= MAXMOVECNT) {
                 moveCnt = 0;
                 visualizeAll = false;
             }
-        } else {
-            testWorld = partialVisualize();
         }
         if (skillTime > 0) {
             skillTime--;
         }
-        ter.renderFrame(testWorld);
     }
 
     public void down() {
         if (indexToXY(avatarLocation).get(1) - 1 != 0 && !blockAt(avatarLocation - worldWidth).isWall()) {
             avatarLocation = Block.moveAvaterTo(blockAt(avatarLocation), blockAt(avatarLocation - worldWidth));
         }
-        TETile[][] testWorld;
         if (visualizeAll && moveCnt < MAXMOVECNT) {
-            testWorld = allVisualize();
             moveCnt++;
             if (moveCnt >= MAXMOVECNT) {
                 moveCnt = 0;
                 visualizeAll = false;
             }
-        } else {
-            testWorld = partialVisualize();
         }
         if (skillTime > 0) {
             skillTime--;
         }
-        ter.renderFrame(testWorld);
     }
 
     public void left() {
         if (indexToXY(avatarLocation).get(0) - 1 != 0 && !blockAt(avatarLocation - 1).isWall()) {
             avatarLocation = Block.moveAvaterTo(blockAt(avatarLocation), blockAt(avatarLocation - 1));
         }
-        TETile[][] testWorld;
         if (visualizeAll && moveCnt < MAXMOVECNT) {
-            testWorld = allVisualize();
             moveCnt++;
             if (moveCnt >= MAXMOVECNT) {
                 moveCnt = 0;
                 visualizeAll = false;
             }
-        } else {
-            testWorld = partialVisualize();
         }
         if (skillTime > 0) {
             skillTime--;
         }
-        ter.renderFrame(testWorld);
     }
 
     public void right() {
         if (indexToXY(avatarLocation).get(0) + 1 != MAXX && !blockAt(avatarLocation + 1).isWall()) {
             avatarLocation = Block.moveAvaterTo(blockAt(avatarLocation), blockAt(avatarLocation + 1));
         }
-        TETile[][] testWorld;
         if (visualizeAll && moveCnt < MAXMOVECNT) {
-            testWorld = allVisualize();
             moveCnt++;
             if (moveCnt >= MAXMOVECNT) {
                 moveCnt = 0;
                 visualizeAll = false;
             }
-        } else {
-            testWorld = partialVisualize();
         }
         if (skillTime > 0) {
             skillTime--;
         }
-        ter.renderFrame(testWorld);
     }
 
     public void changeVisualizeMode() {
@@ -846,11 +830,21 @@ public class World {
     }
 
     public String tileAtMousePoint() {
+        int xIndex = indexToXY(avatarLocation).get(0);
+        int yIndex = indexToXY(avatarLocation).get(1);
+        int r = 3;
+        for (int j = yIndex - r; j < yIndex + r; j++) {
+            for (int i = xIndex - r; i < xIndex + r; i++) {
+                if (Math.pow(i - xIndex, 2) + Math.pow(j - yIndex, 2) <= Math.pow(r, 2)) {
+                    blockAt(j * worldWidth + i).changeScope(true);
+                }
+            }
+        }
         long x = Math.round(StdDraw.mouseX());
         long y = Math.round(StdDraw.mouseY());
         int indexOfMouse = (int) (x + y * worldWidth);
 
-        if (indexOfMouse >= 0 && indexOfMouse <= MAXINDEX) {
+        if (indexOfMouse >= 0 && indexOfMouse <= MAXINDEX && blockAt(indexOfMouse).isInScope()) {
             return blockAt(indexOfMouse).blockType();
         }
         return "Not in the World Map";
