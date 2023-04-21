@@ -38,19 +38,9 @@ public class Engine {
 
         while (!gameOver) {
 
-            String s = world.tileAtMousePoint();
-
-
-            StdDraw.setPenColor(Color.WHITE);
-            Font fontBig = new Font("Monaco", Font.BOLD, 20);
-            StdDraw.setFont(fontBig);
-
-            StdDraw.text(4, HEIGHT - 1, world.tileAtMousePoint());
-            StdDraw.show();
 
             if (StdDraw.hasNextKeyTyped()) {
                 char c = StdDraw.nextKeyTyped();
-
 
                 if (prev == ':' && (c == 'q' || c == 'Q')) {
                     world.save();
@@ -81,7 +71,12 @@ public class Engine {
                 }
 
                 prev = c;
+            } else {
+                StdDraw.show();
             }
+
+
+
 
             if (cnt == 100000) {
                 gameOver = true;
@@ -97,8 +92,8 @@ public class Engine {
 
     public void interactWithKeyboard() {
 
-        TERenderer ter = new TERenderer();
-        ter.initialize(80, 30);
+        // TERenderer ter = new TERenderer();
+        ter.initialize(WIDTH, HEIGHT);
 
         World world; // declare the world object
 
@@ -110,7 +105,7 @@ public class Engine {
 
             long longSeed = Long.parseLong(inputSeed);
             world = new World(30, 80, longSeed);
-            TETile[][] testWorld = world.allVisualize();
+            TETile[][] testWorld = world.partialVisualize();
             ter.renderFrame(testWorld);
             gameStart(world);
 
@@ -164,21 +159,112 @@ public class Engine {
         // See proj3.byow.InputDemo for a demo of how you can make a nice clean interface
         // that works for many different input types.
 
-        String strSeed = "";
 
-        for (int i = 0; i < input.length(); i++) {
-            if (i > 0 && i < input.length() - 1) {
-                strSeed += input.charAt(i);
+        TETile[][] finalWorldFrame;
+
+        ter.initialize(WIDTH, HEIGHT);
+
+        World world;
+
+
+        char command = input.charAt(0);
+
+
+        if (command == 'n' || command == 'N') {
+
+            String strSeed = "";
+            int last = 0;
+
+            for (int i = 1; i < input.length(); i++) {
+
+                char current = input.charAt(i);
+                if (Character.isDigit(current)) {
+                    strSeed += current;
+                    last = i;
+                }
             }
+
+
+            long mySeed = Math.floorMod(Long.parseLong(strSeed), NUMBER);
+            String inGameCommands = "";
+
+
+
+            for (int i = last + 1; i < input.length(); i++) {
+
+                char current = input.charAt(i);
+                inGameCommands += current;
+            }
+
+
+
+            // String inputSeed = ter.drawSeed(19, false); // greatest number of seed has 19 digits
+            // long longSeed = Long.parseLong(mySeed);
+
+
+            for (int i = 0; i < inGameCommands.length(); i++) {
+
+                char current = inGameCommands.charAt(i);
+
+                if (current == 'W' || current == 'w') {
+
+                    //move up
+                } else if (current == 'S' || current 's') {
+                    //move down
+                } else if (current == 'A' || current 'a') {
+                    //move left
+                } else if (current){
+                    // move right
+                }
+
+            }
+
+
+
+            world = new World(30, 80, mySeed);
+
+            TETile[][] testWorld = world.allVisualize();
+            ter.renderFrame(testWorld);
+            gameStart(world);
+
+            finalWorldFrame = testWorld;
+
+        } else if (command == 'l' || command == 'L') {
+            world = World.load();
+            TETile[][] testWorld = world.allVisualize();
+            ter.renderFrame(testWorld);
+            gameStart(world);
+
+            finalWorldFrame = testWorld;
+        } else {
+
+            finalWorldFrame = new TETile[0][0];
         }
 
-        long intSeed = Math.floorMod(Long.parseLong(strSeed), NUMBER);
-
-        World world = new World(HEIGHT, WIDTH, intSeed);
-
-        ter.initialize(world.getWorldWidth(), world.getWorldHeight());
-
-        TETile[][] finalWorldFrame = world.visualize();
+//
+//        if (command == 'N' || command == 'n') {
+//
+//            char startingCommand =
+//
+//            String inputSeed = ter.drawSeed(19, false); // greatest number of seed has 19 digits
+//
+//            long longSeed = Long.parseLong(inputSeed);
+//            world = new World(30, 80, longSeed);
+//            TETile[][] testWorld = world.allVisualize();
+//            ter.renderFrame(testWorld);
+//            gameStart(world);
+//
+//
+//        }
+//
+//
+//
+//
+//        World world = new World(HEIGHT, WIDTH, intSeed);
+//
+//        ter.initialize(world.getWorldWidth(), world.getWorldHeight());
+//
+//        TETile[][] finalWorldFrame = world.visualize();
         return finalWorldFrame;
     }
 }
