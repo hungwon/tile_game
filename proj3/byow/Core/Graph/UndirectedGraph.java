@@ -20,17 +20,19 @@ public class UndirectedGraph {
     public boolean isIsolated(int i) {
         return adj(i).size() == 0;
     }
+
     public List<WeightedEdge> adj(int i) {
         return adj.get(i);
     }
+
     public List<WeightedEdge> adj(Block b) {
         return adj.get(b.key());
     }
+
     public void addEdge(Block s, Block t, double w) {
         adj.get(s.key()).add(new WeightedEdge(s, t, w));
         adj.get(t.key()).add(new WeightedEdge(t, s, w));
         e++;
-
     }
 
     public boolean isConnected(int a, int b) {
@@ -38,7 +40,6 @@ public class UndirectedGraph {
             return false;
         }
         for (WeightedEdge edgeE: adj(a)) {
-
             if (edgeE.to().key() == b) {
                 return true;
             }

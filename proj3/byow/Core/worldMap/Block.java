@@ -35,9 +35,11 @@ public class Block {
         this.isAvatarAt = isAvatar;
         this.inScope = inScope;
     }
+
     public boolean isInScope() {
         return inScope;
     }
+
     public void changeScope(boolean b) {
         this.inScope = b;
     }
@@ -100,7 +102,7 @@ public class Block {
      */
     public String blockType() {
         return type;
-    } // changed to public
+    }
 
     public boolean isNull() {
         if (type == null) {
@@ -118,6 +120,7 @@ public class Block {
         }
         return false;
     }
+
     public boolean isDoor() {
         if (type == null) {
             return false;
@@ -158,7 +161,6 @@ public class Block {
         }
         return false;
     }
-
 
     /**
      * <p>

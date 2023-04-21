@@ -8,7 +8,6 @@ import byow.TileEngine.Tileset;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Out;
 import edu.princeton.cs.algs4.StdDraw;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -63,7 +62,6 @@ public class World {
 
         visualizeAll = false;
         moveCnt = 0;
-
         ter = new TERenderer();
         ter.initialize(worldWidth, worldHeight);
     }
@@ -256,7 +254,6 @@ public class World {
     }
 
     private void determineDisconnect(int current) {
-
         // see the drawing that I drew on the notion
 
         if (current > 0 && current < worldWidth - 1) { // red
@@ -365,26 +362,20 @@ public class World {
 
     // ------------------------------ Step C -----------------------------------
     public void generateRoom() {
-
         // doorIndexLst will contain every door's index (should be used to make hallways)
         doorIndexLst = new ArrayList<>();
 
-
         // numRoom is the number of room; we will have 5 to 15 rooms per world.
         int numRoom = random.nextInt(5, MAXROOM);
-
 
         // everySP is a list of list. It will contain every valid starting point's information
         // Each of inner list have two specific index: [0] = starting point index , [1] = top right point index
         List<List<Integer>> everySP = new LinkedList<>();
 
-
         for (int i = 0; i < numRoom; i++) {
-
             // Create random gridWidth and gridHeight -> [4, MAX_LIMIT]
             int gridWidth = random.nextInt(4, MAX_LIMIT + 1);
             int gridHeight = random.nextInt(4, MAX_LIMIT + 1);
-
 
             // Instantiate a maximum starting point by using worldWidth, worldHeight, and MAX_LIMIT
             int maximum = (worldWidth - MAX_LIMIT) + (worldHeight - MAX_LIMIT) * worldWidth;
@@ -400,13 +391,9 @@ public class World {
             int bottomR = startingP + gridWidth - 1; // bottom right
             int topL = topR - gridWidth + 1; // top left
 
-
             while (startingP % worldWidth > worldWidth - MAX_LIMIT || isBetween(topR, everySP)
                     || isBetween(bottomL, everySP) || isBetween(bottomR, everySP)
                     || isBetween(topL, everySP)) {
-
-                //System.out.println(numRoom);
-                //System.out.println("valid starting point");
 
                 startingP = random.nextInt(0, maximum + 1);
 
@@ -418,17 +405,12 @@ public class World {
                     numRoom--;
                 }
             }
-
-
             // create a list that will store starting point and top right point
             List<Integer> validSP = new LinkedList<>();
             validSP.add(startingP);
             validSP.add(topR);
-
             // add every valid starting point's bottom left (itself) and the top right point
             everySP.add(validSP);
-
-
             // draw a room
             makeNbyMRoom(startingP, gridWidth, gridHeight);
         }
@@ -481,7 +463,6 @@ public class World {
         // step 2. change some grid to door
         List<Integer> confirmedDoors = new LinkedList<>();
         while (confirmedDoors.size() < numDoor) {
-            System.out.println("valid door");
             int selected = potentialDoors.get(random.nextInt(0, potentialDoors.size()));
             if (confirmedDoors.size() == 0) {
                 confirmedDoors.add(selected);
@@ -633,6 +614,7 @@ public class World {
         }
         return visualWorld;
     }
+
     // ---------------------------- Avatar -------------------------------------
     public void createAvatar() {
         avatarLocation = Block.moveAvaterTo(blockAt(startIndex), null);
@@ -719,7 +701,7 @@ public class World {
         moveCnt = 0;
     }
 
-    // ------------------------------ Save -------------------------------------
+    // ------------------------------ Save and Loading -------------------------------------
 
     public void save() {
         Out o = new Out("save.txt");
@@ -773,6 +755,18 @@ public class World {
         return new World(h, w, s, sI, aLoc, newWorld);
     }
 
+    public String tileAtMousePoint() {
+        long x = Math.round(StdDraw.mouseX());
+        long y = Math.round(StdDraw.mouseY());
+        int indexOfMouse = (int) (x + y * worldWidth);
+
+        if (indexOfMouse >= 0 && indexOfMouse <= MAXINDEX) {
+            return blockAt(indexOfMouse).blockType();
+        }
+        return "Not in the World Map";
+    }
+
+
     // ------------------------------ Main --------------------------------------
 //
 //    public static void main(String[] args) {
@@ -793,9 +787,11 @@ public class World {
 
     public static void main(String[] args) {
 
-        int num2 = 8121;
+        int num2 = 8126;
         World world = new World(30, 80, num2);
         TETile[][] testWorld = world.partialVisualize();
+        world.ter.renderFrame(testWorld);
+        StdDraw.pause(1000);
 
         int i = 0;
         int cnt = 0;
@@ -813,12 +809,11 @@ public class World {
             }
             cnt++;
         }
-
-        world.save();
         StdDraw.pause(1000);
+        world.save();
 
-        world = new World(30, 80, num2 + 1);
-        testWorld = world.partialVisualize();
+        world = new World(30, 80, num2 + ran.nextInt(1, 10));
+        testWorld = world.allVisualize();
         world.ter.renderFrame(testWorld);
         StdDraw.pause(5000);
         System.out.println("refresh");
@@ -826,7 +821,7 @@ public class World {
         world = World.load();
         cnt = 0;
         while (cnt <= 20000) {
-            if (Math.floorMod(cnt, 10) == 0) {
+            if (Math.floorMod(cnt, 20) == 0) {
                 world.changeVisualizeMode();
             }
             i = ran.nextInt(0, 4);
@@ -841,6 +836,7 @@ public class World {
             }
         cnt++;
         }
+
     }
 }
 
