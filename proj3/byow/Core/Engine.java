@@ -38,9 +38,15 @@ public class Engine {
 
         while (!gameOver) {
 
-            System.out.println(world.tileAtMousePoint());
+            String s = world.tileAtMousePoint();
 
-            ter.drawBlockType(world.tileAtMousePoint(), false);
+
+            StdDraw.setPenColor(Color.WHITE);
+            Font fontBig = new Font("Monaco", Font.BOLD, 20);
+            StdDraw.setFont(fontBig);
+
+            StdDraw.text(4, HEIGHT - 1, world.tileAtMousePoint());
+            StdDraw.show();
 
             if (StdDraw.hasNextKeyTyped()) {
                 char c = StdDraw.nextKeyTyped();
@@ -70,6 +76,8 @@ public class Engine {
 
                 } else if (c == 'G' || c == 'g') {
                     world.changeVisualizeMode();
+                } else if (c == 'O' || c == 'o') {
+                    world.changeAvatarTile();
                 }
 
                 prev = c;

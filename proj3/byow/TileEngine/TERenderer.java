@@ -206,9 +206,9 @@ public class TERenderer {
 
         StdDraw.clear(Color.BLACK);
         StdDraw.setPenColor(Color.WHITE);
-        Font fontBig = new Font("Monaco", Font.BOLD, 10);
+        Font fontBig = new Font("Monaco", Font.BOLD, 20);
         StdDraw.setFont(fontBig);
-        StdDraw.text(1, 1, s);
+        StdDraw.text(1, this.height - 1, s);
 
         StdDraw.show();
     }
