@@ -682,7 +682,6 @@ public class World {
         if (visualizeAll && moveCnt < MAXMOVECNT) {
             testWorld = allVisualize();
             moveCnt++;
-            skillTime--;
             if (moveCnt >= MAXMOVECNT) {
                 moveCnt = 0;
                 visualizeAll = false;
@@ -691,6 +690,7 @@ public class World {
             testWorld = partialVisualize();
         }
 
+        skillTime--;
         ter.renderFrame(testWorld);
     }
 
@@ -702,7 +702,6 @@ public class World {
         if (visualizeAll && moveCnt < MAXMOVECNT) {
             testWorld = allVisualize();
             moveCnt++;
-            skillTime--;
             if (moveCnt >= MAXMOVECNT) {
                 moveCnt = 0;
                 visualizeAll = false;
@@ -711,6 +710,7 @@ public class World {
             testWorld = partialVisualize();
         }
 
+        skillTime--;
         ter.renderFrame(testWorld);
     }
 
@@ -722,7 +722,6 @@ public class World {
         if (visualizeAll && moveCnt < MAXMOVECNT) {
             testWorld = allVisualize();
             moveCnt++;
-            skillTime--;
             if (moveCnt >= MAXMOVECNT) {
                 moveCnt = 0;
                 visualizeAll = false;
@@ -730,7 +729,9 @@ public class World {
         } else {
             testWorld = partialVisualize();
         }
-
+        if (skillTime > 0) {
+            skillTime--;
+        }
         ter.renderFrame(testWorld);
     }
 
@@ -742,7 +743,6 @@ public class World {
         if (visualizeAll && moveCnt < MAXMOVECNT) {
             testWorld = allVisualize();
             moveCnt++;
-            skillTime--;
             if (moveCnt >= MAXMOVECNT) {
                 moveCnt = 0;
                 visualizeAll = false;
@@ -750,12 +750,15 @@ public class World {
         } else {
             testWorld = partialVisualize();
         }
-
+        if (skillTime > 0) {
+            skillTime--;
+        }
         ter.renderFrame(testWorld);
     }
 
     public void changeVisualizeMode() {
         if (skillTime == 0) {
+
             visualizeAll = true;
             moveCnt = 0;
             skillTime = 8;
