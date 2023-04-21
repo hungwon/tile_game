@@ -98,4 +98,48 @@ public class TERenderer {
         }
         StdDraw.show();
     }
+
+
+
+
+
+
+    public void drawFrame(String s, boolean gameOver) {
+
+        StdDraw.clear(Color.BLACK);
+        StdDraw.setPenColor(Color.WHITE);
+        Font fontBig = new Font("Monaco", Font.BOLD, 30);
+        StdDraw.setFont(fontBig);
+        StdDraw.text(this.width / 2, this.height / 2, s);
+
+        if (!gameOver) {
+            StdDraw.setFont(fontBig);
+            StdDraw.text(this.width - (this.width - 10), this.height - 5, "New Game (N)");
+            StdDraw.text(this.width / 2, this.height - 5, "Load Game (N)");
+            StdDraw.text(this.width - 10, this.height - 5, "Quit (Q)");
+        }
+
+        StdDraw.show();
+    }
+
+
+
+    public String drawWord(int n, boolean gameOver) {
+
+        int cnt = 0;
+
+        StringBuilder sb = new StringBuilder();
+
+        while (cnt < n) {
+            if (StdDraw.hasNextKeyTyped()) {
+                char c = StdDraw.nextKeyTyped();
+                sb.append(c);
+                cnt++;
+            }
+            drawFrame(sb.toString(), gameOver);
+            StdDraw.pause(200);
+        }
+
+        return sb.toString();
+    }
 }

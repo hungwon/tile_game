@@ -1,23 +1,56 @@
 package byow.Core;
 
+import byow.Core.UI.UserInterface;
 import byow.Core.worldMap.World;
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
+import edu.princeton.cs.algs4.StdDraw;
+
+import java.awt.*;
 
 public class Engine {
     TERenderer ter = new TERenderer();
     /* Feel free to change the width and height. */
     public static final int WIDTH = 80;
     public static final int HEIGHT = 30;
-
     public static final int NUMBER = 10000000;
+
+    public boolean gameOver = false;
+
+
+
+
+
 
     /**
      * Method used for exploring a fresh world. This method should handle all inputs,
      * including inputs from the main menu.
      */
+
+
+
+
+
+
+
     public void interactWithKeyboard() {
 
+
+        World world = new World(WIDTH, HEIGHT, 58000);
+
+        ter.initialize(world.getWorldWidth(), world.getWorldHeight());
+        TETile[][] testWorld = world.visualize();
+
+
+//        ter.renderMainMenu(world.getWorldWidth(), world.getWorldHeight(), "hello");
+//
+//        ter.renderFrame(testWorld);
+
+//        World world = new World(WIDTH, HEIGHT, 58000);
+//        TERenderer ter = new TERenderer();
+//        ter.initialize(world.worldWidth, world.worldHeight);
+//        TETile[][] testWorld = world.visualize();
+//        ter.renderFrame(testWorld);
     }
 
     /**

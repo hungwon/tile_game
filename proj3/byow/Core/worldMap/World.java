@@ -5,6 +5,8 @@ import byow.Core.Graph.UndirectedGraph;
 import byow.TileEngine.TETile;
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.Tileset;
+import edu.princeton.cs.algs4.StdDraw;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -545,22 +547,75 @@ public class World {
         return visualWorld;
     }
 
+
+
+
+
+
+
+
+
+
+
+
     // ------------------------------ Main --------------------------------------
+
+    public static void main(String[] args) {
+
 //
-//    public static void main(String[] args) {
-//
-////
-////        int num2 = 73415;
-////        for (int i =0; i < 1000000; i += 100) {
-////            System.out.println(i);
-////            World world = new World(30, 80, i);
-////        }
-//
-//        World world = new World(30, 80, 58000);
-//        TERenderer ter = new TERenderer();
-//        ter.initialize(world.worldWidth, world.worldHeight);
-//        TETile[][] testWorld = world.visualize();
-//        ter.renderFrame(testWorld);
-//    }
+//        int num2 = 73415;
+//        for (int i =0; i < 1000000; i += 100) {
+//            System.out.println(i);
+//            World world = new World(30, 80, i);
+//        }
+
+        TERenderer ter = new TERenderer();
+
+
+
+        String command = "";
+        // visualize the main menu and input string
+
+        boolean menu = false;
+
+        while (!menu) {
+            String inputString = ter.drawWord(1, menu);
+            command = inputString;
+
+            if (inputString.equals("n") ||
+                    inputString.equals("N") ||
+                    inputString.equals("l") ||
+                    inputString.equals("L") ||
+                    inputString.equals("Q") ||
+                    inputString.equals("q")) {
+                menu = true;
+            }
+        }
+
+
+        if (command.equals("n") || command.equals("N")) {
+
+            World world = new World(30, 80, 58000);
+            ter.initialize(world.worldWidth, world.worldHeight);
+            TETile[][] testWorld = world.visualize();
+            ter.renderFrame(testWorld);
+
+        } else if (command.equals("l") || command.equals("L")) {
+
+            System.out.println("load");
+
+        } else {
+
+            System.out.println("quit");
+            System.exit(0);
+        }
+
+
+
+
+
+        // visualize the world
+        //ter.renderFrame(testWorld);
+    }
 }
 
