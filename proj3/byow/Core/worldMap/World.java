@@ -37,6 +37,7 @@ public class World {
     private int avatarLocation;
     private boolean visualizeAll;
     private int moveCnt;
+    private int skillTime;
 
     public World(int height, int width, long seed) {
         maxNumHall = 2;
@@ -62,6 +63,7 @@ public class World {
 
         visualizeAll = false;
         moveCnt = 0;
+        skillTime = 0;
         ter = new TERenderer();
         ter.initialize(worldWidth, worldHeight);
     }
@@ -78,11 +80,13 @@ public class World {
 
         visualizeAll = false;
         moveCnt = 0;
+        skillTime = 0;
         ter = new TERenderer();
         ter.initialize(worldWidth, worldHeight);
 
     }
 
+    //--------------------------------- Tool Box -------------------------------------
     public Block blockAt(int index) {
         return world[index % worldWidth][index / worldWidth];
     }
@@ -106,7 +110,6 @@ public class World {
         return worldHeight;
     }
 
-    //--------------------------------- Tool Box -------------------------------------
     public boolean isEdgePoint(int index, int bottomLeftIndex, int upperRightIndex) {
 
         if (isTopLeft(index, bottomLeftIndex, upperRightIndex)) {
@@ -303,6 +306,13 @@ public class World {
     }
 
     // ------------------------------ Step A -----------------------------------
+
+    /**
+     * Instantiate Block[][]
+     * @param h height
+     * @param w width
+     * @return Block[][]
+     */
     public Block[][] generateEmptyWorld(int h, int w) {
         Block[][] retWorld = new Block[w][h];
         for (int j = 0; j < h; j++) {
@@ -314,6 +324,13 @@ public class World {
     }
 
     // ------------------------------ Step B -----------------------------------
+
+    /**
+     * In order to use Dijkstra's algorithm, I create undirected graph.
+     * e.g. a middle index of the world map is connected with four neigbors(top, bottom, left, right)
+     * Just for Dijkstra's algorithm
+     * @return undirected weigthed Edge graph
+     */
     public UndirectedGraph generateWorldGraph() {
         UndirectedGraph retGraph = new UndirectedGraph(worldHeight * worldWidth);
 
@@ -348,6 +365,10 @@ public class World {
         return retGraph;
     }
 
+    /**
+     * Avoiding margin of the world map and rooms, choose a random point for a starting point
+     * @return the location of starting point
+     */
     public Integer setStartPoint() {
         List<Integer> possibleStartingPoint = new ArrayList<>();
         for (int i = 0; i < worldWidth * worldHeight - 1; i++) {
@@ -361,6 +382,14 @@ public class World {
     }
 
     // ------------------------------ Step C -----------------------------------
+
+    /**
+     * 1. determine random number of rooms
+     * 2. determine random numbers of height and width of the room => random size
+     * 3. determine random location of the room fulfills the location condition.
+     * 4. Call makeNbyMRoom, then it will create a room
+     *    corresponding to the above condition with random number of door.
+     */
     public void generateRoom() {
         // doorIndexLst will contain every door's index (should be used to make hallways)
         doorIndexLst = new ArrayList<>();
@@ -434,6 +463,7 @@ public class World {
     public void makeNbyMRoom(int startingP, int gridWidth, int gridHeight) {
 
         int numDoor = random.nextInt(1, 3);
+
         String[] arr = {"room", "hallway"};
         String s = "";
         if (gridHeight == 4 && maxNumHall != 0 && numDoor == 2 && gridWidth >= 7) {
@@ -510,6 +540,12 @@ public class World {
     }
 
     // ------------------------------ Step D -----------------------------------
+
+    /**
+     * using Dijkstra's algorithm, connect starting point of the world and every door of rooms.
+     * The shortest Path that meets two condition: (1. q != room 2. q is not at the margin of the world)
+     * becomes the path of a hallway
+     */
     public void generateHallways() {
         List<Integer> hallwayIndexList;
         Dijkstra dijk = new Dijkstra(worldGraph);
@@ -524,6 +560,9 @@ public class World {
         }
     }
 
+    /**
+     * for every block, it surrounds hallways with wall type block.
+     */
     public void generateWalls() {
         for (int i = worldWidth + 1; i < (worldWidth * worldHeight) - worldWidth - 1; i++) {
             if (blockAt(i).isHallway()) {
@@ -544,6 +583,11 @@ public class World {
     }
 
     // ------------------------------ Step E -----------------------------------
+
+    /**
+     * helper func for partialVisualize
+     * @return TETile[][]
+     */
     public TETile[][] visualize() {
 
         TETile[][] visualWorld = new TETile[worldWidth][worldHeight];
@@ -574,6 +618,11 @@ public class World {
         }
         return visualWorld;
     }
+
+    /**
+     * only surrounding part of avatar is visible
+     * @return TETile[][]
+     */
     public TETile[][] partialVisualize() {
 
         TETile[][] visualWorld = new TETile[worldWidth][worldHeight];
@@ -590,6 +639,11 @@ public class World {
         visualWorld = visualize();
         return visualWorld;
     }
+
+    /**
+     * every map is visible
+     * @return TETile[][]
+     */
     public TETile[][] allVisualize() {
         TETile[][] visualWorld = new TETile[worldWidth][worldHeight];
         for (int i = 0; i < worldHeight; i++) {
@@ -628,6 +682,7 @@ public class World {
         if (visualizeAll && moveCnt < MAXMOVECNT) {
             testWorld = allVisualize();
             moveCnt++;
+            skillTime--;
             if (moveCnt >= MAXMOVECNT) {
                 moveCnt = 0;
                 visualizeAll = false;
@@ -647,6 +702,7 @@ public class World {
         if (visualizeAll && moveCnt < MAXMOVECNT) {
             testWorld = allVisualize();
             moveCnt++;
+            skillTime--;
             if (moveCnt >= MAXMOVECNT) {
                 moveCnt = 0;
                 visualizeAll = false;
@@ -666,6 +722,7 @@ public class World {
         if (visualizeAll && moveCnt < MAXMOVECNT) {
             testWorld = allVisualize();
             moveCnt++;
+            skillTime--;
             if (moveCnt >= MAXMOVECNT) {
                 moveCnt = 0;
                 visualizeAll = false;
@@ -685,6 +742,7 @@ public class World {
         if (visualizeAll && moveCnt < MAXMOVECNT) {
             testWorld = allVisualize();
             moveCnt++;
+            skillTime--;
             if (moveCnt >= MAXMOVECNT) {
                 moveCnt = 0;
                 visualizeAll = false;
@@ -697,11 +755,14 @@ public class World {
     }
 
     public void changeVisualizeMode() {
-        visualizeAll = true;
-        moveCnt = 0;
+        if (skillTime == 0) {
+            visualizeAll = true;
+            moveCnt = 0;
+            skillTime = 8;
+        }
     }
 
-    // ------------------------------ Save and Loading -------------------------------------
+    // ------------------------------ Save, Loading, etc -------------------------------------
 
     public void save() {
         Out o = new Out("save.txt");
@@ -764,79 +825,6 @@ public class World {
             return blockAt(indexOfMouse).blockType();
         }
         return "Not in the World Map";
-    }
-
-
-    // ------------------------------ Main --------------------------------------
-//
-//    public static void main(String[] args) {
-//
-////
-////        int num2 = 73415;
-////        for (int i =0; i < 1000000; i += 100) {
-////            System.out.println(i);
-////            World world = new World(30, 80, i);
-////        }
-//
-//        World world = new World(30, 80, 58000);
-//        TERenderer ter = new TERenderer();
-//        ter.initialize(world.worldWidth, world.worldHeight);
-//        TETile[][] testWorld = world.visualize();
-//        ter.renderFrame(testWorld);
-//    }
-
-    public static void main(String[] args) {
-
-        int num2 = 8126;
-        World world = new World(30, 80, num2);
-        TETile[][] testWorld = world.partialVisualize();
-        world.ter.renderFrame(testWorld);
-        StdDraw.pause(1000);
-
-        int i = 0;
-        int cnt = 0;
-        Random ran = new Random(num2);
-        while (cnt <= 5) {
-            i = ran.nextInt(0, 4);
-            if (i == 0) {
-                world.up();
-            } else if (i == 1) {
-                world.right();
-            } else if (i == 2) {
-                world.left();
-            } else {
-                world.down();
-            }
-            cnt++;
-        }
-        StdDraw.pause(1000);
-        world.save();
-
-        world = new World(30, 80, num2 + ran.nextInt(1, 10));
-        testWorld = world.allVisualize();
-        world.ter.renderFrame(testWorld);
-        StdDraw.pause(5000);
-        System.out.println("refresh");
-
-        world = World.load();
-        cnt = 0;
-        while (cnt <= 20000) {
-            if (Math.floorMod(cnt, 20) == 0) {
-                world.changeVisualizeMode();
-            }
-            i = ran.nextInt(0, 4);
-            if (i == 0) {
-                world.up();
-            } else if (i == 1) {
-                world.right();
-            } else if (i == 2) {
-                world.left();
-            } else {
-                world.down();
-            }
-        cnt++;
-        }
-
     }
 }
 
