@@ -57,11 +57,11 @@ public class Engine {
             }
         }
 
-        long intSeed = Math.floorMod(Long.parseLong(strSeed),NUMBER);
+        long intSeed = Math.floorMod(Long.parseLong(strSeed), NUMBER);
 
         System.out.println(intSeed);
 
-        World world = new World( HEIGHT, WIDTH, intSeed);
+        World world = new World(HEIGHT, WIDTH, intSeed);
 
         ter.initialize(world.getWorldWidth(), world.getWorldHeight());
 

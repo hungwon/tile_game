@@ -359,6 +359,8 @@ public class World {
         int numRoom = random.nextInt(5, MAXROOM);
 
 
+
+
         // everySP is a list of list. It will contain every valid starting point's information
         // Each of inner list have two specific index: [0] = starting point index , [1] = top right point index
         List<List<Integer>> everySP = new LinkedList<>();
@@ -391,12 +393,18 @@ public class World {
                     || isBetween(bottomL, everySP) || isBetween(bottomR, everySP)
                     || isBetween(topL, everySP)) {
 
+                //System.out.println(numRoom);
+                //System.out.println("valid starting point");
+
                 startingP = random.nextInt(0, maximum + 1);
 
                 topR = startingP + worldWidth * (gridHeight - 1) + (gridWidth - 1);
                 bottomL = startingP; // to test our starting point is valid or not
                 bottomR = startingP + gridWidth - 1;
                 topL = topR - gridWidth + 1;
+                if (numRoom >= 3) {
+                    numRoom--;
+                }
             }
 
 
@@ -460,6 +468,7 @@ public class World {
         // step 2. change some grid to door
         List<Integer> confirmedDoors = new LinkedList<>();
         while (confirmedDoors.size() < numDoor) {
+            System.out.println("valid door");
             int selected = potentialDoors.get(random.nextInt(0, potentialDoors.size()));
             if (confirmedDoors.size() == 0) {
                 confirmedDoors.add(selected);
@@ -517,9 +526,6 @@ public class World {
 
             for (int i: hallwayIndexList) {
                 blockAt(i).changeType("hallway");
-                //if (blockAt(i).isNull()) {
-                //    blockAt(i).changeType("hallway");
-                //}
             }
         }
     }
@@ -659,6 +665,23 @@ public class World {
     }
 
     // ------------------------------ Main --------------------------------------
+//
+//    public static void main(String[] args) {
+//
+////
+////        int num2 = 73415;
+////        for (int i =0; i < 1000000; i += 100) {
+////            System.out.println(i);
+////            World world = new World(30, 80, i);
+////        }
+//
+//        World world = new World(30, 80, 58000);
+//        TERenderer ter = new TERenderer();
+//        ter.initialize(world.worldWidth, world.worldHeight);
+//        TETile[][] testWorld = world.visualize();
+//        ter.renderFrame(testWorld);
+//    }
+}
 
 //    public static void main(String[] args) {
 //
@@ -710,4 +733,5 @@ public class World {
 //            }
 //        }
 //    }
-}
+
+
