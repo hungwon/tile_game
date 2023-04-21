@@ -6,9 +6,10 @@ public class Block {
     private int y;
     private int key; // Index of Block[][] world
     private boolean isAvatarAt;
-
+    private boolean inScope;
     public static final int MAXINDEXFORY = 29;
     public static final int MAXINDEXFORX = 2399;
+
 
     /**
      *
@@ -23,14 +24,24 @@ public class Block {
         this.y = y;
         this.type = type;
         this.isAvatarAt = false;
+        this.inScope = false;
     }
 
-    public Block(int index, int x, int y, String type, boolean isAvatar) {
+    public Block(int index, int x, int y, String type, boolean isAvatar, boolean inScope) {
         key = index;
         this.x = x;
         this.y = y;
         this.type = type;
         this.isAvatarAt = isAvatar;
+        this.inScope = inScope;
+    }
+
+    public boolean isInScope() {
+        return inScope;
+    }
+
+    public void changeScope(boolean b) {
+        this.inScope = b;
     }
 
     public boolean isAvatar() {
@@ -91,7 +102,7 @@ public class Block {
      */
     public String blockType() {
         return type;
-    } // changed to public
+    }
 
     public boolean isNull() {
         if (type == null) {
@@ -109,6 +120,7 @@ public class Block {
         }
         return false;
     }
+
     public boolean isDoor() {
         if (type == null) {
             return false;
@@ -149,7 +161,6 @@ public class Block {
         }
         return false;
     }
-
 
     /**
      * <p>

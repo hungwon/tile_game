@@ -16,15 +16,19 @@ public class WeightedEdge {
         end = b2.key();
         this.weight = weight;
     }
+
     public Double weight() {
         return weight;
     }
+
     public Block from() {
         return startBlock;
     }
+
     public Block to() {
         return endBlock;
     }
+
     @Override
     public String toString() {
         return "(" + start + "," + end + ", " + weight + ")";

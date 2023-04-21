@@ -1,9 +1,7 @@
 package byow.Core.Graph;
 
 import byow.Core.worldMap.Block;
-import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.IndexMinPQ;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -14,13 +12,9 @@ public class Dijkstra {
     Integer[] edgeTo;
     IndexMinPQ<Double> fringe;
     UndirectedGraph graph;
-
     List<Integer> lst;
-
     public static final double MAXDOUBLE = 1000000.;
-
     public static final int MAXINDEX = 2400;
-
 
     public Dijkstra(UndirectedGraph g) {
         graph = g;
@@ -59,7 +53,6 @@ public class Dijkstra {
     }
 
     public void relax(int index) {
-        //int cnt = 0;
         for (WeightedEdge e: graph.adj(index)) {
             Block p = e.from();
             int pIndex = p.key();
@@ -72,24 +65,6 @@ public class Dijkstra {
                 fringe.changeKey(qIndex, distTo[qIndex]);
             }
         }
-        /*
-        if (cnt == 0) {
-            for (WeightedEdge e: graph.adj(index)) {
-
-                Block p = e.from();
-                int pIndex = p.key();
-                Block q = e.to();
-                int qIndex = q.key();
-
-                if (isPossible(q)) {
-                    distTo[qIndex] = distTo[pIndex] + e.weight();
-                    edgeTo[qIndex] = pIndex;
-                    fringe.changeKey(qIndex, distTo[qIndex]);
-                }
-            }
-
-        }
-         */
     }
 
     /**

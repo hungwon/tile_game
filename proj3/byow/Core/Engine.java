@@ -48,7 +48,7 @@ public class Engine {
                     System.exit(0);
                 }
 
-                if (c == 'W' || c == 'w') {
+                else if (c == 'W' || c == 'w') {
                     world.up();
                     cnt++;
                 } else if (c == 'S' || c == 's') {
@@ -61,7 +61,7 @@ public class Engine {
                     world.right();
                     cnt++;
                 } else if (c == 'G' || c == 'g') {
-
+                    world.changeVisualizeMode();
                 }
 
                 prev = c;
@@ -94,10 +94,10 @@ public class Engine {
 
             long longSeed = Long.parseLong(inputSeed);
             world = new World(30, 80, longSeed);
-            TETile[][] testWorld = world.visualize();
+            TETile[][] testWorld = world.partialVisualize();
             ter.renderFrame(testWorld);
-
             gameStart(world);
+
 
 
 
@@ -105,7 +105,7 @@ public class Engine {
         } else if (command.equals("l") || command.equals("L")) {
 
             world = World.load();
-            TETile[][] testWorld = world.visualize();
+            TETile[][] testWorld = world.partialVisualize();
             ter.renderFrame(testWorld);
             gameStart(world);
 

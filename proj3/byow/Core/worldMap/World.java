@@ -8,7 +8,6 @@ import byow.TileEngine.Tileset;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Out;
 import edu.princeton.cs.algs4.StdDraw;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,9 +31,14 @@ public class World {
     public static final int MAXY = 29;
     public static final int MAXX = 79;
     public static final int N = 10000;
+    public static final int MAXMOVECNT = 5;
     private TERenderer ter;
     private long seed;
     private int avatarLocation;
+    private boolean visualizeAll;
+    private int moveCnt;
+    private int skillTime;
+
 
     public World(int height, int width, long seed) {
         maxNumHall = 2;
@@ -58,6 +62,9 @@ public class World {
         blockAt(startIndex).changeType("start");
         createAvatar();
 
+        visualizeAll = false;
+        moveCnt = 0;
+        skillTime = 0;
         ter = new TERenderer();
         ter.initialize(worldWidth, worldHeight);
     }
@@ -71,11 +78,16 @@ public class World {
         startIndex = start;
         blockAt(startIndex).changeType("start");
         this.avatarLocation = avatarLoc;
+
+        visualizeAll = false;
+        moveCnt = 0;
+        skillTime = 0;
         ter = new TERenderer();
         ter.initialize(worldWidth, worldHeight);
 
     }
 
+    //--------------------------------- Tool Box -------------------------------------
     public Block blockAt(int index) {
         return world[index % worldWidth][index / worldWidth];
     }
@@ -99,7 +111,9 @@ public class World {
         return worldHeight;
     }
 
+
     //--------------------------------- Tool Box -------------------------------------
+
     public boolean isEdgePoint(int index, int bottomLeftIndex, int upperRightIndex) {
 
         if (isTopLeft(index, bottomLeftIndex, upperRightIndex)) {
@@ -247,7 +261,6 @@ public class World {
     }
 
     private void determineDisconnect(int current) {
-
         // see the drawing that I drew on the notion
 
         if (current > 0 && current < worldWidth - 1) { // red
@@ -297,6 +310,13 @@ public class World {
     }
 
     // ------------------------------ Step A -----------------------------------
+
+    /**
+     * Instantiate Block[][]
+     * @param h height
+     * @param w width
+     * @return Block[][]
+     */
     public Block[][] generateEmptyWorld(int h, int w) {
         Block[][] retWorld = new Block[w][h];
         for (int j = 0; j < h; j++) {
@@ -308,6 +328,13 @@ public class World {
     }
 
     // ------------------------------ Step B -----------------------------------
+
+    /**
+     * In order to use Dijkstra's algorithm, I create undirected graph.
+     * e.g. a middle index of the world map is connected with four neigbors(top, bottom, left, right)
+     * Just for Dijkstra's algorithm
+     * @return undirected weigthed Edge graph
+     */
     public UndirectedGraph generateWorldGraph() {
         UndirectedGraph retGraph = new UndirectedGraph(worldHeight * worldWidth);
 
@@ -342,6 +369,10 @@ public class World {
         return retGraph;
     }
 
+    /**
+     * Avoiding margin of the world map and rooms, choose a random point for a starting point
+     * @return the location of starting point
+     */
     public Integer setStartPoint() {
         List<Integer> possibleStartingPoint = new ArrayList<>();
         for (int i = 0; i < worldWidth * worldHeight - 1; i++) {
@@ -355,11 +386,17 @@ public class World {
     }
 
     // ------------------------------ Step C -----------------------------------
-    public void generateRoom() {
 
+    /**
+     * 1. determine random number of rooms
+     * 2. determine random numbers of height and width of the room => random size
+     * 3. determine random location of the room fulfills the location condition.
+     * 4. Call makeNbyMRoom, then it will create a room
+     *    corresponding to the above condition with random number of door.
+     */
+    public void generateRoom() {
         // doorIndexLst will contain every door's index (should be used to make hallways)
         doorIndexLst = new ArrayList<>();
-
 
         // numRoom is the number of room; we will have 5 to 15 rooms per world.
         int numRoom = random.nextInt(5, MAXROOM);
@@ -369,13 +406,10 @@ public class World {
         // Each of inner list have two specific index: [0] = starting point index , [1] = top right point index
         List<List<Integer>> everySP = new LinkedList<>();
 
-
         for (int i = 0; i < numRoom; i++) {
-
             // Create random gridWidth and gridHeight -> [4, MAX_LIMIT]
             int gridWidth = random.nextInt(4, MAX_LIMIT + 1);
             int gridHeight = random.nextInt(4, MAX_LIMIT + 1);
-
 
             // Instantiate a maximum starting point by using worldWidth, worldHeight, and MAX_LIMIT
             int maximum = (worldWidth - MAX_LIMIT) + (worldHeight - MAX_LIMIT) * worldWidth;
@@ -391,13 +425,9 @@ public class World {
             int bottomR = startingP + gridWidth - 1; // bottom right
             int topL = topR - gridWidth + 1; // top left
 
-
             while (startingP % worldWidth > worldWidth - MAX_LIMIT || isBetween(topR, everySP)
                     || isBetween(bottomL, everySP) || isBetween(bottomR, everySP)
                     || isBetween(topL, everySP)) {
-
-                //System.out.println(numRoom);
-                //System.out.println("valid starting point");
 
                 startingP = random.nextInt(0, maximum + 1);
 
@@ -409,17 +439,12 @@ public class World {
                     numRoom--;
                 }
             }
-
-
             // create a list that will store starting point and top right point
             List<Integer> validSP = new LinkedList<>();
             validSP.add(startingP);
             validSP.add(topR);
-
             // add every valid starting point's bottom left (itself) and the top right point
             everySP.add(validSP);
-
-
             // draw a room
             makeNbyMRoom(startingP, gridWidth, gridHeight);
         }
@@ -443,6 +468,7 @@ public class World {
     public void makeNbyMRoom(int startingP, int gridWidth, int gridHeight) {
 
         int numDoor = random.nextInt(1, 3);
+
         String[] arr = {"room", "hallway"};
         String s = "";
         if (gridHeight == 4 && maxNumHall != 0 && numDoor == 2 && gridWidth >= 7) {
@@ -519,6 +545,12 @@ public class World {
     }
 
     // ------------------------------ Step D -----------------------------------
+
+    /**
+     * using Dijkstra's algorithm, connect starting point of the world and every door of rooms.
+     * The shortest Path that meets two condition: (1. q != room 2. q is not at the margin of the world)
+     * becomes the path of a hallway
+     */
     public void generateHallways() {
         List<Integer> hallwayIndexList;
         Dijkstra dijk = new Dijkstra(worldGraph);
@@ -533,6 +565,9 @@ public class World {
         }
     }
 
+    /**
+     * for every block, it surrounds hallways with wall type block.
+     */
     public void generateWalls() {
         for (int i = worldWidth + 1; i < (worldWidth * worldHeight) - worldWidth - 1; i++) {
             if (blockAt(i).isHallway()) {
@@ -553,17 +588,72 @@ public class World {
     }
 
     // ------------------------------ Step E -----------------------------------
-    public TETile[][] visualize() {
-        TETile[][] visualWorld = new TETile[worldWidth][worldHeight];
 
+    /**
+     * helper func for partialVisualize
+     * @return TETile[][]
+     */
+    public TETile[][] visualize() {
+
+        TETile[][] visualWorld = new TETile[worldWidth][worldHeight];
         for (int i = 0; i < worldHeight; i++) {
             for (int j = 0; j < worldWidth; j++) {
-                visualWorld[j][i] = Tileset.NOTHING;
+
+                if (world[j][i].isInScope()) {
+                    blockAt(i * worldWidth + j).changeScope(false);
+                    if (world[j][i].isAvatar()) {
+                        visualWorld[j][i] = Tileset.AVATAR;
+                    } else if (world[j][i].isRoom()) {
+                        visualWorld[j][i] = Tileset.TREE;
+                    } else if (world[j][i].isWall()) {
+                        visualWorld[j][i] = Tileset.WALL;
+                    } else if (world[j][i].isHallway()) {
+                        visualWorld[j][i] = Tileset.FLOOR;
+                    } else if (world[j][i].isStart()) {
+                        visualWorld[j][i] = Tileset.FLOWER;
+                    } else if (world[j][i].isDoor()) {
+                        visualWorld[j][i] = Tileset.MOUNTAIN;
+                    } else {
+                        visualWorld[j][i] = Tileset.NOTHING;
+                    }
+                } else {
+                    visualWorld[j][i] = Tileset.NOTHING;
+                }
             }
         }
+        return visualWorld;
+    }
 
+    /**
+     * only surrounding part of avatar is visible
+     * @return TETile[][]
+     */
+    public TETile[][] partialVisualize() {
+
+        TETile[][] visualWorld = new TETile[worldWidth][worldHeight];
+        int xIndex = indexToXY(avatarLocation).get(0);
+        int yIndex = indexToXY(avatarLocation).get(1);
+        int r = 3;
+        for (int j = yIndex - r; j < yIndex + r; j++) {
+            for (int i = xIndex - r; i < xIndex + r; i++) {
+                if (Math.pow(i - xIndex, 2) + Math.pow(j - yIndex, 2) <= Math.pow(r, 2)) {
+                    blockAt(j * worldWidth + i).changeScope(true);
+                }
+            }
+        }
+        visualWorld = visualize();
+        return visualWorld;
+    }
+
+    /**
+     * every map is visible
+     * @return TETile[][]
+     */
+    public TETile[][] allVisualize() {
+        TETile[][] visualWorld = new TETile[worldWidth][worldHeight];
         for (int i = 0; i < worldHeight; i++) {
             for (int j = 0; j < worldWidth; j++) {
+                blockAt(i * worldWidth + j).changeScope(false);
                 if (world[j][i].isAvatar()) {
                     visualWorld[j][i] = Tileset.AVATAR;
                 } else if (world[j][i].isRoom()) {
@@ -576,6 +666,8 @@ public class World {
                     visualWorld[j][i] = Tileset.FLOWER;
                 } else if (world[j][i].isDoor()) {
                     visualWorld[j][i] = Tileset.MOUNTAIN;
+                } else {
+                    visualWorld[j][i] = Tileset.NOTHING;
                 }
             }
         }
@@ -591,7 +683,19 @@ public class World {
         if (indexToXY(avatarLocation).get(1) + 1 != MAXY && !blockAt(avatarLocation + worldWidth).isWall()) {
             avatarLocation = Block.moveAvaterTo(blockAt(avatarLocation), blockAt(avatarLocation + worldWidth));
         }
-        TETile[][] testWorld = visualize();
+        TETile[][] testWorld;
+        if (visualizeAll && moveCnt < MAXMOVECNT) {
+            testWorld = allVisualize();
+            moveCnt++;
+            skillTime--;
+            if (moveCnt >= MAXMOVECNT) {
+                moveCnt = 0;
+                visualizeAll = false;
+            }
+        } else {
+            testWorld = partialVisualize();
+        }
+
         ter.renderFrame(testWorld);
     }
 
@@ -599,7 +703,19 @@ public class World {
         if (indexToXY(avatarLocation).get(1) - 1 != 0 && !blockAt(avatarLocation - worldWidth).isWall()) {
             avatarLocation = Block.moveAvaterTo(blockAt(avatarLocation), blockAt(avatarLocation - worldWidth));
         }
-        TETile[][] testWorld = visualize();
+        TETile[][] testWorld;
+        if (visualizeAll && moveCnt < MAXMOVECNT) {
+            testWorld = allVisualize();
+            moveCnt++;
+            skillTime--;
+            if (moveCnt >= MAXMOVECNT) {
+                moveCnt = 0;
+                visualizeAll = false;
+            }
+        } else {
+            testWorld = partialVisualize();
+        }
+
         ter.renderFrame(testWorld);
     }
 
@@ -607,7 +723,19 @@ public class World {
         if (indexToXY(avatarLocation).get(0) - 1 != 0 && !blockAt(avatarLocation - 1).isWall()) {
             avatarLocation = Block.moveAvaterTo(blockAt(avatarLocation), blockAt(avatarLocation - 1));
         }
-        TETile[][] testWorld = visualize();
+        TETile[][] testWorld;
+        if (visualizeAll && moveCnt < MAXMOVECNT) {
+            testWorld = allVisualize();
+            moveCnt++;
+            skillTime--;
+            if (moveCnt >= MAXMOVECNT) {
+                moveCnt = 0;
+                visualizeAll = false;
+            }
+        } else {
+            testWorld = partialVisualize();
+        }
+
         ter.renderFrame(testWorld);
     }
 
@@ -615,11 +743,32 @@ public class World {
         if (indexToXY(avatarLocation).get(0) + 1 != MAXX && !blockAt(avatarLocation + 1).isWall()) {
             avatarLocation = Block.moveAvaterTo(blockAt(avatarLocation), blockAt(avatarLocation + 1));
         }
-        TETile[][] testWorld = visualize();
+        TETile[][] testWorld;
+        if (visualizeAll && moveCnt < MAXMOVECNT) {
+            testWorld = allVisualize();
+            moveCnt++;
+            skillTime--;
+            if (moveCnt >= MAXMOVECNT) {
+                moveCnt = 0;
+                visualizeAll = false;
+            }
+        } else {
+            testWorld = partialVisualize();
+        }
+
         ter.renderFrame(testWorld);
     }
 
-    // ------------------------------ Save -------------------------------------
+    public void changeVisualizeMode() {
+        if (skillTime == 0) {
+            System.out.println(skillTime == 0);
+            visualizeAll = true;
+            moveCnt = 0;
+            this.skillTime = 8;
+        }
+    }
+
+    // ------------------------------ Save, Loading, etc -------------------------------------
 
     public void save() {
         Out o = new Out("save.txt");
@@ -630,7 +779,7 @@ public class World {
         o.println(avatarLocation);
         for (int i = 0; i <= MAXINDEX; i++) {
             o.println(i + "," + indexToXY(i).get(0) + "," + indexToXY(i).get(1) + ","
-                    + blockAt(i).blockType() + "," + blockAt(i).isAvatar());
+                    + blockAt(i).blockType() + "," + blockAt(i).isAvatar() + "," + blockAt(i).isInScope());
         }
         o.close();
         System.out.println("save finished");
@@ -655,6 +804,7 @@ public class World {
         int y = 0;
         String type = "";
         boolean isAvatar = false;
+        boolean inScope = false;
 
         Block[][] newWorld = new Block[w][h];
         int i = 0;
@@ -665,123 +815,23 @@ public class World {
             y = Integer.parseInt(splitline[2]);
             type = splitline[3];
             isAvatar = Boolean.parseBoolean(splitline[4]);
-            newWorld[x][y] = new Block(index, x, y, type, isAvatar);
+            inScope = Boolean.parseBoolean(splitline[5]);
+            newWorld[x][y] = new Block(index, x, y, type, isAvatar, inScope);
             i++;
         }
         return new World(h, w, s, sI, aLoc, newWorld);
     }
 
+    public String tileAtMousePoint() {
+        long x = Math.round(StdDraw.mouseX());
+        long y = Math.round(StdDraw.mouseY());
+        int indexOfMouse = (int) (x + y * worldWidth);
 
-    // ------------------------------ Main --------------------------------------
-
-    public static void main(String[] args) {
-
-//
-//        int num2 = 73415;
-//        for (int i =0; i < 1000000; i += 100) {
-//            System.out.println(i);
-//            World world = new World(30, 80, i);
-//        }
-
-        TERenderer ter = new TERenderer();
-        ter.initialize(80, 30);
-
-
-        String command = "";
-        // visualize the main menu and input string
-
-        boolean menu = false;
-
-        while (!menu) {
-
-            String inputString = ter.drawWord(1, menu);
-            command = inputString;
-
-
-            if (inputString.equals("n") ||
-                    inputString.equals("N") ||
-                    inputString.equals("l") ||
-                    inputString.equals("L") ||
-                    inputString.equals("Q") ||
-                    inputString.equals("q")) {
-                menu = true;
-            }
+        if (indexOfMouse >= 0 && indexOfMouse <= MAXINDEX) {
+            return blockAt(indexOfMouse).blockType();
         }
-
-        if (command.equals("n") || command.equals("N")) {
-
-            World world = new World(30, 80, 58000);
-            TETile[][] testWorld = world.visualize();
-            ter.renderFrame(testWorld);
-
-        } else if (command.equals("l") || command.equals("L")) {
-
-            System.out.println("load");
-
-        } else {
-
-            System.out.println("quit");
-            System.exit(0);
-        }
-
-
-
-        // visualize the world
-        //ter.renderFrame(testWorld);
+        return "Not in the World Map";
     }
-
-
-//    public static void main(String[] args) {
-//
-//        int num2 = 89898;
-//        World world = new World(30, 80, num2);
-//        TETile[][] testWorld = world.visualize();
-//        world.ter.renderFrame(testWorld);
-//
-//        int i = 0;
-//        int cnt = 0;
-//        Random ran = new Random(num2);
-//        while (cnt <= 20) {
-//            cnt++;
-//            i = ran.nextInt(0, 4);
-//            if (i == 0) {
-//                world.up();
-//            } else if (i == 1) {
-//                world.right();
-//            } else if (i == 2) {
-//                world.left();
-//            } else {
-//                world.down();
-//            }
-//        }
-//        world.save();
-//
-//        StdDraw.pause(1000);
-//        world = new World(30, 80, num2 + 1);
-//        testWorld = world.visualize();
-//        world.ter.renderFrame(testWorld);
-//        System.out.println("refresh");
-//        StdDraw.pause(1000);
-//
-//        world = world.load();
-//        testWorld = world.visualize();
-//        world.ter.renderFrame(testWorld);
-//
-//        cnt = 0;
-//        while (cnt <= 20000) {
-//            cnt++;
-//            i = ran.nextInt(0, 4);
-//            if (i == 0) {
-//                world.up();
-//            } else if (i == 1) {
-//                world.right();
-//            } else if (i == 2) {
-//                world.left();
-//            } else {
-//                world.down();
-//            }
-//        }
-//    }
 }
 
 
