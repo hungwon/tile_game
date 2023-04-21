@@ -41,6 +41,9 @@ public class World {
     private int skillTime;
     private int avatarTile;
 
+    public World() {
+        Out o = new Out("save.txt");
+    }
 
     public World(int height, int width, long seed) {
         maxNumHall = 2;
@@ -804,8 +807,13 @@ public class World {
     }
 
     public static World load() {
-
         In in = new In("save.txt");
+
+        //if (in.isEmpty()) {
+        //    System.out.println("there's no recording");
+        //    return new World(MAXY + 1, MAXX + 1, N);
+        //}
+
         int w = Integer.parseInt(in.readLine());
         System.out.println("width: " + w);
         int h = Integer.parseInt(in.readLine());
@@ -856,7 +864,9 @@ public class World {
         long x = Math.round(StdDraw.mouseX());
         long y = Math.round(StdDraw.mouseY());
         int indexOfMouse = (int) (x + y * worldWidth);
-
+        if (blockAt(indexOfMouse).isAvatar()) {
+            return "avatar";
+        }
         if (indexOfMouse >= 0 && indexOfMouse <= MAXINDEX && blockAt(indexOfMouse).isInScope()) {
             return blockAt(indexOfMouse).blockType();
         }

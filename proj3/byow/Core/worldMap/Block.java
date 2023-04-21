@@ -105,7 +105,7 @@ public class Block {
     }
 
     public boolean isNull() {
-        if (type == "null") {
+        if (type.equals("null")) {
             return true;
         }
         return false;
