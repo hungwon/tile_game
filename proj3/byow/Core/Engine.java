@@ -62,6 +62,8 @@ public class Engine {
                     cnt++;
                 } else if (c == 'G' || c == 'g') {
                     world.changeVisualizeMode();
+                } else if (c == 'O' || c == 'o') {
+                    world.changeAvatarTile();
                 }
 
                 prev = c;

@@ -39,6 +39,7 @@ public class World {
     private boolean visualizeAll;
     private int moveCnt;
     private int skillTime;
+    private int avatarTile;
 
 
     public World(int height, int width, long seed) {
@@ -62,7 +63,7 @@ public class World {
 
         blockAt(startIndex).changeType("start");
         createAvatar();
-
+        avatarTile = 1;
         visualizeAll = false;
         moveCnt = 0;
         skillTime = 0;
@@ -70,8 +71,8 @@ public class World {
         ter.initialize(worldWidth, worldHeight);
     }
 
-    public World(int height, int width, long seed, int start, int avatarLoc, Block[][] lastWord) {
-        world = lastWord;
+    public World(int height, int width, long seed, int start, int avatarLoc, int prevAvatarTile, Block[][] prevWorld) {
+        world = prevWorld;
         worldWidth = width;
         worldHeight = height;
         this.seed = seed;
@@ -79,7 +80,7 @@ public class World {
         startIndex = start;
         blockAt(startIndex).changeType("start");
         this.avatarLocation = avatarLoc;
-
+        avatarTile = prevAvatarTile;
         visualizeAll = false;
         moveCnt = 0;
         skillTime = 0;
@@ -322,7 +323,7 @@ public class World {
         Block[][] retWorld = new Block[w][h];
         for (int j = 0; j < h; j++) {
             for (int i = 0; i < w; i++) {
-                retWorld[i][j] = new Block(j * worldWidth + i, i, j, null); // index check
+                retWorld[i][j] = new Block(j * worldWidth + i, i, j, "null"); // index check
             }
         }
         return retWorld;
@@ -603,7 +604,7 @@ public class World {
                 if (world[j][i].isInScope()) {
                     blockAt(i * worldWidth + j).changeScope(false);
                     if (world[j][i].isAvatar()) {
-                        visualWorld[j][i] = Tileset.AVATAR;
+                        visualWorld[j][i] = chooseTile(avatarTile);
                     } else if (world[j][i].isRoom()) {
                         visualWorld[j][i] = Tileset.TREE;
                     } else if (world[j][i].isWall()) {
@@ -656,7 +657,7 @@ public class World {
             for (int j = 0; j < worldWidth; j++) {
                 blockAt(i * worldWidth + j).changeScope(false);
                 if (world[j][i].isAvatar()) {
-                    visualWorld[j][i] = Tileset.AVATAR;
+                    visualWorld[j][i] = chooseTile(avatarTile);
                 } else if (world[j][i].isRoom()) {
                     visualWorld[j][i] = Tileset.TREE;
                 } else if (world[j][i].isWall()) {
@@ -678,6 +679,20 @@ public class World {
     // ---------------------------- Avatar -------------------------------------
     public void createAvatar() {
         avatarLocation = Block.moveAvaterTo(blockAt(startIndex), null);
+    }
+
+    public TETile chooseTile(int num) {
+        if (Math.floorMod(num, 3) == 1) {
+            return Tileset.AVATAR;
+        } else if (Math.floorMod(num, 3) == 2) {
+            return Tileset.UNLOCKED_DOOR;
+        } else {
+            return Tileset.LOCKED_DOOR;
+        }
+    }
+
+    public void changeAvatarTile() {
+        this.avatarTile += 1;
     }
 
     public void up() {
@@ -782,6 +797,7 @@ public class World {
         o.println(startIndex);
         o.println(seed);
         o.println(avatarLocation);
+        o.println(avatarTile);
         for (int i = 0; i <= MAXINDEX; i++) {
             o.println(i + "," + indexToXY(i).get(0) + "," + indexToXY(i).get(1) + ","
                     + blockAt(i).blockType() + "," + blockAt(i).isAvatar() + "," + blockAt(i).isInScope());
@@ -803,6 +819,8 @@ public class World {
         System.out.println("seed: " + s);
         int aLoc = Integer.parseInt(in.readLine());
         System.out.println("avatar location: " + aLoc);
+        int prevAvatarTile = Integer.parseInt(in.readLine());
+        System.out.println(prevAvatarTile);
 
         int index = 0;
         int x = 0;
@@ -824,7 +842,7 @@ public class World {
             newWorld[x][y] = new Block(index, x, y, type, isAvatar, inScope);
             i++;
         }
-        return new World(h, w, s, sI, aLoc, newWorld);
+        return new World(h, w, s, sI, aLoc, prevAvatarTile, newWorld);
     }
 
     public String tileAtMousePoint() {
