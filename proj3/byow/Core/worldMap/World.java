@@ -5,8 +5,8 @@ import byow.Core.Graph.UndirectedGraph;
 import byow.TileEngine.TETile;
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.Tileset;
-import org.apache.commons.collections.list.TreeList;
-
+import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.Out;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,19 +27,50 @@ public class World {
     public static final double RANDDOUBLE = 0.8;
     public static final int MAXROOM = 8;
     public static final int MAXINDEX = 2399;
+    public static final int MAXY = 29;
+    public static final int MAXX = 79;
+    public static final int N = 10000;
+    private TERenderer ter;
+    private long seed;
+    private int avatarLocation;
     public World(int height, int width, long seed) {
         maxNumHall = 2;
         worldWidth = width;
         worldHeight = height;
+
         world = generateEmptyWorld(height, width);
-        Random deletedRandom = new Random(10000);
-        random = new Random(Math.floorMod(seed, deletedRandom.nextInt(MAXDIVSTART, MAXDIVEND)));
+        Random deletedRandom = new Random(N);
+        seed = Math.floorMod(seed, deletedRandom.nextInt(MAXDIVSTART, MAXDIVEND));
+        random = new Random(seed);
+
         worldGraph = generateWorldGraph();
+
         generateRoom();
+
         startIndex = setStartPoint();
+
         generateHallways();
         generateWalls();
+
         blockAt(startIndex).changeType("start");
+        createAvatar();
+
+        ter = new TERenderer();
+        ter.initialize(worldWidth, worldHeight);
+    }
+
+    public World(int height, int width, long seed, int start, int avatarLoc, Block[][] lastWord) {
+        world = lastWord;
+        worldWidth = width;
+        worldHeight = height;
+        this.seed = seed;
+        this.random = new Random(this.seed);
+        startIndex = start;
+        blockAt(startIndex).changeType("start");
+        this.avatarLocation = avatarLoc;
+        ter = new TERenderer();
+        ter.initialize(worldWidth, worldHeight);
+
     }
 
     public Block blockAt(int index) {
@@ -524,8 +555,8 @@ public class World {
 
         for (int i = 0; i < worldHeight; i++) {
             for (int j = 0; j < worldWidth; j++) {
-                if (world[j][i].isDoor()) {
-                    visualWorld[j][i] = Tileset.MOUNTAIN;
+                if (world[j][i].isAvatar()) {
+                    visualWorld[j][i] = Tileset.AVATAR;
                 } else if (world[j][i].isRoom()) {
                     visualWorld[j][i] = Tileset.TREE;
                 } else if (world[j][i].isWall()) {
@@ -534,22 +565,149 @@ public class World {
                     visualWorld[j][i] = Tileset.FLOOR;
                 } else if (world[j][i].isStart()) {
                     visualWorld[j][i] = Tileset.FLOWER;
-
+                }  else if (world[j][i].isDoor()) {
+                    visualWorld[j][i] = Tileset.MOUNTAIN;
                 }
             }
         }
         return visualWorld;
     }
+    // ---------------------------- Avatar -------------------------------------
+    public void createAvatar() {
+        avatarLocation = Block.moveAvaterTo(blockAt(startIndex), null);
+    }
+
+    public void up() {
+        if (indexToXY(avatarLocation).get(1) + 1 != MAXY && !blockAt(avatarLocation + worldWidth).isWall()) {
+            avatarLocation = Block.moveAvaterTo(blockAt(avatarLocation), blockAt(avatarLocation + worldWidth));
+        }
+        TETile[][] testWorld = visualize();
+        ter.renderFrame(testWorld);
+    }
+    public void down() {
+        if (indexToXY(avatarLocation).get(1) - 1 != 0 && !blockAt(avatarLocation - worldWidth).isWall()) {
+            avatarLocation = Block.moveAvaterTo(blockAt(avatarLocation), blockAt(avatarLocation - worldWidth));
+        }
+        TETile[][] testWorld = visualize();
+        ter.renderFrame(testWorld);
+    }
+    public void left() {
+        if (indexToXY(avatarLocation).get(0) - 1 != 0  && !blockAt(avatarLocation - 1).isWall()) {
+            avatarLocation = Block.moveAvaterTo(blockAt(avatarLocation), blockAt(avatarLocation - 1));
+        }
+        TETile[][] testWorld = visualize();
+        ter.renderFrame(testWorld);
+    }
+    public void right() {
+        if (indexToXY(avatarLocation).get(0) + 1 != MAXX && !blockAt(avatarLocation + 1).isWall()) {
+            avatarLocation = Block.moveAvaterTo(blockAt(avatarLocation), blockAt(avatarLocation + 1));
+        }
+        TETile[][] testWorld = visualize();
+        ter.renderFrame(testWorld);
+    }
+
+    // ------------------------------ Save -------------------------------------
+
+    public void save() {
+        Out o = new Out("save.txt");
+        o.println(worldWidth);
+        o.println(worldHeight);
+        o.println(startIndex);
+        o.println(seed);
+        o.println(avatarLocation);
+        for (int i = 0; i <= MAXINDEX; i++) {
+            o.println(i + "," + indexToXY(i).get(0) + "," +  indexToXY(i).get(1) + ","
+                    + blockAt(i).blockType() + "," +  blockAt(i).isAvatar());
+        }
+        o.close();
+        System.out.println("save finished");
+    }
+
+    public World load() {
+
+        In in = new In("save.txt");
+        int w = Integer.parseInt(in.readLine());
+        System.out.println("width: " + w);
+        int h = Integer.parseInt(in.readLine());
+        System.out.println("height: " + h);
+        int sI = Integer.parseInt(in.readLine());
+        System.out.println("startIndex: " + sI);
+        Long s = Long.parseLong(in.readLine());
+        System.out.println("seed: " + s);
+        int aLoc = Integer.parseInt(in.readLine());
+        System.out.println("avatar location: " + aLoc);
+
+        int index = 0;
+        int x = 0;
+        int y = 0;
+        String type = "";
+        boolean isAvatar = false;
+
+        Block[][] newWorld = new Block[w][h];
+        int i = 0;
+        while (!in.isEmpty()) {
+            String[] splitline = in.readLine().split(",");
+            index = Integer.parseInt(splitline[0]);
+            x = Integer.parseInt(splitline[1]);
+            y = Integer.parseInt(splitline[2]);
+            type = splitline[3];
+            isAvatar = Boolean.parseBoolean(splitline[4]);
+            newWorld[x][y] = new Block(index, x, y, type, isAvatar);
+            i++;
+        }
+        return new World(h, w, s, sI, aLoc, newWorld);
+    }
 
     // ------------------------------ Main --------------------------------------
 
-    public static void main(String[] args) {
-
-        int num2 = 123498;
-        World world = new World(30, 80, num2);
-        TERenderer ter = new TERenderer();
-        ter.initialize(world.worldWidth, world.worldHeight);
-        TETile[][] testWorld = world.visualize();
-        ter.renderFrame(testWorld);
-    }
+//    public static void main(String[] args) {
+//
+//        int num2 = 89898;
+//        World world = new World(30, 80, num2);
+//        TETile[][] testWorld = world.visualize();
+//        world.ter.renderFrame(testWorld);
+//
+//        int i = 0;
+//        int cnt = 0;
+//        Random ran = new Random(num2);
+//        while (cnt <= 20) {
+//            cnt++;
+//            i = ran.nextInt(0, 4);
+//            if (i == 0) {
+//                world.up();
+//            } else if (i == 1) {
+//                world.right();
+//            } else if (i == 2) {
+//                world.left();
+//            } else {
+//                world.down();
+//            }
+//        }
+//        world.save();
+//
+//        StdDraw.pause(1000);
+//        world = new World(30, 80, num2 + 1);
+//        testWorld = world.visualize();
+//        world.ter.renderFrame(testWorld);
+//        System.out.println("refresh");
+//        StdDraw.pause(1000);
+//        world = world.load();
+//        testWorld = world.visualize();
+//        world.ter.renderFrame(testWorld);
+//
+//        cnt = 0;
+//        while (cnt <= 20000) {
+//            cnt++;
+//            i = ran.nextInt(0, 4);
+//            if (i == 0) {
+//                world.up();
+//            } else if (i == 1) {
+//                world.right();
+//            } else if (i == 2) {
+//                world.left();
+//            } else {
+//                world.down();
+//            }
+//        }
+//    }
 }
