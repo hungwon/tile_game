@@ -23,7 +23,7 @@ public class World {
     private Integer startIndex;
     private UndirectedGraph worldGraph;
     private List<Integer> doorIndexLst;
-    public static final int MAXDIVSTART = 10000000;
+    public static final int MAXDIVSTART = 9999999;
     public static final int MAXDIVEND = 10000009;
     public static final int MAX_LIMIT = 10; // the maximum number of grid's width and height
     public static final double RANDDOUBLE = 0.8;
