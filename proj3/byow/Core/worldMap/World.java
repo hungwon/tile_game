@@ -2,13 +2,13 @@ package byow.Core.worldMap;
 
 import byow.Core.Graph.Dijkstra;
 import byow.Core.Graph.UndirectedGraph;
-import byow.Core.Main;
 import byow.TileEngine.TETile;
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.Tileset;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Out;
 import edu.princeton.cs.algs4.StdDraw;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -625,23 +625,35 @@ public class World {
         }
         return visualWorld;
     }
-
     /**
      * only surrounding part of avatar is visible
      * @return TETile[][]
      */
     public TETile[][] partialVisualize() {
         TETile[][] visualWorld = new TETile[worldWidth][worldHeight];
-        if (visualizeAll){
+        if (visualizeAll) {
             visualWorld = allVisualize();
             return visualWorld;
         }
-
         int xIndex = indexToXY(avatarLocation).get(0);
         int yIndex = indexToXY(avatarLocation).get(1);
         int r = 3;
         for (int j = yIndex - r; j < yIndex + r; j++) {
+
+            if (j > worldHeight - 1) {
+                break;
+            }
+            if (j < 0) {
+                break;
+            }
             for (int i = xIndex - r; i < xIndex + r; i++) {
+                int currIndex = j * worldWidth + i;
+                if (i < 0) {
+                    break;
+                }
+                if (i > worldWidth) {
+                    break;
+                }
                 if (Math.pow(i - xIndex, 2) + Math.pow(j - yIndex, 2) <= Math.pow(r, 2)) {
                     blockAt(j * worldWidth + i).changeScope(true);
                 }
@@ -649,6 +661,7 @@ public class World {
         }
         visualWorld = visualize();
         return visualWorld;
+
     }
 
     /**

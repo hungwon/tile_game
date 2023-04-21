@@ -70,8 +70,6 @@ public class Engine {
             String inputSeed = ter.drawSeed(19, false); // greatest number of seed has 19 digits
             long longSeed = Long.parseLong(inputSeed);
             world = new World(30, 80, longSeed);
-            TETile[][] testWorld = world.allVisualize();
-            ter.renderFrame(testWorld);
             gameStart(world);
         } else if (command.equals("l") || command.equals("L")) {
             world = World.load();
