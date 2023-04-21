@@ -201,4 +201,33 @@ public class TERenderer {
         return sb.toString();
     }
 
+
+    public void renderBlockType(String s) {
+
+        StdDraw.clear(Color.BLACK);
+        StdDraw.setPenColor(Color.WHITE);
+        Font fontBig = new Font("Monaco", Font.BOLD, 10);
+        StdDraw.setFont(fontBig);
+        StdDraw.text(1, 1, s);
+
+        StdDraw.show();
+    }
+
+
+    public void drawBlockType(String s, boolean gameOver) {
+
+        while (!gameOver) {
+
+            if (!s.equals("hello")) {
+                renderBlockType(s);
+            } else {
+                gameOver = true;
+            }
+
+        }
+
+    }
+
+
+
 }

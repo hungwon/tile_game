@@ -38,6 +38,10 @@ public class Engine {
 
         while (!gameOver) {
 
+            System.out.println(world.tileAtMousePoint());
+
+            ter.drawBlockType(world.tileAtMousePoint(), false);
+
             if (StdDraw.hasNextKeyTyped()) {
                 char c = StdDraw.nextKeyTyped();
 
@@ -51,15 +55,19 @@ public class Engine {
                 else if (c == 'W' || c == 'w') {
                     world.up();
                     cnt++;
+
                 } else if (c == 'S' || c == 's') {
                     world.down();
                     cnt++;
+
                 } else if (c == 'A' || c == 'a') {
                     world.left();
                     cnt++;
+
                 } else if (c == 'D' || c == 'd') {
                     world.right();
                     cnt++;
+
                 } else if (c == 'G' || c == 'g') {
                     world.changeVisualizeMode();
                 }
@@ -94,11 +102,9 @@ public class Engine {
 
             long longSeed = Long.parseLong(inputSeed);
             world = new World(30, 80, longSeed);
-            TETile[][] testWorld = world.partialVisualize();
+            TETile[][] testWorld = world.allVisualize();
             ter.renderFrame(testWorld);
             gameStart(world);
-
-
 
 
 
