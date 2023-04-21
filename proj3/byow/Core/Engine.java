@@ -13,7 +13,7 @@ public class Engine {
     public static final int WIDTH = 80;
     public static final int HEIGHT = 30;
     public static final int NUMBER = 10000000;
-    public static final int GREATESTNUMBEROFSEED = 19;
+    public static final int GREATESTNUMBEROFSEED = 20;
     public static final int MAXIMUMKEYBOARDCOMMAND = 100000;
 
     /**

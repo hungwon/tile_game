@@ -177,7 +177,6 @@ public class TERenderer {
     public String drawSeed(int n, boolean gameOver) {
 
         int cnt = 0;
-
         StringBuilder sb = new StringBuilder();
 
         while (cnt < n) {

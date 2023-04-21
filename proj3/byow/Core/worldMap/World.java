@@ -9,6 +9,7 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Out;
 import edu.princeton.cs.algs4.StdDraw;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -94,7 +95,7 @@ public class World {
 
     //--------------------------------- Tool Box -------------------------------------
     public Block blockAt(int index) {
-        return world[Math.floorMod(index, worldWidth)][index / worldWidth];
+        return world[Math.floorMod(index, worldWidth)][Math.floorDiv(index, worldWidth)];
     }
 
     public List<Integer> indexToXY(int index) {
@@ -702,12 +703,14 @@ public class World {
     }
 
     public TETile chooseTile(int num) {
-        if (Math.floorMod(num, 3) == 1) {
+        if (Math.floorMod(num, 4) == 1) {
             return Tileset.AVATAR;
-        } else if (Math.floorMod(num, 3) == 2) {
+        } else if (Math.floorMod(num, 4) == 2) {
             return Tileset.UNLOCKED_DOOR;
-        } else {
+        } else if (Math.floorMod(num ,4) == 3){
             return Tileset.LOCKED_DOOR;
+        } else {
+            return new TETile('a', Color.WHITE, Color.black, "hello in korean");
         }
     }
 
@@ -781,7 +784,7 @@ public class World {
 
     public void changeVisualizeMode() {
         if (skillTime == 0) {
-            System.out.println(skillTime == 0);
+            //System.out.println(skillTime == 0);
             visualizeAll = true;
             moveCnt = 0;
             this.skillTime = 8;
@@ -854,6 +857,7 @@ public class World {
         int xIndex = indexToXY(avatarLocation).get(0);
         int yIndex = indexToXY(avatarLocation).get(1);
         int r = 3;
+
         for (int j = yIndex - r; j < yIndex + r; j++) {
             for (int i = xIndex - r; i < xIndex + r; i++) {
                 if (Math.pow(i - xIndex, 2) + Math.pow(j - yIndex, 2) <= Math.pow(r, 2)) {
@@ -861,14 +865,16 @@ public class World {
                 }
             }
         }
-        long x = Math.round(StdDraw.mouseX());
-        long y = Math.round(StdDraw.mouseY());
-        int indexOfMouse = (int) (x + y * worldWidth);
-        if (blockAt(indexOfMouse).isAvatar()) {
-            return "avatar";
-        }
-        if (indexOfMouse >= 0 && indexOfMouse <= MAXINDEX && blockAt(indexOfMouse).isInScope()) {
-            return blockAt(indexOfMouse).blockType();
+        if ((xIndex >= 0 || xIndex <= MAXX) && (yIndex >= 0 || yIndex <= MAXY)) {
+            long x = Math.round(StdDraw.mouseX());
+            long y = Math.round(StdDraw.mouseY());
+            int indexOfMouse = (int) (x + y * worldWidth);
+            if (blockAt(indexOfMouse).isAvatar()) {
+                return "avatar";
+            }
+            if (indexOfMouse >= 0 && indexOfMouse <= MAXINDEX && blockAt(indexOfMouse).isInScope()) {
+                return blockAt(indexOfMouse).blockType();
+            }
         }
         return "Not in the World Map";
     }
