@@ -2,7 +2,7 @@
 30
 2151
 0
-1983
+1166
 0,0,0,null,false,false
 1,1,0,null,false,false
 2,2,0,null,false,false
@@ -1169,7 +1169,7 @@
 1163,43,14,hallway,false,false
 1164,44,14,wall,false,false
 1165,45,14,wall,false,false
-1166,46,14,hallway,false,false
+1166,46,14,hallway,true,false
 1167,47,14,hallway,false,false
 1168,48,14,hallway,false,false
 1169,49,14,hallway,false,false
@@ -1986,7 +1986,7 @@
 1980,60,24,null,false,false
 1981,61,24,wall,false,false
 1982,62,24,hallway,false,false
-1983,63,24,hallway,true,false
+1983,63,24,hallway,false,false
 1984,64,24,hallway,false,false
 1985,65,24,hallway,false,false
 1986,66,24,hallway,false,false

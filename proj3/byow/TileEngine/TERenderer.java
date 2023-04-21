@@ -97,7 +97,7 @@ public class TERenderer {
             }
         }
         StdDraw.show();
-        StdDraw.pause(1000);
+        StdDraw.pause(200);
     }
 
 
