@@ -2,6 +2,7 @@ package byow.Core.worldMap;
 
 import byow.Core.Graph.Dijkstra;
 import byow.Core.Graph.UndirectedGraph;
+import byow.Core.Main;
 import byow.TileEngine.TETile;
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.Tileset;
@@ -89,7 +90,7 @@ public class World {
 
     //--------------------------------- Tool Box -------------------------------------
     public Block blockAt(int index) {
-        return world[index % worldWidth][index / worldWidth];
+        return world[Math.floorMod(index, worldWidth)][index / worldWidth];
     }
 
     public List<Integer> indexToXY(int index) {
@@ -694,8 +695,9 @@ public class World {
         } else {
             testWorld = partialVisualize();
         }
-
-        skillTime--;
+        if (skillTime > 0) {
+            skillTime--;
+        }
         ter.renderFrame(testWorld);
     }
 
@@ -714,8 +716,9 @@ public class World {
         } else {
             testWorld = partialVisualize();
         }
-
-        skillTime--;
+        if (skillTime > 0) {
+            skillTime--;
+        }
         ter.renderFrame(testWorld);
     }
 
