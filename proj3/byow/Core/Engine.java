@@ -92,12 +92,9 @@ public class Engine {
         World world = null;
         String seedStr = "";
         char prev = ' ';
-        System.out.println(input);
+        //System.out.println(input);
         while (i < input.length()) {
-            //System.out.println("seed: " + seedStr + " digitFinalIndex: " + digitFinalIndex + " index: " + i);
             char c = input.charAt(i);
-            //System.out.println(Character.isDigit(c));
-
             if (c == 'n' || c == 'N') {
                 digitStartIndex = i;
                 digitFinalIndex = digitStartIndex + 1;
