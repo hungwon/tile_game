@@ -869,7 +869,6 @@ public class World {
         int xIndex = indexToXY(avatarLocation).get(0);
         int yIndex = indexToXY(avatarLocation).get(1);
         int r = 3;
-
         for (int j = yIndex - r; j < yIndex + r; j++) {
             for (int i = xIndex - r; i < xIndex + r; i++) {
                 if (Math.pow(i - xIndex, 2) + Math.pow(j - yIndex, 2) <= Math.pow(r, 2)) {
