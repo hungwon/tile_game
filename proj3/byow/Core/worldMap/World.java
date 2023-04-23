@@ -639,27 +639,28 @@ public class World {
         int xIndex = indexToXY(avatarLocation).get(0);
         int yIndex = indexToXY(avatarLocation).get(1);
         int r = 3;
-        for (int j = yIndex - r; j < yIndex + r; j++) {
 
+        for (int j = yIndex - r; j < yIndex + r; j++) {
             if (j > worldHeight - 1) {
-                break;
+                continue;
             }
             if (j < 0) {
-                break;
+                continue;
             }
             for (int i = xIndex - r; i < xIndex + r; i++) {
                 int currIndex = j * worldWidth + i;
                 if (i < 0) {
-                    break;
+                    continue;
                 }
                 if (i > worldWidth) {
-                    break;
+                    continue;
                 }
                 if (Math.pow(i - xIndex, 2) + Math.pow(j - yIndex, 2) <= Math.pow(r, 2)) {
-                    blockAt(j * worldWidth + i).changeScope(true);
+                    blockAt(currIndex).changeScope(true);
                 }
             }
         }
+
         visualWorld = visualize();
         return visualWorld;
 
@@ -849,12 +850,27 @@ public class World {
         int r = 3;
 
         for (int j = yIndex - r; j < yIndex + r; j++) {
+            if (j > worldHeight - 1) {
+                continue;
+            }
+            if (j < 0) {
+                continue;
+            }
             for (int i = xIndex - r; i < xIndex + r; i++) {
+                int currIndex = j * worldWidth + i;
+                if (i < 0) {
+                    continue;
+                }
+                if (i > worldWidth) {
+                    continue;
+                }
                 if (Math.pow(i - xIndex, 2) + Math.pow(j - yIndex, 2) <= Math.pow(r, 2)) {
-                    blockAt(j * worldWidth + i).changeScope(true);
+                    blockAt(currIndex).changeScope(true);
                 }
             }
         }
+
+
         long x = Math.round (StdDraw.mouseX());
         long y = Math.round(StdDraw.mouseY()) ;
         if ((x >= 0 && x <= MAXX) && (y >= 0 && y <= MAXY)) {
