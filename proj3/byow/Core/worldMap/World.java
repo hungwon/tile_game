@@ -42,9 +42,6 @@ public class World {
     private int skillTime;
     private int avatarTile;
 
-    public World() {
-        Out o = new Out("save.txt");
-    }
 
     public World(int height, int width, long seed) {
         maxNumHall = 2;
@@ -865,18 +862,19 @@ public class World {
                 }
             }
         }
-        if ((xIndex >= 0 || xIndex <= MAXX) && (yIndex >= 0 || yIndex <= MAXY)) {
-            long x = Math.round(StdDraw.mouseX());
-            long y = Math.round(StdDraw.mouseY());
+        long x = Math.round (StdDraw.mouseX());
+        long y = Math.round(StdDraw.mouseY()) ;
+        if ((x >= 0 && x <= MAXX) && (y >= 0 && y <= MAXY)) {
             int indexOfMouse = (int) (x + y * worldWidth);
+            System.out.println(indexOfMouse + " x: " + x + " y: " + y);
             if (blockAt(indexOfMouse).isAvatar()) {
                 return "avatar";
             }
-            if (indexOfMouse >= 0 && indexOfMouse <= MAXINDEX && blockAt(indexOfMouse).isInScope()) {
+            if (indexOfMouse >= 0 && indexOfMouse <= MAXINDEX && (blockAt(indexOfMouse).isInScope() || visualizeAll)) {
                 return blockAt(indexOfMouse).blockType();
             }
         }
-        return "Not in the World Map";
+        return "????";
     }
 }
 
