@@ -589,6 +589,18 @@ public class World {
                 if (blockAt(i - worldWidth).isNull()) {
                     blockAt(i - worldWidth).changeType("wall");
                 }
+                if (blockAt(i + 1 + worldWidth).isNull()) {
+                    blockAt(i + 1 + worldWidth).changeType("wall");
+                }
+                if (blockAt(i - 1 + worldWidth).isNull()) {
+                    blockAt(i - 1 + worldWidth).changeType("wall");
+                }
+                if (blockAt(i + 1 - worldWidth).isNull()) {
+                    blockAt(i + 1 - worldWidth).changeType("wall");
+                }
+                if (blockAt(i - 1 - worldWidth).isNull()) {
+                    blockAt(i - 1 - worldWidth).changeType("wall");
+                }
             }
         }
     }
