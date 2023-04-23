@@ -574,17 +574,29 @@ public class World {
     public void generateWalls() {
         for (int i = worldWidth + 1; i < (worldWidth * worldHeight) - worldWidth - 1; i++) {
             if (blockAt(i).isHallway()) {
-                if (blockAt(i + 1).isNull()) {
+                if (blockAt(i + 1).isNull()) { // r
                     blockAt(i + 1).changeType("wall");
                 }
-                if (blockAt(i - 1).isNull()) {
+                if (blockAt(i - 1).isNull()) { // l
                     blockAt(i - 1).changeType("wall");
                 }
-                if (blockAt(i + worldWidth).isNull()) {
+                if (blockAt(i + worldWidth).isNull()) { // u
                     blockAt(i + worldWidth).changeType("wall");
                 }
-                if (blockAt(i - worldWidth).isNull()) {
+                if (blockAt(i - worldWidth).isNull()) { // d
                     blockAt(i - worldWidth).changeType("wall");
+                }
+                if (blockAt(i + 1 + worldWidth).isNull()) { // u r
+                    blockAt(i + 1 + worldWidth).changeType("wall");
+                }
+                if (blockAt(i - 1 + worldWidth).isNull()) { // u l
+                    blockAt(i - 1 + worldWidth).changeType("wall");
+                }
+                if (blockAt(i + 1 - worldWidth).isNull()) { // d r
+                    blockAt(i + 1 - worldWidth).changeType("wall");
+                }
+                if (blockAt(i - 1 - worldWidth).isNull()) { // d l
+                    blockAt(i - 1 - worldWidth).changeType("wall");
                 }
             }
         }
@@ -848,7 +860,6 @@ public class World {
         int xIndex = indexToXY(avatarLocation).get(0);
         int yIndex = indexToXY(avatarLocation).get(1);
         int r = 3;
-
         for (int j = yIndex - r; j < yIndex + r; j++) {
             if (j > worldHeight - 1) {
                 continue;
