@@ -86,27 +86,31 @@ public class Engine {
 
     public TETile[][] interactWithInputString(String input) {
         int i = 0;
-        int sIndex = 0;
-        int nIndex = 0;
+        int digitFinalIndex = 0;
+        int digitStartIndex = 0;
         ter.initialize(WIDTH, HEIGHT);
         World world = null;
         String seedStr = "";
         char prev = ' ';
         while (i < input.length()) {
-            System.out.println("seed: " + seedStr + "sIndex: " + sIndex + "index: " + i);
+            System.out.println("seed: " + seedStr + " digitFinalIndex: " + digitFinalIndex + " index: " + i);
             char c = input.charAt(i);
             System.out.println(Character.isDigit(c));
             if (c == 'n' || c == 'N') {
-                nIndex = i;
-                sIndex = nIndex + 1;
-            } else if (Character.isDigit(c) && i <= sIndex && i > nIndex) {
+                digitStartIndex = i;
+                digitFinalIndex = digitStartIndex + 1;
+            } else if (Character.isDigit(c) && i <= digitFinalIndex && i > digitStartIndex) {
                 seedStr += c;
-                sIndex++;
-            } else if (c == 's' || c == 'S' &&  i > nIndex) {
-                sIndex = i;
+                digitFinalIndex++;
+            } else if (c == 's' || c == 'S' &&  i > digitStartIndex && i < digitFinalIndex) {
+                digitFinalIndex = i;
                 long mySeed = Math.floorMod(Long.parseLong(seedStr), NUMBER);
                 world = new World(HEIGHT, WIDTH, mySeed);
-            } else if (prev == ':' && (c == 'q' || c == 'Q') && world != null) {
+            } else if (c == 'l' || c == 'L') {
+                world = World.load();
+                digitFinalIndex = i;
+            }
+            else if (prev == ':' && (c == 'q' || c == 'Q') && world != null) {
                 world.save();
                 return world.partialVisualize();
             } else if (c == 'W' || c == 'w' && world != null) {
