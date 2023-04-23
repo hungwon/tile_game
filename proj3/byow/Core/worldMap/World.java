@@ -42,9 +42,6 @@ public class World {
     private int skillTime;
     private int avatarTile;
 
-    public World() {
-        Out o = new Out("save.txt");
-    }
 
     public World(int height, int width, long seed) {
         maxNumHall = 2;
@@ -577,28 +574,28 @@ public class World {
     public void generateWalls() {
         for (int i = worldWidth + 1; i < (worldWidth * worldHeight) - worldWidth - 1; i++) {
             if (blockAt(i).isHallway()) {
-                if (blockAt(i + 1).isNull()) {
+                if (blockAt(i + 1).isNull()) { // r
                     blockAt(i + 1).changeType("wall");
                 }
-                if (blockAt(i - 1).isNull()) {
+                if (blockAt(i - 1).isNull()) { // l
                     blockAt(i - 1).changeType("wall");
                 }
-                if (blockAt(i + worldWidth).isNull()) {
+                if (blockAt(i + worldWidth).isNull()) { // u
                     blockAt(i + worldWidth).changeType("wall");
                 }
-                if (blockAt(i - worldWidth).isNull()) {
+                if (blockAt(i - worldWidth).isNull()) { // d
                     blockAt(i - worldWidth).changeType("wall");
                 }
-                if (blockAt(i + 1 + worldWidth).isNull()) {
+                if (blockAt(i + 1 + worldWidth).isNull()) { // u r
                     blockAt(i + 1 + worldWidth).changeType("wall");
                 }
-                if (blockAt(i - 1 + worldWidth).isNull()) {
+                if (blockAt(i - 1 + worldWidth).isNull()) { // u l
                     blockAt(i - 1 + worldWidth).changeType("wall");
                 }
-                if (blockAt(i + 1 - worldWidth).isNull()) {
+                if (blockAt(i + 1 - worldWidth).isNull()) { // d r
                     blockAt(i + 1 - worldWidth).changeType("wall");
                 }
-                if (blockAt(i - 1 - worldWidth).isNull()) {
+                if (blockAt(i - 1 - worldWidth).isNull()) { // d l
                     blockAt(i - 1 - worldWidth).changeType("wall");
                 }
             }
@@ -824,11 +821,6 @@ public class World {
     public static World load() {
         In in = new In("save.txt");
 
-        //if (in.isEmpty()) {
-        //    System.out.println("there's no recording");
-        //    return new World(MAXY + 1, MAXX + 1, N);
-        //}
-
         int w = Integer.parseInt(in.readLine());
         System.out.println("width: " + w);
         int h = Integer.parseInt(in.readLine());
@@ -850,7 +842,6 @@ public class World {
         boolean inScope = false;
 
         Block[][] newWorld = new Block[w][h];
-        int i = 0;
         while (!in.isEmpty()) {
             String[] splitline = in.readLine().split(",");
             index = Integer.parseInt(splitline[0]);
@@ -860,7 +851,6 @@ public class World {
             isAvatar = Boolean.parseBoolean(splitline[4]);
             inScope = Boolean.parseBoolean(splitline[5]);
             newWorld[x][y] = new Block(index, x, y, type, isAvatar, inScope);
-            i++;
         }
         return new World(h, w, s, sI, aLoc, prevAvatarTile, newWorld);
     }
@@ -869,25 +859,42 @@ public class World {
         int xIndex = indexToXY(avatarLocation).get(0);
         int yIndex = indexToXY(avatarLocation).get(1);
         int r = 3;
+
         for (int j = yIndex - r; j < yIndex + r; j++) {
+
+            if (j > worldHeight - 1) {
+                break;
+            }
+            if (j < 0) {
+                break;
+            }
             for (int i = xIndex - r; i < xIndex + r; i++) {
+                int currIndex = j * worldWidth + i;
+                if (i < 0) {
+                    break;
+                }
+                if (i > worldWidth) {
+                    break;
+                }
                 if (Math.pow(i - xIndex, 2) + Math.pow(j - yIndex, 2) <= Math.pow(r, 2)) {
                     blockAt(j * worldWidth + i).changeScope(true);
                 }
             }
         }
-        if ((xIndex >= 0 || xIndex <= MAXX) && (yIndex >= 0 || yIndex <= MAXY)) {
-            long x = Math.round(StdDraw.mouseX());
-            long y = Math.round(StdDraw.mouseY());
+
+        long x = Math.round (StdDraw.mouseX());
+        long y = Math.round(StdDraw.mouseY()) ;
+        if ((x >= 0 && x <= MAXX) && (y >= 0 && y <= MAXY)) {
             int indexOfMouse = (int) (x + y * worldWidth);
+            System.out.println(indexOfMouse + " x: " + x + " y: " + y);
             if (blockAt(indexOfMouse).isAvatar()) {
                 return "avatar";
             }
-            if (indexOfMouse >= 0 && indexOfMouse <= MAXINDEX && blockAt(indexOfMouse).isInScope()) {
+            if (indexOfMouse >= 0 && indexOfMouse <= MAXINDEX && (blockAt(indexOfMouse).isInScope() || visualizeAll)) {
                 return blockAt(indexOfMouse).blockType();
             }
         }
-        return "Not in the World Map";
+        return "????";
     }
 }
 
