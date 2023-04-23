@@ -92,27 +92,28 @@ public class Engine {
         World world = null;
         String seedStr = "";
         char prev = ' ';
+        System.out.println(input);
         while (i < input.length()) {
-            System.out.println("seed: " + seedStr + " digitFinalIndex: " + digitFinalIndex + " index: " + i);
+            //System.out.println("seed: " + seedStr + " digitFinalIndex: " + digitFinalIndex + " index: " + i);
             char c = input.charAt(i);
-            System.out.println(Character.isDigit(c));
+            //System.out.println(Character.isDigit(c));
+
             if (c == 'n' || c == 'N') {
                 digitStartIndex = i;
                 digitFinalIndex = digitStartIndex + 1;
             } else if (Character.isDigit(c) && i <= digitFinalIndex && i > digitStartIndex) {
                 seedStr += c;
                 digitFinalIndex++;
-            } else if (c == 's' || c == 'S' &&  i > digitStartIndex && i < digitFinalIndex) {
+            } else if ((c == 's' || c == 'S') &&  i > digitStartIndex && i <= digitFinalIndex) {
                 digitFinalIndex = i;
                 long mySeed = Math.floorMod(Long.parseLong(seedStr), NUMBER);
                 world = new World(HEIGHT, WIDTH, mySeed);
             } else if (c == 'l' || c == 'L') {
                 world = World.load();
                 digitFinalIndex = i;
-            }
-            else if (prev == ':' && (c == 'q' || c == 'Q') && world != null) {
+            } else if (prev == ':' && (c == 'q' || c == 'Q') && world != null) {
                 world.save();
-                return world.partialVisualize();
+                break;
             } else if (c == 'W' || c == 'w' && world != null) {
                 world.up();
             } else if (c == 'S' || c == 's' && world != null) {
@@ -121,10 +122,6 @@ public class Engine {
                 world.left();
             } else if (c == 'D' || c == 'd' && world != null) {
                 world.right();
-            } else if (c == 'G' || c == 'g' && world != null) {
-                world.changeVisualizeMode();
-            } else if (c == 'O' || c == 'o' && world != null) {
-                world.changeAvatarTile();
             }
             prev = c;
             i++;
@@ -201,7 +198,7 @@ public class Engine {
                 }
                 prev = c;
             }
-            finalWorldFrame = world.partialVisualize();
+            finalWorldFrame = world.allVisualize();
         } else if (command == 'l' || command == 'L') {
             String inGameCommands = "";
             world = World.load();
@@ -229,7 +226,7 @@ public class Engine {
                 }
                 prev = c;
             }
-            finalWorldFrame = world.partialVisualize();
+            finalWorldFrame = world.allVisualize();
         } else {
             finalWorldFrame = null;
         }
