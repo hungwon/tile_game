@@ -109,7 +109,7 @@ public class Engine {
             } else if (prev == ':' && (c == 'q' || c == 'Q') && world != null) {
                 world.save();
                 return world.partialVisualize();
-            } else if (c == 'W' || c == 'w' && world != null ) {
+            } else if (c == 'W' || c == 'w' && world != null) {
                 world.up();
             } else if (c == 'S' || c == 's' && world != null) {
                 world.down();
