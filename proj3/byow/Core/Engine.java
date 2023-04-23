@@ -92,7 +92,7 @@ public class Engine {
         World world = null;
         String seedStr = "";
         char prev = ' ';
-        while (i <= input.length()) {
+        while (i < input.length()) {
             System.out.println("seed: " + seedStr + "sIndex: " + sIndex + "index: " + i);
             char c = input.charAt(i);
             System.out.println(Character.isDigit(c));
