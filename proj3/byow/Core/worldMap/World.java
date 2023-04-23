@@ -809,11 +809,6 @@ public class World {
     public static World load() {
         In in = new In("save.txt");
 
-        //if (in.isEmpty()) {
-        //    System.out.println("there's no recording");
-        //    return new World(MAXY + 1, MAXX + 1, N);
-        //}
-
         int w = Integer.parseInt(in.readLine());
         System.out.println("width: " + w);
         int h = Integer.parseInt(in.readLine());
@@ -835,7 +830,6 @@ public class World {
         boolean inScope = false;
 
         Block[][] newWorld = new Block[w][h];
-        int i = 0;
         while (!in.isEmpty()) {
             String[] splitline = in.readLine().split(",");
             index = Integer.parseInt(splitline[0]);
@@ -845,7 +839,6 @@ public class World {
             isAvatar = Boolean.parseBoolean(splitline[4]);
             inScope = Boolean.parseBoolean(splitline[5]);
             newWorld[x][y] = new Block(index, x, y, type, isAvatar, inScope);
-            i++;
         }
         return new World(h, w, s, sI, aLoc, prevAvatarTile, newWorld);
     }

@@ -93,6 +93,7 @@ public class Engine {
         String seedStr = "";
         char prev = ' ';
         //System.out.println(input);
+
         while (i < input.length()) {
             char c = input.charAt(i);
             if (c == 'n' || c == 'N') {
@@ -123,6 +124,7 @@ public class Engine {
             prev = c;
             i++;
         }
+
         if (world != null) {
             TETile[][] finalWorldFrame = world.allVisualize();
             return finalWorldFrame;
