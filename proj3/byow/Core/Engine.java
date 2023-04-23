@@ -130,7 +130,7 @@ public class Engine {
             i++;
         }
         if (world != null) {
-            TETile[][] finalWorldFrame = world.partialVisualize();
+            TETile[][] finalWorldFrame = world.allVisualize();
             return finalWorldFrame;
         } else {
             return null;
