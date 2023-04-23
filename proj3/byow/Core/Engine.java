@@ -4,7 +4,6 @@ import byow.Core.worldMap.World;
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 import edu.princeton.cs.algs4.StdDraw;
-
 import java.awt.*;
 
 public class Engine {
@@ -85,6 +84,55 @@ public class Engine {
         }
     }
 
+    public TETile[][] interactWithInputString(String input) {
+        int i = 0;
+        int sIndex = 0;
+        int nIndex = 0;
+        ter.initialize(WIDTH, HEIGHT);
+        World world = null;
+        String seedStr = "";
+        char prev = ' ';
+        while (i <= input.length()) {
+            System.out.println("seed: " + seedStr + "sIndex: " + sIndex + "index: " + i);
+            char c = input.charAt(i);
+            System.out.println(Character.isDigit(c));
+            if (c == 'n' || c == 'N') {
+                nIndex = i;
+                sIndex = nIndex + 1;
+            } else if (Character.isDigit(c) && i <= sIndex && i > nIndex) {
+                seedStr += c;
+                sIndex++;
+            } else if (c == 's' || c == 'S' &&  i > nIndex) {
+                sIndex = i;
+                long mySeed = Math.floorMod(Long.parseLong(seedStr), NUMBER);
+                world = new World(HEIGHT, WIDTH, mySeed);
+            } else if (prev == ':' && (c == 'q' || c == 'Q') && world != null) {
+                world.save();
+                return world.partialVisualize();
+            } else if (c == 'W' || c == 'w' && world != null ) {
+                world.up();
+            } else if (c == 'S' || c == 's' && world != null) {
+                world.down();
+            } else if (c == 'A' || c == 'a' && world != null) {
+                world.left();
+            } else if (c == 'D' || c == 'd' && world != null) {
+                world.right();
+            } else if (c == 'G' || c == 'g' && world != null) {
+                world.changeVisualizeMode();
+            } else if (c == 'O' || c == 'o' && world != null) {
+                world.changeAvatarTile();
+            }
+            prev = c;
+            i++;
+        }
+        if (world != null) {
+            TETile[][] finalWorldFrame = world.partialVisualize();
+            return finalWorldFrame;
+        } else {
+            return null;
+        }
+    }
+
     /**
      * Method used for autograding and testing your code. The input string will be a series
      * of characters (for example, "n123sswwdasdassadwas", "n123sss:q", "lwww". The engine should
@@ -106,12 +154,11 @@ public class Engine {
      * @param input the input string to feed to your program
      * @return the 2D TETile[][] representing the state of the world
      */
-    public TETile[][] interactWithInputString(String input) {
+    public TETile[][] interactWithInputString2(String input) {
         TETile[][] finalWorldFrame;
         ter.initialize(WIDTH, HEIGHT);
         World world;
         char command = input.charAt(0);
-        boolean gameOver = false;
         if (command == 'n' || command == 'N') {
             String strSeed = "";
             int last = 0;
@@ -134,7 +181,6 @@ public class Engine {
                 char c = inGameCommands.charAt(i);
                 if (prev == ':' && (c == 'q' || c == 'Q')) {
                     world.save();
-                    gameOver = true;
                     return world.partialVisualize();
                 } else if (c == 'W' || c == 'w') {
                     world.up();
@@ -164,7 +210,6 @@ public class Engine {
                 char c = inGameCommands.charAt(i);
                 if (prev == ':' && (c == 'q' || c == 'Q')) {
                     world.save();
-                    gameOver = true;
                 } else if (c == 'W' || c == 'w') {
                     world.up();
                 } else if (c == 'S' || c == 's') {
