@@ -859,29 +859,13 @@ public class World {
         int xIndex = indexToXY(avatarLocation).get(0);
         int yIndex = indexToXY(avatarLocation).get(1);
         int r = 3;
-
         for (int j = yIndex - r; j < yIndex + r; j++) {
-
-            if (j > worldHeight - 1) {
-                break;
-            }
-            if (j < 0) {
-                break;
-            }
             for (int i = xIndex - r; i < xIndex + r; i++) {
-                int currIndex = j * worldWidth + i;
-                if (i < 0) {
-                    break;
-                }
-                if (i > worldWidth) {
-                    break;
-                }
                 if (Math.pow(i - xIndex, 2) + Math.pow(j - yIndex, 2) <= Math.pow(r, 2)) {
                     blockAt(j * worldWidth + i).changeScope(true);
                 }
             }
         }
-
         long x = Math.round (StdDraw.mouseX());
         long y = Math.round(StdDraw.mouseY()) ;
         if ((x >= 0 && x <= MAXX) && (y >= 0 && y <= MAXY)) {
