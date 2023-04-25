@@ -15,6 +15,8 @@ public class Engine {
     public static final int GREATESTNUMBEROFSEED = 20;
     public static final int MAXIMUMKEYBOARDCOMMAND = 100000;
 
+
+
     /**
      * Method used for exploring a fresh world. This method should handle all inputs,
      * including inputs from the main menu.
@@ -89,6 +91,27 @@ public class Engine {
         }
     }
 
+    /**
+     * Method used for autograding and testing your code. The input string will be a series
+     * of characters (for example, "n123sswwdasdassadwas", "n123sss:q", "lwww". The engine should
+     * behave exactly as if the user typed these characters into the engine using
+     * interactWithKeyboard.
+     *
+     * Recall that strings ending in ":q" should cause the game to quite save. For example,
+     * if we do interactWithInputString("n123sss:q"), we expect the game to run the first
+     * 7 commands (n123sss) and then quit and save. If we then do
+     * interactWithInputString("l"), we should be back in the exact same state.
+     *
+     * In other words, running both of these:
+     *   - interactWithInputString("n123sss:q")
+     *   - interactWithInputString("lww")
+     *
+     * should yield the exact same world state as:
+     *   - interactWithInputString("n123sssww")
+     *
+     * @param input the input string to feed to your program
+     * @return the 2D TETile[][] representing the state of the world
+     */
     public TETile[][] interactWithInputString(String input) {
         int i = 0;
         int digitFinalIndex = 0;
@@ -138,102 +161,6 @@ public class Engine {
         }
     }
 
-    /**
-     * Method used for autograding and testing your code. The input string will be a series
-     * of characters (for example, "n123sswwdasdassadwas", "n123sss:q", "lwww". The engine should
-     * behave exactly as if the user typed these characters into the engine using
-     * interactWithKeyboard.
-     *
-     * Recall that strings ending in ":q" should cause the game to quite save. For example,
-     * if we do interactWithInputString("n123sss:q"), we expect the game to run the first
-     * 7 commands (n123sss) and then quit and save. If we then do
-     * interactWithInputString("l"), we should be back in the exact same state.
-     *
-     * In other words, running both of these:
-     *   - interactWithInputString("n123sss:q")
-     *   - interactWithInputString("lww")
-     *
-     * should yield the exact same world state as:
-     *   - interactWithInputString("n123sssww")
-     *
-     * @param input the input string to feed to your program
-     * @return the 2D TETile[][] representing the state of the world
-     */
-    public TETile[][] interactWithInputString2(String input) {
-        TETile[][] finalWorldFrame;
-        ter.initialize(WIDTH, HEIGHT);
-        World world;
-        char command = input.charAt(0);
-        if (command == 'n' || command == 'N') {
-            String strSeed = "";
-            int last = 0;
-            for (int i = 1; i < input.length(); i++) {
-                char current = input.charAt(i);
-                if (Character.isDigit(current)) {
-                    strSeed += current;
-                    last = i;
-                }
-            }
-            long mySeed = Math.floorMod(Long.parseLong(strSeed), NUMBER);
-            String inGameCommands = "";
-            world = new World(HEIGHT, WIDTH, mySeed);
-            for (int i = last + 1; i < input.length(); i++) {
-                char current = input.charAt(i);
-                inGameCommands += current;
-            }
-            char prev = ' ';
-            for (int i = 0; i < inGameCommands.length(); i++) {
-                char c = inGameCommands.charAt(i);
-                if (prev == ':' && (c == 'q' || c == 'Q')) {
-                    world.save();
-                    return world.partialVisualize();
-                } else if (c == 'W' || c == 'w') {
-                    world.up();
-                } else if (c == 'S' || c == 's') {
-                    world.down();
-                } else if (c == 'A' || c == 'a') {
-                    world.left();
-                } else if (c == 'D' || c == 'd') {
-                    world.right();
-                } else if (c == 'G' || c == 'g') {
-                    world.changeVisualizeMode();
-                } else if (c == 'O' || c == 'o') {
-                    world.changeAvatarTile();
-                }
-                prev = c;
-            }
-            finalWorldFrame = world.allVisualize();
-        } else if (command == 'l' || command == 'L') {
-            String inGameCommands = "";
-            world = World.load();
-            for (int i = 1; i < input.length(); i++) {
-                char current = input.charAt(i);
-                inGameCommands += current;
-            }
-            char prev = ' ';
-            for (int i = 0; i < inGameCommands.length(); i++) {
-                char c = inGameCommands.charAt(i);
-                if (prev == ':' && (c == 'q' || c == 'Q')) {
-                    world.save();
-                } else if (c == 'W' || c == 'w') {
-                    world.up();
-                } else if (c == 'S' || c == 's') {
-                    world.down();
-                } else if (c == 'A' || c == 'a') {
-                    world.left();
-                } else if (c == 'D' || c == 'd') {
-                    world.right();
-                } else if (c == 'G' || c == 'g') {
-                    world.changeVisualizeMode();
-                } else if (c == 'O' || c == 'o') {
-                    world.changeAvatarTile();
-                }
-                prev = c;
-            }
-            finalWorldFrame = world.allVisualize();
-        } else {
-            finalWorldFrame = null;
-        }
-        return finalWorldFrame;
-    }
+
+
 }

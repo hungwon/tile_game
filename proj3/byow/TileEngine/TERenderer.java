@@ -134,23 +134,8 @@ public class TERenderer {
         Font fontBig = new Font("Monaco", Font.BOLD, 30);
         StdDraw.setFont(fontBig);
 
-
-        String currentAvatar = "" + World.getAvatarTile();
-
-
-        if () {
-            // avatar 0
-
-        } else if () {
-            // avatar 1
-
-        } else if () {
-            // avatar 2
-
-        } else {
-            // avatar 3
-
-        }
+        char getAvatar = World.getAvatarTile();
+        String currentAvatar = "" + getAvatar;
 
         StdDraw.text(this.width / 2, this.height - 5, currentAvatar);
 
@@ -168,8 +153,6 @@ public class TERenderer {
 
         boolean goBack = false;
 
-        int avatarNum = 0;
-
         while (!goBack) {
 
             if (StdDraw.hasNextKeyTyped()) {
@@ -178,15 +161,11 @@ public class TERenderer {
 
                 if (c == 'c' || c == 'C') { // keep change the avatar
 
-                    // call avatar change method from here
+                    // call avatar change method to change the avatar
+                    World.changeAvatarTile();
 
-                    if (avatarNum == 3) {
-                        avatarNum = 0;
-                    } else {
-                        avatarNum++;
-                    }
-                    // change avatar
                 } else if (c == 'b' || c == 'B') { // go back to the main menu
+
                     goBack = true;
                 }
             }
