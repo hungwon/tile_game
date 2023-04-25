@@ -64,7 +64,6 @@ public class World {
 
         blockAt(startIndex).changeType("start");
         createAvatar();
-        avatarTile = 1;
         visualizeAll = false;
         moveCnt = 0;
         skillTime = 0;
@@ -714,6 +713,13 @@ public class World {
         this.avatarTile = Integer.parseInt(in.readLine());
     }
 
+    public void resetAvatar() {
+        this.avatarTile = 0;
+        Out o = new Out("avatar.txt");
+        o.println(avatarTile);
+        o.close();
+    }
+
     public TETile chooseTile(int num) {
         if (Math.floorMod(num, 4) == 1) {
             return Tileset.AVATAR;
@@ -815,22 +821,17 @@ public class World {
         o.println(startIndex);
         o.println(seed);
         o.println(avatarLocation);
+        o.println(avatarTile);
         for (int i = 0; i <= MAXINDEX; i++) {
             o.println(i + "," + indexToXY(i).get(0) + "," + indexToXY(i).get(1) + ","
                     + blockAt(i).blockType() + "," + blockAt(i).isAvatar() + "," + blockAt(i).isInScope());
         }
         o.close();
-
-        Out avatarO = new Out("avatar.txt");
-        avatarO.println(avatarTile);
-        avatarO.close();
-
         System.out.println("save finished");
     }
 
     public static World load() {
         In in = new In("save.txt");
-        In avatarIn = new In("avatar.txt");
 
         int w = Integer.parseInt(in.readLine());
         System.out.println("width: " + w);
@@ -842,8 +843,7 @@ public class World {
         System.out.println("seed: " + s);
         int aLoc = Integer.parseInt(in.readLine());
         System.out.println("avatar location: " + aLoc);
-
-        int prevAvatarTile = Integer.parseInt(avatarIn.readLine());
+        int prevAvatarTile = Integer.parseInt(in.readLine());
         System.out.println(prevAvatarTile);
 
         int index = 0;
