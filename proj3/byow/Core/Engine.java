@@ -100,7 +100,7 @@ public class Engine {
             String inputSeed = terR.drawSeed(GREATESTNUMBEROFSEED, false); // greatest number of seed has 19 digits
             long longSeed = Long.parseLong(inputSeed);
             world = new World(HEIGHT, WIDTH, longSeed);
-        Font fontBig = new Font("Monaco", Font.BOLD, FONTSIZE);
+            Font fontBig = new Font("Monaco", Font.BOLD, FONTSIZE);
             StdDraw.setFont(fontBig);
             gameStart(world);
         } else if (command.equals("l") || command.equals("L")) {
@@ -142,7 +142,6 @@ public class Engine {
         World world = null;
         String seedStr = "";
         char prev = ' ';
-        //System.out.println(input);
 
         while (i < input.length()) {
             char c = input.charAt(i);
