@@ -127,26 +127,32 @@ public class TERenderer {
 
 
 
-    public void renderOption(int avatarNum, boolean goBack) {
+    public void renderOption(boolean goBack) {
 
         StdDraw.clear(Color.BLACK);
         StdDraw.setPenColor(Color.WHITE);
         Font fontBig = new Font("Monaco", Font.BOLD, 30);
         StdDraw.setFont(fontBig);
 
-        if (avatarNum == 0) {
+
+        String currentAvatar = "" + World.getAvatarTile();
+
+
+        if () {
             // avatar 0
-            StdDraw.text(this.width / 2, this.height - 5, "A");
-        } else if (avatarNum == 1) {
+
+        } else if () {
             // avatar 1
-            StdDraw.text(this.width / 2, this.height - 5, "B");
-        } else if (avatarNum == 2) {
+
+        } else if () {
             // avatar 2
-            StdDraw.text(this.width / 2, this.height - 5, "C");
+
         } else {
             // avatar 3
-            StdDraw.text(this.width / 2, this.height - 5, "D");
+
         }
+
+        StdDraw.text(this.width / 2, this.height - 5, currentAvatar);
 
         if (!goBack) {
             StdDraw.setFont(fontBig);
@@ -171,6 +177,9 @@ public class TERenderer {
                 char c = StdDraw.nextKeyTyped();
 
                 if (c == 'c' || c == 'C') { // keep change the avatar
+
+                    // call avatar change method from here
+
                     if (avatarNum == 3) {
                         avatarNum = 0;
                     } else {
@@ -182,7 +191,7 @@ public class TERenderer {
                 }
             }
 
-            renderOption(avatarNum, false);
+            renderOption(false);
             // render the avatar
         }
 
