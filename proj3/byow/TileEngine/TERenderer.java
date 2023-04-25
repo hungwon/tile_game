@@ -137,7 +137,7 @@ public class TERenderer {
         char getAvatar = World.getAvatarTile();
         String currentAvatar = "" + getAvatar;
 
-        StdDraw.text(this.width / 2, this.height - 5, currentAvatar);
+        StdDraw.text(this.width / 2, this.height - 5, "Avatar: " + currentAvatar);
 
         if (!goBack) {
             StdDraw.setFont(fontBig);
@@ -171,16 +171,12 @@ public class TERenderer {
             }
 
             renderOption(false);
-            // render the avatar
         }
-
-
     }
 
 
 
     public String drawWord(int n, boolean gameOver) {
-
 
         int cnt = 0;
 
