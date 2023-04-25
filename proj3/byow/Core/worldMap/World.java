@@ -713,6 +713,11 @@ public class World {
         this.avatarTile = Integer.parseInt(in.readLine());
     }
 
+    public char getAvatarTile() {
+        return chooseTile(this.avatarTile).character();
+    }
+
+
     public void resetAvatar() {
         this.avatarTile = 0;
         Out o = new Out("avatar.txt");
@@ -721,11 +726,11 @@ public class World {
     }
 
     public TETile chooseTile(int num) {
-        if (Math.floorMod(num, 4) == 1) {
+        if (Math.floorMod(num, 4) == 0) {
             return Tileset.AVATAR;
-        } else if (Math.floorMod(num, 4) == 2) {
+        } else if (Math.floorMod(num, 4) == 1) {
             return Tileset.UNLOCKED_DOOR;
-        } else if (Math.floorMod(num ,4) == 3){
+        } else if (Math.floorMod(num ,4) == 2){
             return Tileset.LOCKED_DOOR;
         } else {
             return new TETile('a', Color.WHITE, Color.black, "hello in korean");
