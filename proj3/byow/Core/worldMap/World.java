@@ -638,7 +638,7 @@ public class World {
         }
     }
 
-    public void changeAvatarTile() {
+    public static void changeAvatarTile() {
         In in = new In("avatar.txt");
         int prevAvatatType = Integer.parseInt(in.readLine());
         prevAvatatType += 1;
