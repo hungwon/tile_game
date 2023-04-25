@@ -613,8 +613,9 @@ public class World {
         this.avatarTile = Integer.parseInt(in.readLine());
     }
 
-    public char getAvatarTile() {
-        return chooseTile(this.avatarTile).character();
+    public static char getAvatarTile() {
+        In in = new In("avatar.txt");
+        return chooseTile(Integer.parseInt(in.readLine())).character();
     }
 
     public static void resetAvatar() {
@@ -623,7 +624,7 @@ public class World {
         o.close();
     }
 
-    public TETile chooseTile(int num) {
+    public static TETile chooseTile(int num) {
         if (Math.floorMod(num, 4) == 0) {
             return Tileset.AVATAR;
         } else if (Math.floorMod(num, 4) == 1) {
