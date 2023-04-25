@@ -1,5 +1,6 @@
 package byow.TileEngine;
 
+import byow.Core.worldMap.World;
 import edu.princeton.cs.algs4.StdDraw;
 
 import java.awt.Color;
@@ -37,9 +38,7 @@ public class TERenderer {
         StdDraw.setFont(font);      
         StdDraw.setXscale(0, width);
         StdDraw.setYscale(0, height);
-
         StdDraw.clear(new Color(0, 0, 0));
-
         StdDraw.enableDoubleBuffering();
         StdDraw.show();
     }
@@ -100,11 +99,6 @@ public class TERenderer {
         StdDraw.pause(200);
     }
 
-
-
-
-
-
     public void renderMainMenu(String s, boolean gameOver) {
 
         StdDraw.clear(Color.BLACK);
@@ -116,20 +110,60 @@ public class TERenderer {
         if (!gameOver) {
             StdDraw.setFont(fontBig);
             StdDraw.text(this.width - (this.width - 10), this.height - 5, "New Game (N)");
-            StdDraw.text(this.width / 2, this.height - 5, "Load Game (L)");
+            StdDraw.text((this.width / 2) - 10, this.height - 5, "Load Game (L)");
+            StdDraw.text((this.width / 2) + 10, this.height - 5, "Option (O)");
             StdDraw.text(this.width - 10, this.height - 5, "Quit (Q)");
         }
 
         StdDraw.show();
     }
 
+    public void renderOption(boolean goBack) {
 
+        StdDraw.clear(Color.BLACK);
+        StdDraw.setPenColor(Color.WHITE);
+        Font fontBig = new Font("Monaco", Font.BOLD, 30);
+        StdDraw.setFont(fontBig);
+
+        char getAvatar = World.getAvatarTile();
+        String currentAvatar = "" + getAvatar;
+
+        StdDraw.text(this.width / 2, this.height - 5, "Avatar: " + currentAvatar);
+
+        if (!goBack) {
+            StdDraw.setFont(fontBig);
+            StdDraw.text(this.width / 2, this.height / 2, "Back (B)");
+        }
+
+        StdDraw.show();
+    }
+
+    public void drawOption() {
+
+        boolean goBack = false;
+
+        while (!goBack) {
+            if (StdDraw.hasNextKeyTyped()) {
+
+                char c = StdDraw.nextKeyTyped();
+
+                if (c == 'c' || c == 'C') { // keep change the avatar
+
+                    // call avatar change method to change the avatar
+                    World.changeAvatarTile();
+
+                } else if (c == 'b' || c == 'B') { // go back to the main menu
+
+                    goBack = true;
+                }
+            }
+
+            renderOption(false);
+        }
+    }
 
     public String drawWord(int n, boolean gameOver) {
-
-
         int cnt = 0;
-
         StringBuilder sb = new StringBuilder();
 
         while (cnt < n) {
@@ -139,6 +173,8 @@ public class TERenderer {
                 if (c == 'n' || c == 'N' || c == 'l' || c == 'L' || c == 'q' || c == 'Q') {
                     sb.append(c);
                     cnt++;
+                } else if (c == 'o' || c == 'O') {
+                    drawOption();
                 }
             }
             renderMainMenu(sb.toString(), gameOver);
@@ -147,13 +183,6 @@ public class TERenderer {
 
         return sb.toString();
     }
-
-
-
-
-
-
-
 
     public void renderStartMenu(String s, boolean gameOver) {
 
@@ -171,9 +200,6 @@ public class TERenderer {
         StdDraw.show();
     }
 
-
-
-
     public String drawSeed(int n, boolean gameOver) {
 
         int cnt = 0;
@@ -182,51 +208,20 @@ public class TERenderer {
         while (cnt < n) {
             if (StdDraw.hasNextKeyTyped()) {
                 char c = StdDraw.nextKeyTyped();
-                System.out.println(c);
-                System.out.println(c>='0' && c <= '9');
 
-                if (c >= '0' && c <= '9') {
+                if (c >= '0' && c <= '9' && cnt <= 18) {
                     sb.append(c);
                     cnt++;
-                } else if (cnt > 0 && (c == 's' || c == 'S')) {
+                } else if (cnt < 19 && (c == 's' || c == 'S')) {
                     cnt = n;
+                } else if (cnt == 19 && (c == 's' || c == 'S')) {
+                    cnt++;
                 }
             }
-
             renderStartMenu(sb.toString(), gameOver);
             StdDraw.pause(200);
         }
 
         return sb.toString();
     }
-
-
-    public void renderBlockType(String s) {
-
-        StdDraw.clear(Color.BLACK);
-        StdDraw.setPenColor(Color.WHITE);
-        Font fontBig = new Font("Monaco", Font.BOLD, 20);
-        StdDraw.setFont(fontBig);
-        StdDraw.text(1, this.height - 1, s);
-
-        StdDraw.show();
-    }
-
-
-    public void drawBlockType(String s, boolean gameOver) {
-
-        while (!gameOver) {
-
-            if (!s.equals("hello")) {
-                renderBlockType(s);
-            } else {
-                gameOver = true;
-            }
-
-        }
-
-    }
-
-
-
 }

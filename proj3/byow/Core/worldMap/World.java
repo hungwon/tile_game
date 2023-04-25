@@ -726,7 +726,7 @@ public class World {
         o.println(startIndex);
         o.println(seed);
         o.println(avatarLocation);
-        o.println(avatarTile);
+        //o.println(avatarTile);
         for (int i = 0; i <= MAXINDEX; i++) {
             o.println(i + "," + indexToXY(i).get(0) + "," + indexToXY(i).get(1) + ","
                     + blockAt(i).blockType() + "," + blockAt(i).isAvatar() + "," + blockAt(i).isInScope());
