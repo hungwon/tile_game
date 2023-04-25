@@ -618,9 +618,8 @@ public class World {
     }
 
     public void resetAvatar() {
-        this.avatarTile = 0;
         Out o = new Out("avatar.txt");
-        o.println(avatarTile);
+        o.println(0);
         o.close();
     }
 
