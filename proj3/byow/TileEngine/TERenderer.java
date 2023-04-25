@@ -116,11 +116,76 @@ public class TERenderer {
         if (!gameOver) {
             StdDraw.setFont(fontBig);
             StdDraw.text(this.width - (this.width - 10), this.height - 5, "New Game (N)");
-            StdDraw.text(this.width / 2, this.height - 5, "Load Game (L)");
+            StdDraw.text((this.width / 2) - 10, this.height - 5, "Load Game (L)");
+            StdDraw.text((this.width / 2) + 10, this.height - 5, "Option (O)");
             StdDraw.text(this.width - 10, this.height - 5, "Quit (Q)");
         }
 
         StdDraw.show();
+    }
+
+
+
+    public void renderOption(int avatarNum, boolean goBack) {
+
+        StdDraw.clear(Color.BLACK);
+        StdDraw.setPenColor(Color.WHITE);
+        Font fontBig = new Font("Monaco", Font.BOLD, 30);
+        StdDraw.setFont(fontBig);
+
+        if (avatarNum == 0) {
+            // avatar 0
+            StdDraw.text(this.width / 2, this.height - 5, "A");
+        } else if (avatarNum == 1) {
+            // avatar 1
+            StdDraw.text(this.width / 2, this.height - 5, "B");
+        } else if (avatarNum == 2) {
+            // avatar 2
+            StdDraw.text(this.width / 2, this.height - 5, "C");
+        } else {
+            // avatar 3
+            StdDraw.text(this.width / 2, this.height - 5, "D");
+        }
+
+        if (!goBack) {
+            StdDraw.setFont(fontBig);
+            StdDraw.text(this.width / 2, this.height / 2, "Back (B)");
+        }
+
+        StdDraw.show();
+    }
+
+
+
+    public void drawOption() {
+
+        boolean goBack = false;
+
+        int avatarNum = 0;
+
+        while (!goBack) {
+
+            if (StdDraw.hasNextKeyTyped()) {
+
+                char c = StdDraw.nextKeyTyped();
+
+                if (c == 'c' || c == 'C') { // keep change the avatar
+                    if (avatarNum == 3) {
+                        avatarNum = 0;
+                    } else {
+                        avatarNum++;
+                    }
+                    // change avatar
+                } else if (c == 'b' || c == 'B') { // go back to the main menu
+                    goBack = true;
+                }
+            }
+
+            renderOption(avatarNum, false);
+            // render the avatar
+        }
+
+
     }
 
 
@@ -139,6 +204,8 @@ public class TERenderer {
                 if (c == 'n' || c == 'N' || c == 'l' || c == 'L' || c == 'q' || c == 'Q') {
                     sb.append(c);
                     cnt++;
+                } else if (c == 'o' || c == 'O') {
+                    drawOption();
                 }
             }
             renderMainMenu(sb.toString(), gameOver);
@@ -182,14 +249,14 @@ public class TERenderer {
         while (cnt < n) {
             if (StdDraw.hasNextKeyTyped()) {
                 char c = StdDraw.nextKeyTyped();
-                System.out.println(c);
-                System.out.println(c>='0' && c <= '9');
 
-                if (c >= '0' && c <= '9') {
+                if (c >= '0' && c <= '9' && cnt <= 18) {
                     sb.append(c);
                     cnt++;
-                } else if (cnt > 0 && (c == 's' || c == 'S')) {
+                } else if (cnt < 19 && (c == 's' || c == 'S')) {
                     cnt = n;
+                } else if (cnt == 19 && (c == 's' || c == 'S')) {
+                    cnt++;
                 }
             }
 
