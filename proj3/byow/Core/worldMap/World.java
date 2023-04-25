@@ -543,6 +543,8 @@ public class World {
      */
     public TETile[][] partialVisualize() {
         TETile[][] visualWorld = new TETile[worldWidth][worldHeight];
+        In in = new In("avatar.txt");
+        this.avatarTile = Integer.parseInt(in.readLine());
         if (visualizeAll) {
             visualWorld = allVisualize();
             return visualWorld;
@@ -637,9 +639,11 @@ public class World {
     }
 
     public void changeAvatarTile() {
-        this.avatarTile += 1;
+        In in = new In("avatar.txt");
+        int prevAvatatType = Integer.parseInt(in.readLine());
+        prevAvatatType += 1;
         Out o = new Out("avatar.txt");
-        o.println(avatarTile);
+        o.println(prevAvatatType);
         o.close();
     }
 
