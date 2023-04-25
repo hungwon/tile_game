@@ -617,7 +617,7 @@ public class World {
         return chooseTile(this.avatarTile).character();
     }
 
-    public void resetAvatar() {
+    public static void resetAvatar() {
         Out o = new Out("avatar.txt");
         o.println(0);
         o.close();
@@ -628,7 +628,7 @@ public class World {
             return Tileset.AVATAR;
         } else if (Math.floorMod(num, 4) == 1) {
             return Tileset.UNLOCKED_DOOR;
-        } else if (Math.floorMod(num ,4) == 2){
+        } else if (Math.floorMod(num, 4) == 2) {
             return Tileset.LOCKED_DOOR;
         } else {
             return new TETile('a', Color.WHITE, Color.black, "hello in korean");
@@ -797,8 +797,8 @@ public class World {
         }
 
 
-        long x = Math.round (StdDraw.mouseX());
-        long y = Math.round(StdDraw.mouseY()) ;
+        long x = Math.round(StdDraw.mouseX());
+        long y = Math.round(StdDraw.mouseY());
         if ((x >= 0 && x <= MAXX) && (y >= 0 && y <= MAXY)) {
             int indexOfMouse = (int) (x + y * worldWidth);
             System.out.println(indexOfMouse + " x: " + x + " y: " + y);

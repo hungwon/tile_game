@@ -71,7 +71,10 @@ public class Engine {
         terR.initialize(WIDTH, HEIGHT);
         World world; // declare the world object
 
-        // world.resetAvatar(); // only once
+
+        World.resetAvatar(); // reset the avatar from the starting
+
+
         String command = terR.drawWord(1, false);
         if (command.equals("n") || command.equals("N")) {
             String inputSeed = terR.drawSeed(GREATESTNUMBEROFSEED, false); // greatest number of seed has 19 digits
