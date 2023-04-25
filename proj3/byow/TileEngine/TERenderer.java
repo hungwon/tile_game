@@ -1,5 +1,6 @@
 package byow.TileEngine;
 
+import byow.Core.worldMap.World;
 import edu.princeton.cs.algs4.StdDraw;
 
 import java.awt.Color;

@@ -8,7 +8,6 @@ import byow.TileEngine.Tileset;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Out;
 import edu.princeton.cs.algs4.StdDraw;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -64,7 +63,6 @@ public class World {
 
         blockAt(startIndex).changeType("start");
         createAvatar();
-        avatarTile = 1;
         visualizeAll = false;
         moveCnt = 0;
         skillTime = 0;
@@ -106,76 +104,6 @@ public class World {
         return returnLst;
     }
 
-    public int getWorldWidth() {
-        return worldWidth;
-    }
-
-    public int getWorldHeight() {
-        return worldHeight;
-    }
-
-
-    //--------------------------------- Tool Box -------------------------------------
-
-    public boolean isEdgePoint(int index, int bottomLeftIndex, int upperRightIndex) {
-
-        if (isTopLeft(index, bottomLeftIndex, upperRightIndex)) {
-            return true;
-        }
-        if (isBottomLeft(index, bottomLeftIndex, upperRightIndex)) {
-            return true;
-        }
-        if (isBottomRight(index, bottomLeftIndex, upperRightIndex)) {
-            return true;
-        }
-        if (isTopRight(index, bottomLeftIndex, upperRightIndex)) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean isBottomLeft(int index, int bottomLeftIndex, int topRightIndex) {
-        List<Integer> indexXY = indexToXY(index);
-        List<Integer> bottomLeftXY = indexToXY(bottomLeftIndex);
-
-        if (indexXY.get(0) == bottomLeftXY.get(0) && indexXY.get(1) == bottomLeftXY.get(1)) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean isBottomRight(int index, int bottomLeftIndex, int topRightIndex) {
-        List<Integer> indexXY = indexToXY(index);
-        List<Integer> bottomLeftXY = indexToXY(bottomLeftIndex);
-        List<Integer> topRightXY = indexToXY(topRightIndex);
-
-        if (indexXY.get(0) == topRightXY.get(0) && indexXY.get(1) == bottomLeftXY.get(1)) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean isTopLeft(int index, int bottomLeftIndex, int topRightIndex) {
-        List<Integer> indexXY = indexToXY(index);
-        List<Integer> bottomLeftXY = indexToXY(bottomLeftIndex);
-        List<Integer> topRightXY = indexToXY(topRightIndex);
-
-        if (indexXY.get(0) == bottomLeftXY.get(0) && indexXY.get(1) == topRightXY.get(1)) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean isTopRight(int index, int bottomLeftIndex, int topRightIndex) {
-        List<Integer> indexXY = indexToXY(index);
-        List<Integer> topRightXY = indexToXY(topRightIndex);
-
-        if (indexXY.get(0) == topRightXY.get(0) && indexXY.get(1) == topRightXY.get(1)) {
-            return true;
-        }
-        return false;
-    }
-
     public boolean isMarginOfRoom(int index, int bottomLeftIndex, int upperRightIndex) {
         List<Integer> indexXY = indexToXY(index);
         List<Integer> bottomLeftXY = indexToXY(bottomLeftIndex);
@@ -186,35 +114,6 @@ public class World {
         }
 
         if (indexXY.get(1) == bottomLeftXY.get(1) || indexXY.get(1) == upperRightXY.get(1)) {
-            return true;
-        }
-        return false;
-    }
-
-    public void checkIndex(int index) {
-        if (index >= worldWidth * worldHeight) {
-            throw new IllegalArgumentException(index + ": index exceed 2399");
-        }
-    }
-
-    public boolean isBetween(int index, List<Integer> bottomLeft, List<Integer> topRight) {
-        for (int i = 0; i < bottomLeft.size(); i++) {
-            if (isTopRight(index, bottomLeft.get(i), topRight.get(i))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean isBetween(int index, int bottomLeftIndex, int topRightIndex) {
-        List<Integer> indexXY = indexToXY(index);
-        List<Integer> bottomLeftXY = indexToXY(bottomLeftIndex);
-        List<Integer> topRightXY = indexToXY(topRightIndex);
-
-        if (indexXY.get(0) >= bottomLeftXY.get(0) && indexXY.get(0) <= topRightXY.get(0)) {
-            return true;
-        }
-        if (indexXY.get(1) >= bottomLeftXY.get(1) && indexXY.get(1) <= topRightXY.get(1)) {
             return true;
         }
         return false;
@@ -312,7 +211,7 @@ public class World {
 
     }
 
-    // ------------------------------ Step A -----------------------------------
+    // ------------------------------ Step A - make empty world -----------------------------------
 
     /**
      * Instantiate Block[][]
@@ -330,7 +229,7 @@ public class World {
         return retWorld;
     }
 
-    // ------------------------------ Step B -----------------------------------
+    // ------------------------------ Step B make world graph and set starting point -----------------------------------
 
     /**
      * In order to use Dijkstra's algorithm, I create undirected graph.
@@ -388,7 +287,7 @@ public class World {
         return possibleStartingPoint.get(random.nextInt(0, possibleStartingPoint.size()));
     }
 
-    // ------------------------------ Step C -----------------------------------
+    // ------------------------------ Step C - make rooms -----------------------------------
 
     /**
      * 1. determine random number of rooms
@@ -547,7 +446,7 @@ public class World {
         doorIndexLst.addAll(confirmedDoors);
     }
 
-    // ------------------------------ Step D -----------------------------------
+    // ------------------------------ Step D - create Hallways and Walls -----------------------------------
 
     /**
      * using Dijkstra's algorithm, connect starting point of the world and every door of rooms.
@@ -602,7 +501,7 @@ public class World {
         }
     }
 
-    // ------------------------------ Step E -----------------------------------
+    // ------------------------------ Step E - visualize -----------------------------------
 
     /**
      * helper func for partialVisualize
@@ -710,14 +609,27 @@ public class World {
     // ---------------------------- Avatar -------------------------------------
     public void createAvatar() {
         avatarLocation = Block.moveAvaterTo(blockAt(startIndex), null);
+        In in = new In("avatar.txt");
+        this.avatarTile = Integer.parseInt(in.readLine());
+    }
+
+    public char getAvatarTile() {
+        return chooseTile(this.avatarTile).character();
+    }
+
+    public void resetAvatar() {
+        this.avatarTile = 0;
+        Out o = new Out("avatar.txt");
+        o.println(avatarTile);
+        o.close();
     }
 
     public TETile chooseTile(int num) {
-        if (Math.floorMod(num, 4) == 1) {
+        if (Math.floorMod(num, 4) == 0) {
             return Tileset.AVATAR;
-        } else if (Math.floorMod(num, 4) == 2) {
+        } else if (Math.floorMod(num, 4) == 1) {
             return Tileset.UNLOCKED_DOOR;
-        } else if (Math.floorMod(num ,4) == 3){
+        } else if (Math.floorMod(num ,4) == 2){
             return Tileset.LOCKED_DOOR;
         } else {
             return new TETile('a', Color.WHITE, Color.black, "hello in korean");
@@ -726,6 +638,9 @@ public class World {
 
     public void changeAvatarTile() {
         this.avatarTile += 1;
+        Out o = new Out("avatar.txt");
+        o.println(avatarTile);
+        o.close();
     }
 
     public void up() {
@@ -801,7 +716,7 @@ public class World {
         }
     }
 
-    // ------------------------------ Save, Loading, etc -------------------------------------
+    // ------------------------------ Save, Loading -------------------------------------
 
     public void save() {
         Out o = new Out("save.txt");
@@ -856,6 +771,7 @@ public class World {
         return new World(h, w, s, sI, aLoc, prevAvatarTile, newWorld);
     }
 
+    // ------------------------------ mouse pointer -------------------------------------
     public String tileAtMousePoint() {
         int xIndex = indexToXY(avatarLocation).get(0);
         int yIndex = indexToXY(avatarLocation).get(1);

@@ -70,6 +70,8 @@ public class Engine {
         TERenderer terR = new TERenderer();
         terR.initialize(WIDTH, HEIGHT);
         World world; // declare the world object
+
+        // world.resetAvatar(); // only once
         String command = terR.drawWord(1, false);
         if (command.equals("n") || command.equals("N")) {
             String inputSeed = terR.drawSeed(GREATESTNUMBEROFSEED, false); // greatest number of seed has 19 digits
