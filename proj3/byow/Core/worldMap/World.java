@@ -740,7 +740,7 @@ public class World {
 
     public static World load() {
         In in = new In("save.txt");
-
+        In avatarIn = new In("avatar.txt");
         int w = Integer.parseInt(in.readLine());
         System.out.println("width: " + w);
         int h = Integer.parseInt(in.readLine());
@@ -751,7 +751,7 @@ public class World {
         System.out.println("seed: " + s);
         int aLoc = Integer.parseInt(in.readLine());
         System.out.println("avatar location: " + aLoc);
-        int prevAvatarTile = Integer.parseInt(in.readLine());
+        int prevAvatarTile = Integer.parseInt(avatarIn.readLine());
         System.out.println(prevAvatarTile);
 
         int index = 0;
