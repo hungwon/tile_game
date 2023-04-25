@@ -617,7 +617,7 @@ public class World {
         return chooseTile(this.avatarTile).character();
     }
 
-    public void resetAvatar() {
+    public static void resetAvatar() {
         Out o = new Out("avatar.txt");
         o.println(0);
         o.close();
