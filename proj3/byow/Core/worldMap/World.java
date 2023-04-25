@@ -66,8 +66,6 @@ public class World {
         visualizeAll = false;
         moveCnt = 0;
         skillTime = 0;
-        ter = new TERenderer();
-        ter.initialize(worldWidth, worldHeight);
     }
 
     public World(int height, int width, long seed, int start, int avatarLoc, int prevAvatarTile, Block[][] prevWorld) {
@@ -83,8 +81,7 @@ public class World {
         visualizeAll = false;
         moveCnt = 0;
         skillTime = 0;
-        ter = new TERenderer();
-        ter.initialize(worldWidth, worldHeight);
+
 
     }
 

@@ -3,8 +3,10 @@ package byow.Core;
 import byow.Core.worldMap.World;
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
+import byow.TileEngine.Tileset;
 import edu.princeton.cs.algs4.StdDraw;
 import java.awt.*;
+import java.util.Arrays;
 
 public class Engine {
     TERenderer ter = new TERenderer();
@@ -28,11 +30,27 @@ public class Engine {
         while (!gO) {
 
             TETile[][] teTiles = world.partialVisualize();
-            for (int i = 0; i < world.tileAtMousePoint().length(); i++) {
-                teTiles[WIDTH / 2 + i][HEIGHT - 1] =  new TETile(world.tileAtMousePoint().charAt(i),
-                        Color.white, Color.BLACK, "");
+
+            TETile[] navigationBar = new TETile[WIDTH];
+            Arrays.fill(navigationBar, new TETile('a', Color.white, Color.blue, "naviagtion bar"));
+            String typeAtMousePt = world.tileAtMousePoint();
+            for (int i = 0; i < typeAtMousePt.length(); i++) {
+                navigationBar[WIDTH / 2 + i] =  new TETile(typeAtMousePt.charAt(i),
+                        Color.white, Color.BLACK, "tile type");
+
             }
-            ter.renderFrame(teTiles);
+            TETile[][] newTeTile = new TETile[WIDTH][HEIGHT + 1];
+            for (int j = 0; j < HEIGHT + 1; j++) {
+                for (int i = 0; i <WIDTH; i ++) {
+                    if (j == HEIGHT) {
+                        newTeTile[i][j] = navigationBar[i];
+                        System.out.println(newTeTile[i][j].character());
+                    } else {
+                        newTeTile[i][j] = teTiles[i][j];
+                    }
+                }
+            }
+            ter.renderFrame(newTeTile);
             if (StdDraw.hasNextKeyTyped()) {
                 char c = StdDraw.nextKeyTyped();
 
@@ -70,7 +88,7 @@ public class Engine {
     public void interactWithKeyboard() {
         //new World();
         TERenderer terR = new TERenderer();
-        terR.initialize(WIDTH, HEIGHT);
+        terR.initialize(WIDTH, HEIGHT + 1);
         World world; // declare the world object
         String command = terR.drawWord(1, false);
         if (command.equals("n") || command.equals("N")) {
